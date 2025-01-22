@@ -1,0 +1,191 @@
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8fafc;
+  }
+  
+  /* Form Container */
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8fafc;
+  }
+  
+  .form-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+  }
+  
+  .form-box h1 {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+  }
+  
+  /* Form Inputs */
+  .input-group {
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Drop shadow for inputs */
+  }
+  
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 14px;
+    color: #333333;
+  }
+  
+  .input-group textarea {
+    resize: none;
+  }
+  
+  /* Icon Styles */
+  .input-group .material-icons {
+    color: #a0a0a0;
+    margin-right: 8px;
+    font-size: 20px;
+  }
+
+  .input-group .University{
+    color: #ffffff;
+    margin-right: 2px;
+    font-size: 20px;
+    margin: none;
+  }
+  /* Submit Button */
+.submit-button {
+    display: block;
+    width: 30%;
+    background: #00b4b6;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px; /* Added margin to ensure separation */
+  }
+  
+  .submit-button:hover {
+    background: #008f92;
+  }
+  
+  /* Responsive Grid */
+  .grid-cols-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  @media (max-width: 768px) {
+    .grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+/* Style the asterisk for required fields */
+.asterisk {
+    color: red;
+    font-size: 18px;
+    margin-left: 5px;
+  }
+  .error{
+    color: red;
+  }
+/* Toast container background */
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #28a745, #218838) !important; /* Gradient green for success */
+  color: #ffffff !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+}
+
+/* Error toast container */
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #dc3545, #b52d3b) !important; /* Gradient red for errors */
+  color: #ffffff !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+}
+
+/* Toast message text */
+.Toastify__toast-body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Toast progress bar */
+.Toastify__progress-bar {
+  background: #ffcc00 !important; /* Bright yellow progress bar */
+  height: 8px;
+  border-radius: 0 0 8px 8px;
+  animation: progress-bar-animation 3s linear infinite;
+}
+
+/* Add animation for appearance */
+@keyframes progress-bar-animation {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+/* Bigger toast size */
+.Toastify__toast {
+  max-width: 400px !important;
+  min-height: 80px !important;
+  font-size: 18px;
+}
+
+/* Toast close button */
+.Toastify__close-button {
+  color: #ffffff !important;
+  font-size: 20px !important;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1 !important;
+}
+
+/* Add entrance animation */
+.Toastify__toast {
+  animation: slide-in 0.5s ease-in-out;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
