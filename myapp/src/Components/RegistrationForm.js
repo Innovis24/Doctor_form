@@ -354,8 +354,12 @@ const RegistrationForm = () => {
               <input type="text" placeholder="Year of Qualification" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  maxLength={100}/>
             </div>
             </div>
+            <div>
+            <div className="prfile_font">Upload Image for Your profile<span className="asterisk">*</span></div>
+            
             <div className="img_style">
             <div className="img_input" >
+              
             <input type="file" id="file"  // Attach the ref to the file input
         onChange={handleFileChange} accept="image/*" style={{
         display: "none", // Hides the default file input
@@ -391,6 +395,8 @@ const RegistrationForm = () => {
             </div>
       
           </div>
+            </div>
+            
         {/* Submit Button */}
 <div className="submit-button-container"><center>
   <button type="submit" className="submit-button">

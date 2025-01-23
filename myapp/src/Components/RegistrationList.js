@@ -210,43 +210,45 @@ const RegistrationList = () => {
 {/* Personal Info Tab Content */}
 <div className={`tab-content ${activeTab === 'personal' ? 'active' : ''}`}>
    {/* Profile Image */}
+   <center>
 <div className="personal-info-item profile-image-item">
   <img 
-   style={{ height: '200px', width: '100%', objectFit: 'cover' }}
+   style={{ height: '50%', width: '50%%', objectFit: 'cover' }}
     className="profile-image"
     src={`http://localhost/Doctor_search/${selectedRecord.image_path}`} 
     alt={selectedRecord.Name} 
   />
 </div>
+</center>
   <div className="personal-info">
    
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faUser} />
-      <p><strong>Name:</strong> {selectedRecord.Name}</p>
+      <div className="disply_flex"><strong>Name: </strong><div className="popup_wrap">{selectedRecord.Name}</div> </div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faUserTie} />
-      <p><strong>Father/Spouse Name:</strong> {selectedRecord.Fathername}</p>
+      <div><strong>Father/Spouse Name:</strong> {selectedRecord.Fathername}</div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faBirthdayCake} />
-      <p><strong>Date of Birth:</strong> {selectedRecord.DOB}</p>
+      <div><strong>Date of Birth:</strong> {selectedRecord.DOB}</div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faVenusMars} />
-      <p><strong>Gender:</strong> {selectedRecord.Gender}</p>
+      <div><strong>Gender:</strong> {selectedRecord.Gender}</div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faPhoneAlt} />
-      <p><strong>Phone:</strong> {selectedRecord.Phonenumber}</p>
+      <div><strong>Phone:</strong> {selectedRecord.Phonenumber}</div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faEnvelope} />
-      <p><strong>Email:</strong> {selectedRecord.Email}</p>
+      <div><strong>Email:</strong> {selectedRecord.Email}</div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faMapMarkerAlt} />
-      <p><strong>Address:</strong> {selectedRecord.Address}</p>
+      <div><strong>Address:</strong> {selectedRecord.Address}</div>
     </div>
   </div>
 </div>
@@ -256,27 +258,27 @@ const RegistrationList = () => {
   <div className="registration-info">
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faIdCard} />
-      <p><strong>Registration No:</strong> {selectedRecord.RegistrationNumber}</p>
+      <div><strong>Registration No:</strong> {selectedRecord.RegistrationNumber}</div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faCalendarAlt} />
-      <p><strong>Year of Registration:</strong> {selectedRecord.Yearofregistration}</p>
+      <div><strong>Year of Registration:</strong> {selectedRecord.Yearofregistration}</div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faBriefcase} />
-      <p><strong>Employment Type:</strong> {selectedRecord.Employmenttype}</p>
+      <div><strong>Employment Type:</strong> {selectedRecord.Employmenttype}</div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faBarcode} />
-      <p><strong>UPRN:</strong> {selectedRecord.Uprnnumber}</p>
+      <div><strong>UPRN:</strong> {selectedRecord.Uprnnumber}</div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faUniversity} />
-      <p><strong>University:</strong> {selectedRecord.Universityname}</p>
+      <div><strong>University:</strong> {selectedRecord.Universityname}</div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faMap} />
-      <p><strong>State of Medicine:</strong> {selectedRecord.Stateofmedicine}</p>
+      <div><strong>State of Medicine:</strong> {selectedRecord.Stateofmedicine}</div>
     </div>
   </div>
 </div>
@@ -286,15 +288,15 @@ const RegistrationList = () => {
   <div className="qualification-info">
     <div className="qualification-info-item">
       <FontAwesomeIcon icon={faGraduationCap} />
-      <p><strong>Qualification:</strong> {selectedRecord.Qualification}</p>
+      <div><strong>Qualification:</strong> {selectedRecord.Qualification}</div>
     </div>
     <div className="qualification-info-item">
       <FontAwesomeIcon icon={faStethoscope} />
-      <p><strong>Specialization:</strong> {selectedRecord.Specialization}</p>
+      <div><strong>Specialization:</strong> {selectedRecord.Specialization}</div>
     </div>
     <div className="qualification-info-item">
       <FontAwesomeIcon icon={faCalendarCheck} />
-      <p><strong>Year of Qualification:</strong> {selectedRecord.Yearofqualification}</p>
+      <div><strong>Year of Qualification:</strong> {selectedRecord.Yearofqualification}</div>
     </div>
   </div>
 </div>
