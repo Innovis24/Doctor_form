@@ -224,31 +224,31 @@ const RegistrationList = () => {
    
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faUser} />
-      <div className="disply_flex"><strong>Name: </strong><div className="popup_wrap">{selectedRecord.Name}</div> </div>
+      <div className="disply_flex"><strong className="font_size_popup">Name: </strong><div className="popup_wrap">{selectedRecord.Name}</div> </div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faUserTie} />
-      <div><strong>Father/Spouse Name:</strong> {selectedRecord.Fathername}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Father/Spouse Name:</strong><div className="popup_wrap"> {selectedRecord.Fathername}</div></div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faBirthdayCake} />
-      <div><strong>Date of Birth:</strong> {selectedRecord.DOB}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Date of Birth:</strong> <div className="popup_wrap">{selectedRecord.DOB}</div></div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faVenusMars} />
-      <div><strong>Gender:</strong> {selectedRecord.Gender}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Gender:</strong> <div className="popup_wrap">{selectedRecord.Gender}</div></div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faPhoneAlt} />
-      <div><strong>Phone:</strong> {selectedRecord.Phonenumber}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Phone:</strong><div className="popup_wrap"> {selectedRecord.Phonenumber}</div></div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faEnvelope} />
-      <div><strong>Email:</strong> {selectedRecord.Email}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Email:</strong><div className="popup_wrap"> {selectedRecord.Email}</div></div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faMapMarkerAlt} />
-      <div><strong>Address:</strong> {selectedRecord.Address}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Address:</strong><div className="popup_wrap"> {selectedRecord.Address}</div></div>
     </div>
   </div>
 </div>
@@ -258,27 +258,27 @@ const RegistrationList = () => {
   <div className="registration-info">
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faIdCard} />
-      <div><strong>Registration No:</strong> {selectedRecord.RegistrationNumber}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Registration No:</strong> <div className="popup_wrap">{selectedRecord.RegistrationNumber}</div></div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faCalendarAlt} />
-      <div><strong>Year of Registration:</strong> {selectedRecord.Yearofregistration}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Year of Registration:</strong><div className="popup_wrap"> {selectedRecord.Yearofregistration}</div></div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faBriefcase} />
-      <div><strong>Employment Type:</strong> {selectedRecord.Employmenttype}</div>
+      <div className="disply_flex"><strong>Employment Type:</strong><div className="popup_wrap"> {selectedRecord.Employmenttype}</div></div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faBarcode} />
-      <div><strong>UPRN:</strong> {selectedRecord.Uprnnumber}</div>
+      <div className="disply_flex"><strong className="font_size_popup">UPRN:</strong><div className="popup_wrap"> {selectedRecord.Uprnnumber}</div></div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faUniversity} />
-      <div><strong>University:</strong> {selectedRecord.Universityname}</div>
+      <div className="disply_flex"><strong className="font_size_popup">University:</strong> <div className="popup_wrap">{selectedRecord.Universityname}</div></div>
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faMap} />
-      <div><strong>State of Medicine:</strong> {selectedRecord.Stateofmedicine}</div>
+      <div className="disply_flex"><strong className="font_size_popup">State of Medicine:</strong><div className="popup_wrap"> {selectedRecord.Stateofmedicine}</div></div>
     </div>
   </div>
 </div>
@@ -288,15 +288,15 @@ const RegistrationList = () => {
   <div className="qualification-info">
     <div className="qualification-info-item">
       <FontAwesomeIcon icon={faGraduationCap} />
-      <div><strong>Qualification:</strong> {selectedRecord.Qualification}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Qualification:</strong><div className="popup_wrap"> {selectedRecord.Qualification}</div></div>
     </div>
     <div className="qualification-info-item">
       <FontAwesomeIcon icon={faStethoscope} />
-      <div><strong>Specialization:</strong> {selectedRecord.Specialization}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Specialization:</strong><div className="popup_wrap"> {selectedRecord.Specialization}</div></div>
     </div>
     <div className="qualification-info-item">
       <FontAwesomeIcon icon={faCalendarCheck} />
-      <div><strong>Year of Qualification:</strong> {selectedRecord.Yearofqualification}</div>
+      <div className="disply_flex"><strong className="font_size_popup">Year of Qualification:</strong><div className="popup_wrap"> {selectedRecord.Yearofqualification}</div></div>
     </div>
   </div>
 </div>
