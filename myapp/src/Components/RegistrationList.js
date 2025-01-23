@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import Header from './Header'
 import { 
   faIdCard, 
@@ -60,8 +61,11 @@ const RegistrationList = () => {
       record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) || 
       record.Qualification.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) 
-
+      record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      record.State.toLowerCase().includes(searchQuery.toLowerCase()) 
+      
     );
     console.log(filteredRegistrations)
     setRegistrations(filteredRegistrations)
@@ -90,19 +94,21 @@ const RegistrationList = () => {
 
   return (
     <div>
-       <Header   title="Registrations List"/>
+       <Header   title="Registration List"/>
     
     <div className="list-container">
-      {/* <center>
-        <h1>Registrations List</h1>
-      </center> */}
-     
+    <div className="btn-align1">
+
+    <button className="register-button1" onClick={handleRegisterClick}>
+    <FontAwesomeIcon icon={faPlus} /> Register
+    </button>
+  </div>
       <div className="controls">
         {/* Search Bar */}
         <input
           type="text"
           className="search-bar"
-          placeholder="Search by Name or Registration Number"
+          placeholder="Search"
           value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} 
 
         />
@@ -112,22 +118,22 @@ const RegistrationList = () => {
         </div>
 
         {/* Register Button */}
-        <div className="btn-align">
-  <button className="register-button" onClick={handleRegisterClick}>
-    Register+
-  </button>
-</div>
+       
 
-      
+      <div className="table-container">
 
       <table className="table">
         <thead>
           <tr>
             <th>S.No</th>
+            {/* <th>Profile</th> */}
             <th>Name</th>
             <th>Qualification</th>
             <th>Registration No</th>
+            <th>Year of Registration</th>
             <th>State of Medicine</th>
+            <th>City</th>
+            <th>State</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -135,11 +141,22 @@ const RegistrationList = () => {
           {registrations.length > 0 ? (
             registrations.map((record, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{record.Name}</td>
-                <td>{record.Qualification}</td>
-                <td>{record.RegistrationNumber}</td>
-                <td>{record.Stateofmedicine}</td>
+                <td className="text-wrap">{index + 1}</td>
+                {/* <td className="text-wrap">
+                  <div>
+                  <img   style={{ height: '150px', width: '100%' }}
+                src={`http://localhost/Doctor_search/${record.image_path}`}
+                alt={record.Name}
+              />
+                  </div>
+                </td> */}
+                <td className="text-wrap">{record.Name}</td>
+                <td className="text-wrap">{record.Qualification}</td>
+                <td className="text-wrap">{record.RegistrationNumber}</td>
+                <td className="text-wrap">{record.Yearofregistration}</td>
+                <td className="text-wrap">{record.Stateofmedicine}</td>
+                <td className="text-wrap">{record.City}</td>
+                <td className="text-wrap">{record.State}</td>
                 <td>
             
 <div className="view-button">
@@ -151,74 +168,76 @@ const RegistrationList = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6"><div className="txt_align">No records found!</div></td>
+              <td colSpan="6">No records found!</td>
             </tr>
           )}
         </tbody>
       </table>
-
+      </div>
       {/* Details Modal */}.
 {showDetails && selectedRecord && (
   <div className="modal">
     <div className="modal-content">
       <h2>Registration Details</h2>
       
-      {/* Tabs */}
-      <div className="tabs">
-        <div 
-          className={`tab ${activeTab === 'personal' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('personal')}
-        >
-          Personal Info
-        </div>
-        <div 
-          className={`tab ${activeTab === 'registration' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('registration')}
-        >
-          Registration Details
-        </div>
-        <div 
-          className={`tab ${activeTab === 'qualification' ? 'active' : ''}`} 
-          onClick={() => setActiveTab('qualification')}
-        >
-          Qualification Info
-        </div>
-        {/* Add more tabs as needed */}
-      </div>
-      
-      {/* Tab Contents */}
-    {/* Personal Info Tab Content */}
-    <div className="personal-info">
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faUser} />
-    <p><strong>Name:</strong> {selectedRecord.Name}</p>
+ {/* Tabs */}
+<div className="tabs">
+  <div 
+    className={`tab ${activeTab === 'personal' ? 'active' : ''}`} 
+    onClick={() => setActiveTab('personal')}
+  >
+    Personal Info
   </div>
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faUserTie} />
-    <p><strong>Father/Spouse Name:</strong> {selectedRecord.Fathername}</p>
+  <div 
+    className={`tab ${activeTab === 'registration' ? 'active' : ''}`} 
+    onClick={() => setActiveTab('registration')}
+  >
+    Registration Details
   </div>
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faBirthdayCake} />
-    <p><strong>Date of Birth:</strong> {selectedRecord.DOB}</p>
-  </div>
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faVenusMars} />
-    <p><strong>Gender:</strong> {selectedRecord.Gender}</p>
-  </div>
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faPhoneAlt} />
-    <p><strong>Phone:</strong> {selectedRecord.Phonenumber}</p>
-  </div>
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faEnvelope} />
-    <p><strong>Email:</strong> {selectedRecord.Email}</p>
-  </div>
-  <div className="personal-info-item">
-    <FontAwesomeIcon icon={faMapMarkerAlt} />
-    <p><strong>Address:</strong> {selectedRecord.Address}</p>
+  <div 
+    className={`tab ${activeTab === 'qualification' ? 'active' : ''}`} 
+    onClick={() => setActiveTab('qualification')}
+  >
+    Qualification Info
   </div>
 </div>
 
+{/* Tab Contents */}
+{/* Personal Info Tab Content */}
+<div className={`tab-content ${activeTab === 'personal' ? 'active' : ''}`}>
+  <div className="personal-info">
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faUser} />
+      <p><strong>Name:</strong> {selectedRecord.Name}</p>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faUserTie} />
+      <p><strong>Father/Spouse Name:</strong> {selectedRecord.Fathername}</p>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faBirthdayCake} />
+      <p><strong>Date of Birth:</strong> {selectedRecord.DOB}</p>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faVenusMars} />
+      <p><strong>Gender:</strong> {selectedRecord.Gender}</p>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faPhoneAlt} />
+      <p><strong>Phone:</strong> {selectedRecord.Phonenumber}</p>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faEnvelope} />
+      <p><strong>Email:</strong> {selectedRecord.Email}</p>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faMapMarkerAlt} />
+      <p><strong>Address:</strong> {selectedRecord.Address}</p>
+    </div>
+  </div>
+</div>
+
+{/* Registration Info Tab Content */}
 <div className={`tab-content ${activeTab === 'registration' ? 'active' : ''}`}>
   <div className="registration-info">
     <div className="registration-info-item">
@@ -248,7 +267,7 @@ const RegistrationList = () => {
   </div>
 </div>
 
-
+{/* Qualification Info Tab Content */}
 <div className={`tab-content ${activeTab === 'qualification' ? 'active' : ''}`}>
   <div className="qualification-info">
     <div className="qualification-info-item">
@@ -265,6 +284,7 @@ const RegistrationList = () => {
     </div>
   </div>
 </div>
+
 
 
       {/* Close Button */}

@@ -15,7 +15,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import EventIcon from "@mui/icons-material/Event";
-
+import { LocationCity, Map } from '@mui/icons-material';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 import { useNavigate } from "react-router-dom"; 
@@ -33,6 +33,8 @@ const RegistrationForm = () => {
     email: "",
     address: "",
     qualification: "",
+    city:"",
+    state:"",
     specialization: "",
     regNumber: "",
     regYear: "",
@@ -58,6 +60,8 @@ const RegistrationForm = () => {
   const [university, setuniversity] = useState();
   const [stateOfMedicine, setstateOfMedicine] = useState();
   const [yearOfQualification, setyearOfQualification] = useState();
+  const [city, setcity] = useState();
+  const [state, setstate] = useState();
   const [showForm, setShowForm] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [currentfilename, setcurrentfilename] = useState();
@@ -80,65 +84,71 @@ const RegistrationForm = () => {
     }
   };
   const handleSubmit = (e) => {
-    toast.error("Form submitted successfully!", { position: "top-center" });
-  //   e.preventDefault();
-  //  let formData = new FormData();
-  //  formData.append('name', name);
-  //  formData.append('fatherName', fatherName);
-  //  formData.append('dob', dob);
-  //  formData.append('gender', gender);
-  //  formData.append('phone', phonenumber);
-  //  formData.append('email', email);
-  //  formData.append('address',address);
-  //  formData.append('qualification', qualification);
-  //  formData.append('specialization', specialization);
-  //  formData.append('regNumber', regNumber);
-  //  formData.append('regYear', regYear);
-  //  formData.append('employmentType', employmentType);
-  //  formData.append('uprn', uprn);
-  //  formData.append('university', university);
-  //  formData.append('stateOfMedicine', stateOfMedicine);
-  //  formData.append('yearOfQualification', yearOfQualification);
-  //  formData.append('images', image)
+    
+    e.preventDefault();
+   let formData = new FormData();
+   formData.append('name', name);
+   formData.append('fatherName', fatherName);
+   formData.append('dob', dob);
+   formData.append('gender', gender);
+   formData.append('phone', phonenumber);
+   formData.append('email', email);
+   formData.append('address',address);
+   formData.append('city',city);
+   formData.append('state',state);
+   formData.append('qualification', qualification);
+   formData.append('specialization', specialization);
+   formData.append('regNumber', regNumber);
+   formData.append('regYear', regYear);
+   formData.append('employmentType', employmentType);
+   formData.append('uprn', uprn);
+   formData.append('university', university);
+   formData.append('stateOfMedicine', stateOfMedicine);
+   formData.append('yearOfQualification', yearOfQualification);
+   formData.append('images', image)
 
  
-  //   if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ===''|| image.length == 0)
-  //     {
-  //       toast.error("Please fill all fields!", { position: "top-center" });
-  //       return;
-  //     }
+    if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ===''|| image.length == 0 || city == '' || state =='')
+      {
+        toast.error("Please fill all fields!", { position: "top-center" });
+        return;
+      }
   
 
-  //     try {
-  //       console.log(formData)
-  //       const response =  axios.post(apiUrl, formData, {
-  //         headers: { "Content-Type": "multipart/form-data" },
-  //       });
-  //       if (response) {
-  //         toast.success("Form submitted successfully!", { position: "top-center" });
-  //         setname('');
-  //         setfatherName('');
-  //         setphonenumber('');
-  //         setdob('');
-  //         setgender('');
-  //         setemail('');
-  //         setaddress('');
-  //         setqualification('');
-  //         setspecialization('');
-  //         setregNumber('');
-  //         setregYear('');
-  //         setemploymentType('');
-  //         setuprn('');
-  //         setuniversity('');
-  //         setstateOfMedicine('');
-  //         setyearOfQualification('');
-  //       }else {
-  //         toast.error("Failed to submit the form!", { position: "top-center" });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error submitting the form:", error);
-  //       toast.error("An error occurred while submitting the form.", { position: "top-center" });
-  //     }
+      try {
+        console.log(formData)
+        const response =  axios.post(apiUrl, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (response) {
+          toast.success("Form submitted successfully!", { position: "top-center" });
+          setname('');
+          setfatherName('');
+          setphonenumber('');
+          setdob('');
+          setgender('');
+          setemail('');
+          setaddress('');
+          setcity('');
+          setstate('');
+          setImage('');
+          setcurrentfilename()
+          setqualification('');
+          setspecialization('');
+          setregNumber('');
+          setregYear('');
+          setemploymentType('');
+          setuprn('');
+          setuniversity('');
+          setstateOfMedicine('');
+          setyearOfQualification('');
+        }else {
+          toast.error("Failed to submit the form!", { position: "top-center" });
+        }
+      } catch (error) {
+        console.error("Error submitting the form:", error);
+        toast.error("An error occurred while submitting the form.", { position: "top-center" });
+      }
     
   
   };
@@ -252,6 +262,25 @@ const RegistrationForm = () => {
             <span className="material-icons"></span>
             <textarea placeholder="Address" rows="2"  onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
           </div>
+
+           {/* State and City */}
+           <div className="grid-cols-2">
+            <div className="input-group">
+            <LocationCity />
+            <span className="asterisk">*</span>
+              <span className="material-icons"></span>
+              <input type="text" placeholder="City" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100}/>
+            </div>
+            <div className="input-group">
+            <Map />
+            <span className="asterisk">*</span>
+              <span className="material-icons"></span>
+              <input type="text" placeholder="State" onChange={(e) => setstate(e.target.value)} value={state}  maxLength={100} />
+            </div>
+          </div>
+
+
+
 
           {/* Qualification and Specialization */}
           <div className="grid-cols-2">

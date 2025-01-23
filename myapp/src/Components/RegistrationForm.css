@@ -17,7 +17,7 @@ body {
   .form-box {
     background: #ffffff;
     border-radius: 12px;
-    padding: 40px;
+    padding: 10px 40px 40px 40px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 700px;
@@ -92,14 +92,29 @@ body {
     background: #008f92;
   }
   /* Register Button */
+  .btn-align {
+    display: flex;
+    justify-content: end; 
+    position: absolute; 
+    right: 20px; 
+    top: 20px;
+  }
+  .register-button {
+    padding: 10px 20px;
+    background-color: #00b4b6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+  }
+  
   .register-button:hover {
+    text-align: end;
   background-color: #03a2a5;
   transform: scale(1.05);
 }
-  .register-button:hover {
-    background-color: #03a2a5;
-    transform: scale(1.05);
-  }
   /* Responsive Grid */
   .grid-cols-2 {
     display: grid;

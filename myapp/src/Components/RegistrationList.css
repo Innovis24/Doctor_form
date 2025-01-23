@@ -13,6 +13,7 @@
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
+    table-layout: fixed;
   }
   
   .table th, .table td {
@@ -20,8 +21,14 @@
     padding: 10px;
     text-align: left;
   }
-  .table th:nth-child(6) {
-    text-align: center; /* Center align the 6th column */
+  .table th:nth-child(9) {
+    text-align: center; 
+  }
+  .table th:nth-child(1) {
+    width: 3%;
+  }
+  .table td:nth-child(1) {
+    text-align: center; 
   }
   .table th {
     background-color: #00b4b6;
@@ -61,7 +68,7 @@
   }
   
   .view-button svg {
-    font-size: 25px; /* Icon size */
+    font-size: 25px; 
   }
   
   
@@ -134,7 +141,7 @@
 .search-bar {
   padding: 10px;
   margin-right: 10px;
-  width: 300px;
+  width: 250px;
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -147,7 +154,7 @@
 }
   
  /* Register button styling */
-.register-button {
+.register-button1 {
   padding: 10px 20px;
   background-color: #00b4b6;
   color: white;
@@ -155,45 +162,39 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  width: auto;
   transition: all 0.3s ease-in-out;
 }
 
-.register-button:hover {
+.register-button1:hover {
   background-color: #03a2a5;
   transform: scale(1.05);
 }
 
-  .btn-align {
+  .btn-align1 {
     display: flex;
-    justify-content: flex-end; /* Align the button to the right */
-    align-items: center;      /* Vertically center the button */
-    margin-top: 20px;        /* Push the button to the bottom of the container */
-    padding: 10px;            /* Add spacing around the button */
+    justify-content: end;
+    /* position: absolute;
+    right: 20px;
+    top: 14%;          */
   }
 .controls{
   display: flex;
-  justify-content: flex-end; /* Align the button to the right */
-  align-items: center;      /* Vertically center the button */
-  margin-top: auto;         /* Push the button to the bottom of the container */
-  padding: 10px;            /* Add spacing around the button */
+  justify-content: flex-end; 
+  align-items: center;     
+  /* margin-top: 3%;         */
+  padding: 10px;          
 
 }  
 
 /* Responsive styling */
 @media (max-width: 768px) {
-  .controls {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .search-bar {
-    margin-bottom: 10px;
+  .table {
     width: 100%;
-  }
+    overflow-x: auto;
+    display: block;
+}
 
-  .register-button {
-    width: 100%;
-  }
 }
 
 /* Modal animation */
@@ -398,50 +399,112 @@
   color: #007bff; /* Change the icon color */
 }
 
-/* Registration Info */
+/* Personal Info Container */
+.personal-info,
 .registration-info {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Space between items */
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+  gap: 20px; /* Space between items */
+  margin-bottom: 20px; /* Space after each container */
 }
 
+/* Personal Info Item and Registration Info Item */
+.personal-info-item,
 .registration-info-item {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between icon and text */
-  font-size: 16px;
+  gap: 15px; /* Space between icon and text */
+  background-color: #f9f9f9; /* Light background for visibility */
+  padding: 10px 15px; /* Padding around each item */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
+/* Icon Styling for Both Sections */
+.personal-info-item svg,
 .registration-info-item svg {
   color: #007bff; /* Icon color */
-  font-size: 18px; /* Icon size */
+  font-size: 24px; /* Icon size */
 }
 
+/* Text Styling for Both Sections */
+.personal-info-item p,
 .registration-info-item p {
   margin: 0;
-}
-/* Qualification Info */
-.qualification-info {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Space between items */
+  font-size: 16px; /* Text size */
+  color: #333; /* Text color */
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .personal-info,
+  .registration-info {
+    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
+  }
+  .personal-info-item,
+  .registration-info-item {
+    gap: 10px; /* Adjust gap for smaller screens */
+  }
+}
+
+/* Qualification Info Container */
+.qualification-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+  gap: 20px; /* Space between items */
+  margin-bottom: 20px; /* Space after each container */
+}
+
+/* Qualification Info Item */
 .qualification-info-item {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between icon and text */
-  font-size: 16px;
+  gap: 15px; /* Space between icon and text */
+  background-color: #f9f9f9; /* Light background for visibility */
+  padding: 10px 15px; /* Padding around each item */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  font-size: 16px; /* Text size */
 }
 
+/* Icon Styling for Qualification Info */
 .qualification-info-item svg {
   color: #007bff; /* Icon color */
-  font-size: 18px; /* Icon size */
+  font-size: 24px; /* Icon size */
 }
 
+/* Text Styling for Qualification Info */
 .qualification-info-item p {
   margin: 0;
+  font-size: 16px; /* Text size */
+  color: #333; /* Text color */
 }
-.txt_align{
-  text-align: center;
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .qualification-info {
+    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
+  }
+  .qualification-info-item {
+    gap: 10px; /* Adjust gap for smaller screens */
+  }
+}
+
+
+/* table */
+/* ResponsiveTable.css */
+.table-container {
+  width: 100%;
+  max-height: 400px;
+  overflow-x: auto; /* Enables horizontal scrolling on small screens */
+}
+.text-wrap {
+  white-space: normal; /* Enables text wrapping */
+  word-wrap: break-word; /* Breaks long words */
+  word-break: break-word; /* Ensures long words break within the cell */
+  max-width: 200px; /* Optional: Set a maximum width for the column */
+}
+.imgTbl{
+  width: 60%;
+  height: 60%;
 }
