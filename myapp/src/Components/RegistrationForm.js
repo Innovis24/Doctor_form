@@ -74,27 +74,31 @@ const RegistrationForm = () => {
       // fileInputRef.current.value = null; // Reset the file input field
     }
   };
+  function capitalizeFirstLetter(string) {
+    return string.replace(/^\w/, c => c.toUpperCase());
+  }
+  
   const handleSubmit = (e) => {
     
     e.preventDefault();
    let formData = new FormData();
-   formData.append('name', name);
-   formData.append('fatherName', fatherName);
+   formData.append('name', capitalizeFirstLetter(name));
+   formData.append('fatherName', capitalizeFirstLetter(fatherName));
    formData.append('dob', dob);
    formData.append('gender', gender);
    formData.append('phone', phonenumber);
    formData.append('email', email);
-   formData.append('address',address);
-   formData.append('city',city);
-   formData.append('state',state);
-   formData.append('qualification', qualification);
-   formData.append('specialization', specialization);
+   formData.append('address',capitalizeFirstLetter(address));
+   formData.append('city',capitalizeFirstLetter(city));
+   formData.append('state',capitalizeFirstLetter(state));
+   formData.append('qualification', capitalizeFirstLetter(qualification));
+   formData.append('specialization', capitalizeFirstLetter(specialization));
    formData.append('regNumber', regNumber);
    formData.append('regYear', regYear);
    formData.append('employmentType', employmentType);
    formData.append('uprn', uprn);
-   formData.append('university', university);
-   formData.append('stateOfMedicine', stateOfMedicine);
+   formData.append('university', capitalizeFirstLetter(university));
+   formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
    formData.append('yearOfQualification', yearOfQualification);
    formData.append('images', image)
 
@@ -178,8 +182,8 @@ const RegistrationForm = () => {
             <FontAwesomeIcon icon={faUser} />
             <span className="asterisk">*</span>
             <input
-              type="text"
-              placeholder="Name "
+              type="text"  className="txt_transform"
+              placeholder="Name"
               onChange={(e) => setname(e.target.value)} value={name}
               maxLength={100}
             />
@@ -189,7 +193,7 @@ const RegistrationForm = () => {
           <FontAwesomeIcon icon={faUser} />
             <span className="asterisk">*</span>
             <input
-              type="text"
+              type="text" className="txt_transform"
               placeholder="Father / Spouse Name"
               onChange={(e) => setfatherName(e.target.value)} value={fatherName}
               maxLength={100}
@@ -235,7 +239,7 @@ const RegistrationForm = () => {
             <FontAwesomeIcon icon={faPhone} />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="number" placeholder="Phone Number"  onChange={(e) => setphonenumber(e.target.value)} value={phonenumber} maxLength={15}/>  
+              <input type="number"  placeholder="Phone Number"  onChange={(e) => setphonenumber(e.target.value)} value={phonenumber} maxLength={15}/>  
             </div>
             {/* {errors.name && <span className="error">{errors.name}</span>} */}
             <div className="input-group">
@@ -252,7 +256,7 @@ const RegistrationForm = () => {
           <FontAwesomeIcon icon={faAddressCard } />
           <span className="asterisk">*</span>
             <span className="material-icons"></span>
-            <textarea placeholder="Address" rows="2"  onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
+            <textarea placeholder="Address" rows="2" className="txt_transform" onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
           </div>
 
            {/* State and City */}
@@ -261,13 +265,13 @@ const RegistrationForm = () => {
              <FontAwesomeIcon icon={faCity } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="text" placeholder="City" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100}/>
+              <input type="text" placeholder="City" className="txt_transform" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100}/>
             </div>
             <div className="input-group">
             <FontAwesomeIcon icon={faMapMarkerAlt } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="text" placeholder="State" onChange={(e) => setstate(e.target.value)} value={state}  maxLength={100} />
+              <input type="text" placeholder="State" className="txt_transform" onChange={(e) => setstate(e.target.value)} value={state}  maxLength={100} />
             </div>
           </div>
 
@@ -280,13 +284,13 @@ const RegistrationForm = () => {
             <FontAwesomeIcon icon={faGraduationCap } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="text" placeholder="Qualification" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100}/>
+              <input type="text" placeholder="Qualification" className="txt_transform" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100}/>
             </div>
             <div className="input-group">
             <FontAwesomeIcon icon={faStethoscope } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="text" placeholder="Specialization" onChange={(e) => setspecialization(e.target.value)} value={specialization}  maxLength={100} />
+              <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization}  maxLength={100} />
             </div>
           </div>
 
@@ -296,7 +300,7 @@ const RegistrationForm = () => {
             <div className="input-group">
             <FontAwesomeIcon icon={faIdCard } />
               <span className="asterisk">*</span>
-              <input type="text" placeholder="Registration Number"  onChange={(e) => setregNumber(e.target.value)} value={regNumber} maxLength={50} />
+              <input type="text" placeholder="Registration Number" onChange={(e) => setregNumber(e.target.value)} value={regNumber} maxLength={50} />
             </div>
             <div className="input-group">
             <FontAwesomeIcon icon={faCalendarAlt } />
@@ -331,19 +335,19 @@ const RegistrationForm = () => {
             <div className="input-group">
             <FontAwesomeIcon icon={faUniversity } />
             <span className="asterisk">*</span>
-               <input type="text" placeholder="University Name" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
+               <input type="text" placeholder="University Name" className="txt_transform" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
 
   {/* State of medicine & Year of Qualification */}
             <div className="grid-cols-2">
              <div className="input-group">
              <FontAwesomeIcon icon={faMap } />
               <span className="asterisk">*</span>
-              <input type="text" placeholder="State of Medicine" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
+              <input type="text" placeholder="State of Medicine" className="txt_transform" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
             </div>
             <div className="input-group">
             <FontAwesomeIcon icon={faCalendarCheck } />
               <span className="asterisk">*</span>
-              <input type="text" placeholder="Year of Qualification" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  maxLength={100}/>
+              <input type="text" placeholder="Year of Qualification"  onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  maxLength={100}/>
             </div>
             </div>
             <div>

@@ -56,6 +56,10 @@ const RegistrationList = () => {
     setShowDetails(true);
   };
 
+  const sethandleSearch = (e)=>{
+    let searchValue = e.target.value
+    setSearchQuery(searchValue.trim())
+  }
 
   const handleSearch = (e) => {
     const filteredRegistrations = registrations.filter((record) =>
@@ -110,7 +114,7 @@ const RegistrationList = () => {
           type="text"
           className="search-bar"
           placeholder="Search"
-          value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} 
+          value={searchQuery} onChange={(e) => sethandleSearch(e)} 
 
         />
        <SearchIcon className="search-icon" onClick={() => handleSearch()} />
@@ -237,7 +241,7 @@ const RegistrationList = () => {
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faVenusMars} />
-      <div className="disply_flex"><strong className="font_size_popup">Gender:</strong> <div className="popup_wrap">{selectedRecord.Gender}</div></div>
+      <div className="disply_flex"><strong className="font_size_popup">Gender:</strong> <div className="popup_wrap txt_trans">{selectedRecord.Gender}</div></div>
     </div>
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faPhoneAlt} />

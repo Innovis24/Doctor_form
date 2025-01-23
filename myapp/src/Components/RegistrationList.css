@@ -583,3 +583,6 @@
   max-width: 120px;
   margin-left: 5px;
 }
+.txt_trans{
+  text-transform: capitalize;
+}

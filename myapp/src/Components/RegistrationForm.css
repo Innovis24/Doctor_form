@@ -246,3 +246,6 @@ body {
     opacity: 1;
   }
 }
+.txt_transform{
+  text-transform: capitalize;
+}
