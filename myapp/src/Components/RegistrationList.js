@@ -65,7 +65,7 @@ const RegistrationList = () => {
       record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.State.toLowerCase().includes(searchQuery.toLowerCase()) 
-      
+
     );
     console.log(filteredRegistrations)
     setRegistrations(filteredRegistrations)
@@ -118,8 +118,8 @@ const RegistrationList = () => {
         </div>
 
         {/* Register Button */}
-       
 
+      
       <div className="table-container">
 
       <table className="table">
@@ -205,7 +205,17 @@ const RegistrationList = () => {
 {/* Tab Contents */}
 {/* Personal Info Tab Content */}
 <div className={`tab-content ${activeTab === 'personal' ? 'active' : ''}`}>
+   {/* Profile Image */}
+<div className="personal-info-item profile-image-item">
+  <img 
+   style={{ height: '200px', width: '100%', objectFit: 'cover' }}
+    className="profile-image"
+    src={`http://localhost/Doctor_search/${selectedRecord.image_path}`} 
+    alt={selectedRecord.Name} 
+  />
+</div>
   <div className="personal-info">
+   
     <div className="personal-info-item">
       <FontAwesomeIcon icon={faUser} />
       <p><strong>Name:</strong> {selectedRecord.Name}</p>
