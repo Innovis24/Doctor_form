@@ -64,7 +64,7 @@ const RegistrationList = () => {
       record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.State.toLowerCase().includes(searchQuery.toLowerCase()) 
+      record.Uprnnumber.toLowerCase().includes(searchQuery.toLowerCase()) 
 
     );
     console.log(filteredRegistrations)
@@ -128,12 +128,14 @@ const RegistrationList = () => {
             <th>S.No</th>
             {/* <th>Profile</th> */}
             <th>Name</th>
+            <th>Father / Spouse Name</th>
             <th>Qualification</th>
+            <th>UPRN Number</th>
             <th>Registration No</th>
             <th>Year of Registration</th>
             <th>State of Medicine</th>
             <th>City</th>
-            <th>State</th>
+           
             <th>Action</th>
           </tr>
         </thead>
@@ -151,12 +153,14 @@ const RegistrationList = () => {
                   </div>
                 </td> */}
                 <td className="text-wrap">{record.Name}</td>
+                <td className="text-wrap">{record.Fathername}</td>
                 <td className="text-wrap">{record.Qualification}</td>
+                <td className="text-wrap">{record.Uprnnumber}</td>
                 <td className="text-wrap">{record.RegistrationNumber}</td>
                 <td className="text-wrap">{record.Yearofregistration}</td>
                 <td className="text-wrap">{record.Stateofmedicine}</td>
                 <td className="text-wrap">{record.City}</td>
-                <td className="text-wrap">{record.State}</td>
+                
                 <td>
             
 <div className="view-button">
