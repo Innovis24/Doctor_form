@@ -1,0 +1,13 @@
+.header_font{
+    height: 60px;
+    color: white;
+    background-color: #00b4b6;
+    padding-top: 26px;
+    font-size: 26px;
+    display: flex;
+    flex-direction: column;
+}
+.font_header{
+    text-align: center;
+    font-weight: 700;
+}

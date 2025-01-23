@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import Header from './Header'
 import { 
   faIdCard, 
   faCalendarAlt, 
@@ -88,10 +89,14 @@ const RegistrationList = () => {
 
 
   return (
+    <div>
+       <Header   title="Registrations List"/>
+    
     <div className="list-container">
-      <center>
+      {/* <center>
         <h1>Registrations List</h1>
-      </center>
+      </center> */}
+     
       <div className="controls">
         {/* Search Bar */}
         <input
@@ -270,6 +275,7 @@ const RegistrationList = () => {
   </div>
 )}
 
+    </div>
     </div>
   );
 };

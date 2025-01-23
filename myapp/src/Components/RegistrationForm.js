@@ -162,7 +162,7 @@ const RegistrationForm = () => {
 />
       
       <div className="form-box">
-        <h1>Registration Form</h1>
+        <h1>New Registration </h1>
         {/* Back Button */}
         <div className="btn-align">
   <button className="register-button" onClick={handleRegisterClick}>
