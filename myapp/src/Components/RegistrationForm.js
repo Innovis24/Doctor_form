@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./style.css";
+import "./RegistrationForm.css";
 import axios from "axios";
 import PersonIcon from "@mui/icons-material/Person";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -15,9 +15,11 @@ import WorkIcon from "@mui/icons-material/Work";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import EventIcon from "@mui/icons-material/Event";
-import { UnpublishedSharp } from "@mui/icons-material";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
+import { useNavigate } from "react-router-dom"; 
+import { Button } from "@mui/material";
 
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
@@ -56,74 +58,95 @@ const RegistrationForm = () => {
   const [university, setuniversity] = useState();
   const [stateOfMedicine, setstateOfMedicine] = useState();
   const [yearOfQualification, setyearOfQualification] = useState();
-
+  const [showForm, setShowForm] = useState(false);
+  const [doctorList, setDoctorList] = useState([]);
+  const [currentfilename, setcurrentfilename] = useState();
+  const [image, setImage] = useState();
   const [errors, setErrors] = useState({
     name: "",
     fatherName: "",
     phone: "",
     email: "",
   });
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setcurrentfilename(file.name)
+      // Process file upload here (e.g., send it to the server)
 
+      // Clear the input field after file selection
+      // fileInputRef.current.value = null; // Reset the file input field
+    }
+  };
   const handleSubmit = (e) => {
-    e.preventDefault();
-    let newFormData = {
-      name: name,
-      fatherName: fatherName,
-      dob: dob,
-      gender: gender,
-      phone: Number(phonenumber),
-      email: email,
-      address: address,
-      qualification: qualification,
-      specialization: specialization,
-      regNumber: regNumber,
-      regYear: regYear,
-      employmentType: employmentType,
-      uprn: uprn,
-      university: university,
-      stateOfMedicine: stateOfMedicine,
-      yearOfQualification: yearOfQualification,
-    };
+    toast.error("Form submitted successfully!", { position: "top-center" });
+  //   e.preventDefault();
+  //  let formData = new FormData();
+  //  formData.append('name', name);
+  //  formData.append('fatherName', fatherName);
+  //  formData.append('dob', dob);
+  //  formData.append('gender', gender);
+  //  formData.append('phone', phonenumber);
+  //  formData.append('email', email);
+  //  formData.append('address',address);
+  //  formData.append('qualification', qualification);
+  //  formData.append('specialization', specialization);
+  //  formData.append('regNumber', regNumber);
+  //  formData.append('regYear', regYear);
+  //  formData.append('employmentType', employmentType);
+  //  formData.append('uprn', uprn);
+  //  formData.append('university', university);
+  //  formData.append('stateOfMedicine', stateOfMedicine);
+  //  formData.append('yearOfQualification', yearOfQualification);
+  //  formData.append('images', image)
+
  
-    if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ==='')
-      {
-        toast.error("Please fill all fields!", { position: "top-center" });
-        return;
-      }
+  //   if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ===''|| image.length == 0)
+  //     {
+  //       toast.error("Please fill all fields!", { position: "top-center" });
+  //       return;
+  //     }
   
 
-      try {
-        console.log(newFormData)
-        const response =  axios.post(apiUrl, newFormData, {
-          headers: { "Content-Type": "application/json" },
-        });
-        if (response) {
-          toast.success("Form submitted successfully!", { position: "top-center" });
-          setname('');
-          setfatherName('');
-          setphonenumber('');
-          setdob('');
-          setgender('');
-          setemail('');
-          setaddress('');
-          setqualification('');
-          setspecialization('');
-          setregNumber('');
-          setregYear('');
-          setemploymentType('');
-          setuprn('');
-          setuniversity('');
-          setstateOfMedicine('');
-          setyearOfQualification('');
-        }else {
-          toast.error("Failed to submit the form!", { position: "top-center" });
-        }
-      } catch (error) {
-        console.error("Error submitting the form:", error);
-        toast.error("An error occurred while submitting the form.", { position: "top-center" });
-      }
+  //     try {
+  //       console.log(formData)
+  //       const response =  axios.post(apiUrl, formData, {
+  //         headers: { "Content-Type": "multipart/form-data" },
+  //       });
+  //       if (response) {
+  //         toast.success("Form submitted successfully!", { position: "top-center" });
+  //         setname('');
+  //         setfatherName('');
+  //         setphonenumber('');
+  //         setdob('');
+  //         setgender('');
+  //         setemail('');
+  //         setaddress('');
+  //         setqualification('');
+  //         setspecialization('');
+  //         setregNumber('');
+  //         setregYear('');
+  //         setemploymentType('');
+  //         setuprn('');
+  //         setuniversity('');
+  //         setstateOfMedicine('');
+  //         setyearOfQualification('');
+  //       }else {
+  //         toast.error("Failed to submit the form!", { position: "top-center" });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error submitting the form:", error);
+  //       toast.error("An error occurred while submitting the form.", { position: "top-center" });
+  //     }
     
   
+  };
+
+   const navigate = useNavigate(); // Use useNavigate for navigation
+
+  const handleRegisterClick = () => {
+    navigate("/"); // Redirect to registration form
   };
 
  const handleChange = (e) => {
@@ -135,20 +158,18 @@ const RegistrationForm = () => {
     <div className="form-container">
       {/* ToastContainer for rendering notifications */}
       <ToastContainer
-  position="top-center"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop={true}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="colored" // Options: 'light', 'dark', 'colored'
+ autoClose={20000} toastStyle={{ backgroundColor: "white",color:'black'}}  progressStyle= {{ background: 'white' }}
 />
-
+      
       <div className="form-box">
         <h1>Registration Form</h1>
+        {/* Back Button */}
+        <div className="btn-align">
+  <button className="register-button" onClick={handleRegisterClick}>
+    Back
+  </button>
+</div>
+
         <form onSubmit={handleSubmit}>
          {/* Name and Father/Spouse Name */}
          <div className="input-group">
@@ -304,6 +325,43 @@ const RegistrationForm = () => {
               <input type="text" placeholder="Year of Qualification" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  maxLength={100}/>
             </div>
             </div>
+            <div className="img_style">
+            <div className="img_input" >
+            <input type="file" id="file"  // Attach the ref to the file input
+        onChange={handleFileChange} accept="image/*" style={{
+        display: "none", // Hides the default file input
+      }} />
+          <div className="display_fileupload">
+            <div className="display_flex">
+            <Button 
+                  htmlFor="file"
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: "white",
+                    color: "black",
+                    padding: "4Px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    fontSize: "11px",
+                    border: "1px solid grey",
+                    textTransform:"math-auto",
+                    width: "120px", // Fixed width
+                    // overflow: "hidden", // Hides overflow text
+                    // whiteSpace: "nowrap", // Prevents text wrapping
+                    // textOverflow: "ellipsis",
+                  }}
+                  onClick={() => document.getElementById("file").click()}
+                >
+                <span> Choose File</span> 
+                </Button>
+            </div>
+         
+                <span className="filenamestyle">{currentfilename}</span>
+          </div>
+         
+            </div>
+      
+          </div>
         {/* Submit Button */}
 <div className="submit-button-container"><center>
   <button type="submit" className="submit-button">
