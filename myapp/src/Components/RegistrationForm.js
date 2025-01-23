@@ -1,23 +1,14 @@
 import React, { useState } from "react";
 import "./RegistrationForm.css";
 import axios from "axios";
-import PersonIcon from "@mui/icons-material/Person";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import PhoneIcon from "@mui/icons-material/Phone";
-import EmailIcon from "@mui/icons-material/Email";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import SchoolIcon from "@mui/icons-material/School";
-import BadgeIcon from "@mui/icons-material/Badge";
-import TransgenderIcon from "@mui/icons-material/Transgender";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-import DateRangeIcon from "@mui/icons-material/DateRange";
-import WorkIcon from "@mui/icons-material/Work";
-import NumbersIcon from "@mui/icons-material/Numbers";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import EventIcon from "@mui/icons-material/Event";
-import { LocationCity, Map } from '@mui/icons-material';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser,faCalendar ,faTransgenderAlt ,faPhone,faEnvelope ,faAddressCard,
+  faCity, faMapMarkerAlt,faGraduationCap, 
+  faStethoscope, faIdCard,faCalendarAlt,faBriefcase,faBarcode,faUniversity,faMap,
+  faCalendarCheck 
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom"; 
 import { Button } from "@mui/material";
 
@@ -184,7 +175,7 @@ const RegistrationForm = () => {
         <form onSubmit={handleSubmit}>
          {/* Name and Father/Spouse Name */}
          <div className="input-group">
-            <PersonIcon />
+            <FontAwesomeIcon icon={faUser} />
             <span className="asterisk">*</span>
             <input
               type="text"
@@ -195,7 +186,7 @@ const RegistrationForm = () => {
           </div>
           {/* {errors.name && <span className="error">{errors.name}</span>} */}
           <div className="input-group">
-            <PersonIcon />
+          <FontAwesomeIcon icon={faUser} />
             <span className="asterisk">*</span>
             <input
               type="text"
@@ -210,7 +201,7 @@ const RegistrationForm = () => {
           {/* Date of Birth and Gender */}
           <div className="grid-cols-2">
             <div className="input-group">
-            <CalendarTodayIcon />
+            <FontAwesomeIcon icon={faCalendar} />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input
@@ -223,7 +214,7 @@ const RegistrationForm = () => {
             </div>
             
             <div className="input-group">
-            <TransgenderIcon />
+            <FontAwesomeIcon icon={faTransgenderAlt} />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               
@@ -241,14 +232,14 @@ const RegistrationForm = () => {
           {/* Phone Number and Email */}
           <div className="grid-cols-2">
             <div className="input-group">
-            <PhoneIcon />
+            <FontAwesomeIcon icon={faPhone} />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input type="number" placeholder="Phone Number"  onChange={(e) => setphonenumber(e.target.value)} value={phonenumber} maxLength={15}/>  
             </div>
             {/* {errors.name && <span className="error">{errors.name}</span>} */}
             <div className="input-group">
-            <EmailIcon />
+            <FontAwesomeIcon icon={faEnvelope } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)} value={email} maxLength={50} />
@@ -258,7 +249,7 @@ const RegistrationForm = () => {
 
           {/* Address */}
           <div className="input-group">
-          <LocationOnIcon />
+          <FontAwesomeIcon icon={faAddressCard } />
           <span className="asterisk">*</span>
             <span className="material-icons"></span>
             <textarea placeholder="Address" rows="2"  onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
@@ -267,13 +258,13 @@ const RegistrationForm = () => {
            {/* State and City */}
            <div className="grid-cols-2">
             <div className="input-group">
-            <LocationCity />
+             <FontAwesomeIcon icon={faCity } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input type="text" placeholder="City" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100}/>
             </div>
             <div className="input-group">
-            <Map />
+            <FontAwesomeIcon icon={faMapMarkerAlt } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input type="text" placeholder="State" onChange={(e) => setstate(e.target.value)} value={state}  maxLength={100} />
@@ -286,13 +277,13 @@ const RegistrationForm = () => {
           {/* Qualification and Specialization */}
           <div className="grid-cols-2">
             <div className="input-group">
-            <SchoolIcon />
+            <FontAwesomeIcon icon={faGraduationCap } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input type="text" placeholder="Qualification" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100}/>
             </div>
             <div className="input-group">
-            <BadgeIcon />
+            <FontAwesomeIcon icon={faStethoscope } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <input type="text" placeholder="Specialization" onChange={(e) => setspecialization(e.target.value)} value={specialization}  maxLength={100} />
@@ -303,12 +294,12 @@ const RegistrationForm = () => {
          
           <div className="grid-cols-2">
             <div className="input-group">
-              <AssignmentIndIcon />
+            <FontAwesomeIcon icon={faIdCard } />
               <span className="asterisk">*</span>
               <input type="text" placeholder="Registration Number"  onChange={(e) => setregNumber(e.target.value)} value={regNumber} maxLength={50} />
             </div>
             <div className="input-group">
-              <DateRangeIcon />
+            <FontAwesomeIcon icon={faCalendarAlt } />
               <span className="asterisk">*</span>
               <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={50} />
             </div>
@@ -317,7 +308,7 @@ const RegistrationForm = () => {
           {/* Employment Type and UPRN Number */}
           <div className="grid-cols-2">
             <div className="input-group">
-              <WorkIcon />
+            <FontAwesomeIcon icon={faBriefcase } />
               <span className="asterisk">*</span>
               <span className="material-icons"></span>
               <select onChange={(e) => setemploymentType(e.target.value)} value={employmentType}> 
@@ -330,7 +321,7 @@ const RegistrationForm = () => {
               </select>
             </div>
             <div className="input-group">
-              <NumbersIcon />
+            <FontAwesomeIcon icon={faBarcode } />
               <span className="asterisk">*</span>
               <input type="text" placeholder="UPRN Number" onChange={(e) => setuprn(e.target.value)} value={uprn}  maxLength={50}/>
             </div>
@@ -338,19 +329,19 @@ const RegistrationForm = () => {
 
   {/* University Name */}
             <div className="input-group">
-            <SchoolIcon /> 
+            <FontAwesomeIcon icon={faUniversity } />
             <span className="asterisk">*</span>
                <input type="text" placeholder="University Name" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
 
   {/* State of medicine & Year of Qualification */}
             <div className="grid-cols-2">
              <div className="input-group">
-              <LocationCityIcon />
+             <FontAwesomeIcon icon={faMap } />
               <span className="asterisk">*</span>
               <input type="text" placeholder="State of Medicine" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
             </div>
             <div className="input-group">
-              <EventIcon />
+            <FontAwesomeIcon icon={faCalendarCheck } />
               <span className="asterisk">*</span>
               <input type="text" placeholder="Year of Qualification" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  maxLength={100}/>
             </div>
