@@ -189,3 +189,32 @@ body {
     opacity: 1;
   }
 }
+.img_style{
+  border: 1px solid grey;
+    padding: 5%;
+    width: auto;
+    border-radius: 10px;
+    background-color: #d3d3d35e;
+}
+.img_input{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.display_fileupload{
+  display: flex;
+  flex-direction: column;
+}
+.filenamestyle{
+  font-size: 14px;
+  color: black;
+  margin-top: 11px;
+  max-width: 88%; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+.display_flex{
+  display: flex;
+  justify-content: center;
+}
