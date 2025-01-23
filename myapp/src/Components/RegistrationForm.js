@@ -142,6 +142,7 @@ const RegistrationForm = () => {
           setuniversity('');
           setstateOfMedicine('');
           setyearOfQualification('');
+          
         }else {
           toast.error("Failed to submit the form!", { position: "top-center" });
         }

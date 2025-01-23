@@ -8,10 +8,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 import Header from './Header'
 import { 
   faIdCard, 
@@ -247,7 +248,15 @@ const RegistrationList = () => {
       <div className="disply_flex"><strong className="font_size_popup">Email:</strong><div className="popup_wrap"> {selectedRecord.Email}</div></div>
     </div>
     <div className="personal-info-item">
+      <FontAwesomeIcon icon={faCity} />
+      <div className="disply_flex"><strong className="font_size_popup">City:</strong><div className="popup_wrap"> {selectedRecord.City}</div></div>
+    </div>
+    <div className="personal-info-item">
       <FontAwesomeIcon icon={faMapMarkerAlt} />
+      <div className="disply_flex"><strong className="font_size_popup">State:</strong><div className="popup_wrap"> {selectedRecord.State}</div></div>
+    </div>
+    <div className="personal-info-item">
+      <FontAwesomeIcon icon={faAddressCard} />
       <div className="disply_flex"><strong className="font_size_popup">Address:</strong><div className="popup_wrap"> {selectedRecord.Address}</div></div>
     </div>
   </div>
@@ -278,7 +287,7 @@ const RegistrationList = () => {
     </div>
     <div className="registration-info-item">
       <FontAwesomeIcon icon={faMap} />
-      <div className="disply_flex"><strong className="font_size_popup">State of Medicine:</strong><div className="popup_wrap"> {selectedRecord.Stateofmedicine}</div></div>
+      <div className="disply_flex"><strong className="font_size_popup">State of Medicine:</strong><div className="state_council"> {selectedRecord.Stateofmedicine}</div></div>
     </div>
   </div>
 </div>

@@ -576,3 +576,10 @@
 .font_size_popup{
   font-size: 14px;
 }
+.state_council{
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 120px;
+  margin-left: 5px;
+}
