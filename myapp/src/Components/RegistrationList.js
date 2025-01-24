@@ -96,7 +96,33 @@ const RegistrationList = () => {
     setSelectedRecord(null); // This line can be kept if you want to reset the selected record
   };
 
+  const handleEdit = (record) => {
 
+    localStorage.setItem('editItem',true );
+    navigate('/registration-form', { state:record});
+
+  }
+  const handleDelete = async (record) => {
+    const confirmed = window.confirm(`Are you sure you want to delete?`);
+    if (confirmed) {
+      try {
+        const response = await axios.delete(apiUrl, {
+          data: { Sno: Number(record.Sno ),image_path:record.image_path}, // Send the Sno for deletion
+        });
+  
+        if (response.status === 200) {
+          toast.success("Record deleted successfully!");
+          fetchRegistrations()
+        } else {
+          toast.error(response.data.error || "Failed to delete record.");
+        }
+      } catch (error) {
+        console.error("Error deleting record:", error);
+        toast.error("Failed to delete record. Please try again.");
+      }
+    };
+  };
+  
   return (
     <div>
        <Header   title="Registration List"/>
@@ -170,8 +196,10 @@ const RegistrationList = () => {
                  
                 <div className="alignmentbtn">
                   <FontAwesomeIcon  className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
-                  <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
-                  <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
+                    <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleEdit(record)} />
+                  
+                    <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)}
+/>
                   </div>
 
                 </td>
@@ -332,3 +360,4 @@ const RegistrationList = () => {
 };
 
 export default RegistrationList;
+

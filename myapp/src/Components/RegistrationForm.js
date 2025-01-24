@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import "./RegistrationForm.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,9 +9,9 @@ import { faUser,faCalendar ,faTransgenderAlt ,faPhone,faEnvelope ,faAddressCard,
   faStethoscope, faIdCard,faCalendarAlt,faBriefcase,faBarcode,faUniversity,faMap,
   faCalendarCheck 
 } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate,useLocation  } from "react-router-dom"; 
 import { Button } from "@mui/material";
-
+import { faTrash} from '@fortawesome/free-solid-svg-icons';
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const RegistrationForm = () => {
@@ -56,6 +56,9 @@ const RegistrationForm = () => {
   const [showForm, setShowForm] = useState(false);
   const [doctorList, setDoctorList] = useState([]);
   const [currentfilename, setcurrentfilename] = useState();
+  const [CurrentSno, setSno] = useState();
+  const [imagePath, setimagePath] = useState();
+  const [imageName, setimageName] = useState();
   const [image, setImage] = useState();
   const [errors, setErrors] = useState({
     name: "",
@@ -63,6 +66,40 @@ const RegistrationForm = () => {
     phone: "",
     email: "",
   });
+  const location = useLocation();
+  const data = location.state;
+
+
+  useEffect(() => {
+    const value = localStorage.getItem('editItem');
+    console.log(data)
+    if(value === "true"){
+      setSno(data.Sno)
+      setname(data.Name);
+      setfatherName(data.Fathername);
+      setphonenumber(data.Phonenumber);
+      setdob(data.DOB);
+      setgender(data.Gender);
+      setemail(data.Email);
+      setaddress(data.Address);
+      setcity(data.City);
+      setstate(data.State);
+      setImage(data.image_name);
+      setcurrentfilename(data.image_name);
+      setqualification(data.Qualification);
+      setspecialization(data.Specialization);
+      setregNumber(data.RegistrationNumber);
+      setregYear(data.Yearofregistration);
+      setemploymentType(data.Employmenttype);
+      setuprn(data.Uprnnumber);
+      setuniversity(data.Universityname);
+      setstateOfMedicine(data.Stateofmedicine);
+      setyearOfQualification(data.Yearofqualification);
+      setimagePath(data.image_path);
+      setimageName(data.image_name);
+    }
+  }, []);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -74,33 +111,18 @@ const RegistrationForm = () => {
       // fileInputRef.current.value = null; // Reset the file input field
     }
   };
+  const handleDelete = ()=>{
+    setcurrentfilename('')
+    setImage('')
+  }
   function capitalizeFirstLetter(string) {
     return string.replace(/^\w/, c => c.toUpperCase());
   }
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     
     e.preventDefault();
-   let formData = new FormData();
-   formData.append('name', capitalizeFirstLetter(name));
-   formData.append('fatherName', capitalizeFirstLetter(fatherName));
-   formData.append('dob', dob);
-   formData.append('gender', gender);
-   formData.append('phone', phonenumber);
-   formData.append('email', email);
-   formData.append('address',capitalizeFirstLetter(address));
-   formData.append('city',capitalizeFirstLetter(city));
-   formData.append('state',capitalizeFirstLetter(state));
-   formData.append('qualification', capitalizeFirstLetter(qualification));
-   formData.append('specialization', capitalizeFirstLetter(specialization));
-   formData.append('regNumber', regNumber);
-   formData.append('regYear', regYear);
-   formData.append('employmentType', employmentType);
-   formData.append('uprn', uprn);
-   formData.append('university', capitalizeFirstLetter(university));
-   formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
-   formData.append('yearOfQualification', yearOfQualification);
-   formData.append('images', image)
+   
 
  
     if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ===''|| image.length == 0 || city == '' || state =='')
@@ -111,6 +133,28 @@ const RegistrationForm = () => {
   
 
       try {
+        //insert new record
+        if(CurrentSno === "" || CurrentSno === undefined || CurrentSno === null){
+          let formData = new FormData();
+        formData.append('name', capitalizeFirstLetter(name));
+        formData.append('fatherName', capitalizeFirstLetter(fatherName));
+        formData.append('dob', dob);
+        formData.append('gender', gender);
+        formData.append('phone', phonenumber);
+        formData.append('email', email);
+        formData.append('address',capitalizeFirstLetter(address));
+        formData.append('city',capitalizeFirstLetter(city));
+        formData.append('state',capitalizeFirstLetter(state));
+        formData.append('qualification', capitalizeFirstLetter(qualification));
+        formData.append('specialization', capitalizeFirstLetter(specialization));
+        formData.append('regNumber', regNumber);
+        formData.append('regYear', regYear);
+        formData.append('employmentType', employmentType);
+        formData.append('uprn', uprn);
+        formData.append('university', capitalizeFirstLetter(university));
+        formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
+        formData.append('yearOfQualification', yearOfQualification);
+        formData.append('images', image)
         console.log(formData)
         const response =  axios.post(apiUrl, formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -141,6 +185,71 @@ const RegistrationForm = () => {
         }else {
           toast.error("Failed to submit the form!", { position: "top-center" });
         }
+        }
+        //update record
+        else{
+          let formData = new FormData();
+        formData.append('Sno', capitalizeFirstLetter(CurrentSno));
+        formData.append('name', capitalizeFirstLetter(name));
+        formData.append('fatherName', capitalizeFirstLetter(fatherName));
+        formData.append('dob', dob);
+        formData.append('gender', gender);
+        formData.append('phone', phonenumber);
+        formData.append('email', email);
+        formData.append('address',capitalizeFirstLetter(address));
+        formData.append('city',capitalizeFirstLetter(city));
+        formData.append('state',capitalizeFirstLetter(state));
+        formData.append('qualification', capitalizeFirstLetter(qualification));
+        formData.append('specialization', capitalizeFirstLetter(specialization));
+        formData.append('regNumber', regNumber);
+        formData.append('regYear', regYear);
+        formData.append('employmentType', employmentType);
+        formData.append('uprn', uprn);
+        formData.append('university', capitalizeFirstLetter(university));
+        formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
+        formData.append('yearOfQualification', yearOfQualification);
+        formData.append('images', image)
+        formData.append('image_path', imagePath);
+        if(imageName === image){
+          formData.append('image_name', imageName);
+        }
+        else{
+          formData.append('image_name', image.name);
+        }
+        
+        console.log(formData)
+        const response =  await  axios.post(apiUrl, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (response.data.code === 200) {
+          toast.success(response.data.message, { position: "top-center" });
+          localStorage.setItem('editItem',false );
+          setname('');
+          setfatherName('');
+          setphonenumber('');
+          setdob('');
+          setgender('');
+          setemail('');
+          setaddress('');
+          setcity('');
+          setstate('');
+          setImage('');
+          setcurrentfilename()
+          setqualification('');
+          setspecialization('');
+          setregNumber('');
+          setregYear('');
+          setemploymentType('');
+          setuprn('');
+          setuniversity('');
+          setstateOfMedicine('');
+          setyearOfQualification('');
+          
+        }else {
+          toast.error("Failed to update the form!", { position: "top-center" });
+        }
+        }
+        
       } catch (error) {
         console.error("Error submitting the form:", error);
         toast.error("An error occurred while submitting the form.", { position: "top-center" });
@@ -153,18 +262,21 @@ const RegistrationForm = () => {
 
   const handleRegisterClick = () => {
     navigate("/"); // Redirect to registration form
+    localStorage.setItem('editItem',false );
   };
 
- const handleChange = (e) => {
-   
-  };
 
 
   return (
     <div className="form-container">
       {/* ToastContainer for rendering notifications */}
       <ToastContainer
- autoClose={20000} toastStyle={{ backgroundColor: "white",color:'black'}}  progressStyle= {{ background: 'white' }}
+  autoClose={200} // Auto-close in 20 seconds
+  closeOnClick // Allow manual close by clicking
+  draggable // Allow dragging the toast to dismiss
+  pauseOnHover // Pause the timer when hovering over the toast
+  toastStyle={{ backgroundColor: "white", color: 'black' }}
+  progressStyle={{ background: 'white' }}
 />
       
       <div className="form-box">
@@ -383,6 +495,8 @@ const RegistrationForm = () => {
                 >
                 <span> Choose File</span> 
                 </Button>
+                {currentfilename !== "" && image !== "" &&
+                <FontAwesomeIcon className="view-button" title = 'Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
             </div>
          
                 <span className="filenamestyle">{currentfilename}</span>
