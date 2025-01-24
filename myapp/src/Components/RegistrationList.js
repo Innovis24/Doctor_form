@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye,faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 import Header from './Header'
@@ -167,10 +167,12 @@ const RegistrationList = () => {
                 <td className="text-wrap">{record.City}</td>
                 
                 <td>
-            
-<div className="view-button">
-  <FontAwesomeIcon icon={faEye} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
-  </div>
+                 
+                <div className="alignmentbtn">
+                  <FontAwesomeIcon  className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
+                  <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
+                  <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
+                  </div>
 
                 </td>
               </tr>

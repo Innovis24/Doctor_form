@@ -51,9 +51,7 @@
   
   /* View button styling */
   .view-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+   
     gap: 8px; /* Space between icon and text */
     color: black;
     border: none;
@@ -63,7 +61,11 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  
+  .alignmentbtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .view-button:hover {
     color: #00b4b6;
   }
