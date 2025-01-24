@@ -13,6 +13,7 @@ import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faEye,faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
+import SweetAlert from 'react-bootstrap-sweetalert';
 import Header from './Header'
 import { 
   faIdCard, 
@@ -35,7 +36,9 @@ const RegistrationList = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
-
+  const [currentDeleteSno, setCurrentDeleteSno] = useState(''); // State for search input
+  const [currentImagepath, setcurrentImagepath] = useState(''); // State for search input
+  const [deletePopup, setdeletePopup] = useState(false); // State for search input
   const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
@@ -102,16 +105,24 @@ const RegistrationList = () => {
     navigate('/registration-form', { state:record});
 
   }
+
+  const handleClose = () => setdeletePopup(false);
   const handleDelete = async (record) => {
-    const confirmed = window.confirm(`Are you sure you want to delete?`);
-    if (confirmed) {
+    setdeletePopup(true);
+    setCurrentDeleteSno(record.Sno);
+    setcurrentImagepath(record.image_path);
+  };
+
+  const handleYesDelete=async ()=>{
+
       try {
         const response = await axios.delete(apiUrl, {
-          data: { Sno: Number(record.Sno ),image_path:record.image_path}, // Send the Sno for deletion
+          data: { Sno: Number(currentDeleteSno),image_path:currentImagepath}, // Send the Sno for deletion
         });
   
         if (response.status === 200) {
           toast.success("Record deleted successfully!");
+          setdeletePopup(false)
           fetchRegistrations()
         } else {
           toast.error(response.data.error || "Failed to delete record.");
@@ -120,13 +131,27 @@ const RegistrationList = () => {
         console.error("Error deleting record:", error);
         toast.error("Failed to delete record. Please try again.");
       }
-    };
-  };
-  
+  }
   return (
     <div>
        <Header   title="Registration List"/>
-    
+       {deletePopup && (
+       <SweetAlert 
+        title={<div style={{fontSize:'15px',fontWeight:'00'}}>Are you sure you want to delete? </div>}
+                custom
+                showCancel
+                closeOnClickOutside={false}
+                reverseButtons
+                confirmBtnText="Yes"
+                cancelBtnText="No"
+                customClass="custom-sweetalert"
+                cancelBtnCssClass="btn-cancelClr"
+                confirmBtnCssClass="btn-dangerclr"
+                onConfirm={handleYesDelete}
+                onCancel={handleClose}
+              
+        ></SweetAlert>
+      )}
     <div className="list-container">
     <div className="btn-align1">
 
@@ -207,7 +232,7 @@ const RegistrationList = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6">No records found!</td>
+              <td colSpan="10"><b>No records found!</b></td>
             </tr>
           )}
         </tbody>
@@ -353,7 +378,6 @@ const RegistrationList = () => {
     </div>
   </div>
 )}
-
     </div>
     </div>
   );

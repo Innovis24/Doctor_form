@@ -68,11 +68,11 @@ const RegistrationForm = () => {
   });
   const location = useLocation();
   const data = location.state;
-
+  const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const value = localStorage.getItem('editItem');
-    console.log(data)
+    // console.log(data)
     if(value === "true"){
       setSno(data.Sno)
       setname(data.Name);
@@ -122,7 +122,6 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     
     e.preventDefault();
-   
 
  
     if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ===''|| image.length == 0 || city == '' || state =='')
@@ -156,11 +155,11 @@ const RegistrationForm = () => {
         formData.append('yearOfQualification', yearOfQualification);
         formData.append('images', image)
         console.log(formData)
-        const response =  axios.post(apiUrl, formData, {
+        const response =  await axios.post(apiUrl, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        if (response) {
-          toast.success("Form submitted successfully!", { position: "top-center" });
+        if (response.data.code === 200) {
+          toast.success(response.data.message, { position: "top-center" });
           setname('');
           setfatherName('');
           setphonenumber('');
@@ -271,12 +270,9 @@ const RegistrationForm = () => {
     <div className="form-container">
       {/* ToastContainer for rendering notifications */}
       <ToastContainer
-  autoClose={200} // Auto-close in 20 seconds
-  closeOnClick // Allow manual close by clicking
-  draggable // Allow dragging the toast to dismiss
-  pauseOnHover // Pause the timer when hovering over the toast
-  toastStyle={{ backgroundColor: "white", color: 'black' }}
-  progressStyle={{ background: 'white' }}
+        autoClose={500} // Auto-close in 20 seconds
+        toastStyle={{ backgroundColor: "white", color: 'black' }}
+        progressStyle={{ background: 'white' }}
 />
       
       <div className="form-box">
@@ -322,6 +318,7 @@ const RegistrationForm = () => {
               <span className="material-icons"></span>
               <input
                 type="date"
+                max={today}
                 placeholder="DateOfBirth"
                 onChange={(e) => setdob(e.target.value)}
                 value={dob}
@@ -495,7 +492,7 @@ const RegistrationForm = () => {
                 >
                 <span> Choose File</span> 
                 </Button>
-                {currentfilename !== "" && image !== "" &&
+                {(currentfilename !== "" && image !== "" && currentfilename  !== undefined && image !== undefined) &&
                 <FontAwesomeIcon className="view-button" title = 'Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
             </div>
          
