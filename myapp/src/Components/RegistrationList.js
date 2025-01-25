@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./RegistrationList.css";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom"; // Use useNavigate for React Router v6+
 import SearchIcon from "@mui/icons-material/Search"; 
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope ,faTransgenderAlt} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope ,faTransgenderAlt} from '@fortawesome/free-solid-svg-icons';
 import { faEye,faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
-import SweetAlert from 'react-bootstrap-sweetalert';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import Header from './Header'
 import { 
   faIdCard, 
@@ -37,7 +38,6 @@ const RegistrationList = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const [currentDeleteSno, setCurrentDeleteSno] = useState(''); // State for search input
   const [currentImagepath, setcurrentImagepath] = useState(''); // State for search input
-  const [deletePopup, setdeletePopup] = useState(false); // State for search input
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const rowsPerPage = 5; // Adjust as needed
@@ -47,9 +47,18 @@ const RegistrationList = () => {
   const endIndex = startIndex + rowsPerPage;
   const currentRows = registrations.slice(startIndex, endIndex);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const closeModal = () => setIsOpen(false);
+
+
   // Calculate total pages
   const totalPages = Math.ceil(registrations.length / rowsPerPage);
   useEffect(() => {
+    const value = localStorage.getItem('currentUser');
+    if(value === '' || value === null || value === undefined){
+      navigate("/");
+      return;
+    }
     fetchRegistrations();
   }, []);
 
@@ -97,7 +106,7 @@ const RegistrationList = () => {
  
 
   const handleRegisterClick = () => {
-    navigate("/registration-form"); // Redirect to registration form
+    navigate("/registration_form"); // Redirect to registration form
   };
 
   const [activeTab, setActiveTab] = useState('personal'); // Initial active tab
@@ -111,15 +120,16 @@ const RegistrationList = () => {
   const handleEdit = (record) => {
 
     localStorage.setItem('editItem',true );
-    navigate('/registration-form', { state:record});
+    navigate('/registration_form', { state:record});
 
   }
 
-  const handleClose = () => setdeletePopup(false);
+
   const handleDelete = async (record) => {
-    setdeletePopup(true);
+  
     setCurrentDeleteSno(record.Sno);
     setcurrentImagepath(record.image_path);
+    setIsOpen(true)
   };
 
   const handleYesDelete=async ()=>{
@@ -131,7 +141,7 @@ const RegistrationList = () => {
   
         if (response.status === 200) {
           toast.success("Record deleted successfully!");
-          setdeletePopup(false)
+          setIsOpen(false)
           fetchRegistrations()
         } else {
           toast.error(response.data.error || "Failed to delete record.");
@@ -151,23 +161,25 @@ const RegistrationList = () => {
   return (
     <div>
        <Header   title="Registration List"/>
-       {deletePopup && (
-       <SweetAlert 
-        title={<div style={{fontSize:'15px',fontWeight:'00'}}>Are you sure you want to delete? </div>}
-                custom
-                showCancel
-                closeOnClickOutside={false}
-                reverseButtons
-                confirmBtnText="Yes"
-                cancelBtnText="No"
-                customClass="custom-sweetalert"
-                cancelBtnCssClass="btn-cancelClr"
-                confirmBtnCssClass="btn-dangerclr"
-                onConfirm={handleYesDelete}
-                onCancel={handleClose}
-              
-        ></SweetAlert>
-      )}
+       <ToastContainer
+        autoClose={500} // Auto-close in 20 seconds
+        toastStyle={{ backgroundColor: "white", color: 'black' }}
+        progressStyle={{ background: 'white' }}/>
+        <Popup open={isOpen} onClose={closeModal} contentStyle={{
+        width: '385px', // Adjust the width to your desired size
+        padding: '20px', // Optional: Adjust padding if needed
+        border: '1px solid #ccc', // Optional: Styling for better appearance
+        borderRadius: '8px', // Optional: Rounded corners
+      }}>
+        <div >
+          <h2>Are you sure you want to delete?</h2>
+          <div className="popup_btn">
+          <button className="btn_yesclr" onClick={handleYesDelete}>Yes</button>
+          <button className="btn_noClr" onClick={closeModal}>No</button>
+          </div>
+       
+        </div>
+      </Popup>
     <div className="list-container">
     <div className="btn-align1">
 

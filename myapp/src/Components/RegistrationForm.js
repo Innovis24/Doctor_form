@@ -15,26 +15,26 @@ import { faTrash} from '@fortawesome/free-solid-svg-icons';
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    fatherName: "",
-    dob: "",
-    gender: "",
-    phone: "",
-    email: "",
-    address: "",
-    qualification: "",
-    city:"",
-    state:"",
-    specialization: "",
-    regNumber: "",
-    regYear: "",
-    employmentType: "",
-    uprn: "",
-    university: "",
-    stateOfMedicine: "",
-    yearOfQualification: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   fatherName: "",
+  //   dob: "",
+  //   gender: "",
+  //   phone: "",
+  //   email: "",
+  //   address: "",
+  //   qualification: "",
+  //   city:"",
+  //   state:"",
+  //   specialization: "",
+  //   regNumber: "",
+  //   regYear: "",
+  //   employmentType: "",
+  //   uprn: "",
+  //   university: "",
+  //   stateOfMedicine: "",
+  //   yearOfQualification: "",
+  // });
   const [name, setname] = useState();
   const [fatherName, setfatherName] = useState();
   const [phonenumber, setphonenumber] = useState();
@@ -53,24 +53,24 @@ const RegistrationForm = () => {
   const [yearOfQualification, setyearOfQualification] = useState();
   const [city, setcity] = useState();
   const [state, setstate] = useState();
-  const [showForm, setShowForm] = useState(false);
-  const [doctorList, setDoctorList] = useState([]);
   const [currentfilename, setcurrentfilename] = useState();
   const [CurrentSno, setSno] = useState();
   const [imagePath, setimagePath] = useState();
   const [imageName, setimageName] = useState();
   const [image, setImage] = useState();
-  const [errors, setErrors] = useState({
-    name: "",
-    fatherName: "",
-    phone: "",
-    email: "",
-  });
   const location = useLocation();
   const data = location.state;
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
+
+    const values = localStorage.getItem('currentUser');
+    if(values === '' || values === null || values === undefined){
+      navigate("/");
+      return;
+    }
+
+
     const value = localStorage.getItem('editItem');
     // console.log(data)
     if(value === "true"){
@@ -278,7 +278,7 @@ const RegistrationForm = () => {
    const navigate = useNavigate(); // Use useNavigate for navigation
 
   const handleRegisterClick = () => {
-    navigate("/"); // Redirect to registration form
+    navigate("/registration_list"); // Redirect to registration form
     localStorage.setItem('editItem',false );
   };
 
