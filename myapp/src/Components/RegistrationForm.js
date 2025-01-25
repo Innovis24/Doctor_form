@@ -124,7 +124,25 @@ const RegistrationForm = () => {
     e.preventDefault();
 
  
-    if (name ===''|| fatherName  ===''|| dob ===''|| gender ===''|| phonenumber  ===''|| email ===''|| address  ===''|| qualification ===''|| specialization ===''|| regNumber ===''|| regYear  ===''||employmentType ===''|| uprn ===''|| university ===''|| stateOfMedicine ===''|| yearOfQualification ===''|| image.length == 0 || city == '' || state =='')
+    if ( !name ||
+      !fatherName ||
+      !dob ||
+      !gender ||
+      !phonenumber ||
+      !email ||
+      !address ||
+      !qualification ||
+      !specialization ||
+      !regNumber ||
+      !regYear ||
+      !employmentType ||
+      !uprn ||
+      !university ||
+      !stateOfMedicine ||
+      !yearOfQualification ||
+      image.length === 0 || // For checking empty image array
+      !city ||
+      !state  ) 
       {
         toast.error("Please fill all fields!", { position: "top-center" });
         return;

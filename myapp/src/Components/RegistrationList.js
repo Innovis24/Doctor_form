@@ -8,8 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faVenusMars, faPhoneAlt, faEnvelope ,faTransgenderAlt} from '@fortawesome/free-solid-svg-icons';
 import { faEye,faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
@@ -39,8 +38,17 @@ const RegistrationList = () => {
   const [currentDeleteSno, setCurrentDeleteSno] = useState(''); // State for search input
   const [currentImagepath, setcurrentImagepath] = useState(''); // State for search input
   const [deletePopup, setdeletePopup] = useState(false); // State for search input
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate(); // Use useNavigate for navigation
+  const rowsPerPage = 5; // Adjust as needed
 
+  // Calculate the indices for slicing
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const currentRows = registrations.slice(startIndex, endIndex);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(registrations.length / rowsPerPage);
   useEffect(() => {
     fetchRegistrations();
   }, []);
@@ -72,10 +80,11 @@ const RegistrationList = () => {
       record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Uprnnumber.toLowerCase().includes(searchQuery.toLowerCase()) 
+      record.Uprnnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      record.Fathername.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      record.Gender.toLowerCase().includes(searchQuery.toLowerCase())
 
     );
-    console.log(filteredRegistrations)
     setRegistrations(filteredRegistrations)
   };
 
@@ -132,6 +141,13 @@ const RegistrationList = () => {
         toast.error("Failed to delete record. Please try again.");
       }
   }
+
+  const goToPage = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <div>
        <Header   title="Registration List"/>
@@ -184,6 +200,7 @@ const RegistrationList = () => {
             <th>S.No</th>
             {/* <th>Profile</th> */}
             <th>Name</th>
+            <th>Gender</th>
             <th>Father / Spouse Name</th>
             <th>Qualification</th>
             <th>UPRN Number</th>
@@ -196,10 +213,10 @@ const RegistrationList = () => {
           </tr>
         </thead>
         <tbody>
-          {registrations.length > 0 ? (
-            registrations.map((record, index) => (
+          {currentRows.length > 0 ? (
+            currentRows.map((record, index) => (
               <tr key={index}>
-                <td className="text-wrap">{index + 1}</td>
+                <td className="text-wrap">{startIndex + index + 1}</td>
                 {/* <td className="text-wrap">
                   <div>
                   <img   style={{ height: '150px', width: '100%' }}
@@ -209,6 +226,7 @@ const RegistrationList = () => {
                   </div>
                 </td> */}
                 <td className="text-wrap">{record.Name}</td>
+                <td className="text-wrap txt_trans">{record.Gender}</td>
                 <td className="text-wrap">{record.Fathername}</td>
                 <td className="text-wrap">{record.Qualification}</td>
                 <td className="text-wrap">{record.Uprnnumber}</td>
@@ -237,6 +255,33 @@ const RegistrationList = () => {
           )}
         </tbody>
       </table>
+
+      <div className="table_postiion">
+        <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style">
+          Previous
+        </button>
+        {[...Array(totalPages)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToPage(index + 1)}
+            style={{
+              margin: "0 5px",
+              backgroundColor: currentPage === index + 1 ? "#00b4b6" : "#fff",
+              color: currentPage === index + 1 ? "#fff" : "#000",
+              border: "1px solid #00b4b6",
+              borderRadius: "5px"
+            }}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style">
+          Next
+        </button>
+      </div>
+
+
+
       </div>
       {/* Details Modal */}.
 {showDetails && selectedRecord && (
@@ -295,7 +340,7 @@ const RegistrationList = () => {
       <div className="disply_flex"><strong className="font_size_popup">Date of Birth:</strong> <div className="popup_wrap">{selectedRecord.DOB}</div></div>
     </div>
     <div className="personal-info-item">
-      <FontAwesomeIcon icon={faVenusMars} />
+      <FontAwesomeIcon icon={faTransgenderAlt} />
       <div className="disply_flex"><strong className="font_size_popup">Gender:</strong> <div className="popup_wrap txt_trans">{selectedRecord.Gender}</div></div>
     </div>
     <div className="personal-info-item">
