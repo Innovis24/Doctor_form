@@ -163,7 +163,7 @@ const RegistrationList = () => {
        <Header   title="Registration List"/>
        <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
-        toastStyle={{ backgroundColor: "white", color: 'black' }}
+        toastStyle={{ backgroundColor: "white", color: 'black' ,  fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }}/>
         <Popup open={isOpen} onClose={closeModal} contentStyle={{
         width: '385px', // Adjust the width to your desired size

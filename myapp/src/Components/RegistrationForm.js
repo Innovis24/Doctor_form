@@ -289,12 +289,12 @@ const RegistrationForm = () => {
       {/* ToastContainer for rendering notifications */}
       <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
-        toastStyle={{ backgroundColor: "white", color: 'black' }}
+        toastStyle={{ backgroundColor: "white", color: 'black' ,  fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }}
 />
       
       <div className="form-box">
-        <h1>New Registration </h1>
+        <h1 className="fontFam">New Registration </h1>
         {/* Back Button */}
         <div className="btn-align">
   <button className="register-button" onClick={handleRegisterClick}>

@@ -30,7 +30,7 @@ const Header = ({ title }) => {
         borderRadius: '8px', // Optional: Rounded corners
       }}>
         <div >
-          <h2>Are you sure you want to logout?</h2>
+          <h2 className="fontFam">Are you sure you want to logout?</h2>
           <div className="popup_btn">
           <button className="btn_yesclr" onClick={handleExit}>Yes</button>
           <button className="btn_noClr" onClick={closeModal}>No</button>

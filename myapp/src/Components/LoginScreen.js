@@ -63,27 +63,26 @@ const LoginScreen = () => {
     <div className="login-container">
        <ToastContainer
               autoClose={500} // Auto-close in 20 seconds
-              toastStyle={{ backgroundColor: "white", color: 'black' }}
+              toastStyle={{ backgroundColor: "white", color: 'black' ,  fontFamily: "'Roboto', sans-serif" }}
               progressStyle={{ background: 'white' }}
       />
       {/* Illustration Section */}
       <div className="login-illustration">
-        <div className="wt50">
-          <h1>dsfds</h1>
+        <div className="login-image">
             <img
         src={doctorIllustration}
         alt="Doctor Illustration"
-        className="illustration-img" />
+        className="illustration-img responsive-image" />
         </div>
       {/* Login Form Section */}
-      <div className="login-form-container wt50">
+      <div className="login-form-container login-form">
         <div className="login-form-wrapper">
-          <h1 className="login-title">Login</h1>
+          <h1 className="login-title"> Login</h1>
           <form onSubmit={loginFn}>
             <div className="form-group">
-              <label htmlFor="username" className="form label">
-                Enter your username
-              </label>
+              <div htmlFor="username" className="form-label">
+                Username
+              </div>
               <input
                 type="text"
                 id="username"
@@ -98,7 +97,7 @@ const LoginScreen = () => {
 
             <div className="form-group">
               <label htmlFor="password" className="form-label">
-                Enter your Password
+                Password
               </label>
               <input
                 type="password"
@@ -111,15 +110,17 @@ const LoginScreen = () => {
               />
             </div>
 
-            <div className="form-footer">
+            {/* <div className="form-footer">
               <a href="#" className="forgot-password">
                 Forgot Password
               </a>
-            </div>
-
-            <button type="submit" className="login_screen" >
-              Sign up
+            </div> */}
+              <div className="logjustify">
+              <button  className="loginBtn" >
+             Login
             </button>
+              </div>
+            
           </form>
         </div>
       </div>
