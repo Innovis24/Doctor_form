@@ -1,0 +1,163 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.login-container {
+    display: flex;
+    height: 100vh; /* Fullscreen */
+    width: 100vw; /* Fullscreen width */
+}
+
+/* Illustration Section */
+.login-illustration {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        width: 100%;
+}
+
+.illustration-img {
+    width: 100%; /* Ensure the image fills the section */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Maintain aspect ratio, cover entire section */
+    border-radius: 0; /* No extra styling, as per your design */
+    box-shadow: none; /* Remove drop shadow */
+}
+
+/* Form Section */
+.login-form-container {
+    flex: 1; /* 50% width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Full height */
+    background-color: white;
+    border-radius: 0; /* No rounded corners */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1); /* Light drop shadow */
+    padding: 2rem;
+}
+.wt50{
+    width: 50%;
+}
+
+.login-form-wrapper {
+    width: 100%;
+    max-width: 400px; /* Optional: control form width */
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: #4caf50;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    font-size: 0.875rem;
+    color: #4caf50;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-button:hover {
+    background-color: #43a047;
+}
+
+/* General Styles for Small Devices */
+@media (max-width: 1024px) {
+
+    .login-form-container {
+        flex: none;
+        width: 100%; /* Take full width */
+        height: 100%; /* Use the full screen height */
+        box-shadow: none; /* Optional: Remove shadow for a cleaner mobile look */
+        padding: 2rem;
+    }
+
+    .login-form-wrapper {
+        max-width: 100%; /* Use full width for the form */
+    }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column; /* Stack sections */
+    }
+
+    .login-form-container {
+        height: 50%; /* Adjust login form height */
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .login-form-container {
+        padding: 1rem;
+    }
+
+    .login-title {
+        font-size: 1.75rem; /* Reduce font size */
+    }
+
+    .form-input {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .submit-button {
+        padding: 0.6rem;
+        font-size: 1rem;
+    }
+}
