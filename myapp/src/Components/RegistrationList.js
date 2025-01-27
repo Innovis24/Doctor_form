@@ -54,13 +54,14 @@ const RegistrationList = () => {
   // Calculate total pages
   const totalPages = Math.ceil(registrations.length / rowsPerPage);
   useEffect(() => {
-    const value = localStorage.getItem('currentUser');
-    if(value === '' || value === null || value === undefined){
+    const values =JSON.parse(localStorage.getItem('currentUser'));
+    if(values)
+    if(values === '' || values === null || values === undefined){
       navigate("/");
       return;
     }
     fetchRegistrations();
-  }, []);
+  }, [navigate]);
 
   const fetchRegistrations = async () => {
     try {

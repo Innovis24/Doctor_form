@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser,faCalendar ,faTransgenderAlt ,faPhone,faEnvelope ,faAddressCard,
   faCity, faMapMarkerAlt,faGraduationCap, 
   faStethoscope, faIdCard,faCalendarAlt,faBriefcase,faBarcode,faUniversity,faMap,
-  faCalendarCheck 
+  faCalendarCheck
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate,useLocation  } from "react-router-dom"; 
 import { Button } from "@mui/material";
@@ -61,10 +61,10 @@ const RegistrationForm = () => {
   const location = useLocation();
   const data = location.state;
   const today = new Date().toISOString().split("T")[0];
-
+  const navigate = useNavigate(); // Use useNavigate for navigation
   useEffect(() => {
 
-    const values = localStorage.getItem('currentUser');
+    const values =JSON.parse(localStorage.getItem('currentUser'));
     if(values === '' || values === null || values === undefined){
       navigate("/");
       return;
@@ -98,7 +98,7 @@ const RegistrationForm = () => {
       setimagePath(data.image_path);
       setimageName(data.image_name);
     }
-  }, []);
+  }, [data,navigate]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -275,7 +275,7 @@ const RegistrationForm = () => {
   
   };
 
-   const navigate = useNavigate(); // Use useNavigate for navigation
+  
 
   const handleRegisterClick = () => {
     navigate("/registration_list"); // Redirect to registration form

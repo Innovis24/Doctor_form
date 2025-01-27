@@ -13,7 +13,7 @@ const LoginScreen = () => {
   const [Array, setArray] = useState([]);
   const [currentuser, setcurrentuser] = useState([]);
   const navigate = useNavigate();
-  const apiUrl = "http://localhost/Doctor_search/Login.php";
+  const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
   useEffect(() => {
     getuserListapi();
    }, []);
@@ -23,7 +23,7 @@ const LoginScreen = () => {
     .get(apiUrl)
     .then((response) => {
       setArray(response.data);
-      setcurrentuser(response.data[0].UserName)
+      setcurrentuser(response.data)
     })
     .catch((error) => console.error("Error fetching users:", error));
   }
@@ -47,8 +47,16 @@ const LoginScreen = () => {
       const filtered = Array.filter((item) => item.Password === password && item.Status === "Active"); 
       if(filtered.length>0){
         // onLogin();
-        localStorage.setItem('currentUser',currentuser);
-        navigate("/registration_list");
+        const loginFilter = currentuser.filter((item) => item.UserName === username );
+        const currentUserRole =  loginFilter
+        localStorage.setItem('currentUser',JSON.stringify(loginFilter));
+        if(currentUserRole[0].UserRole === "Admin"){
+          navigate("/registration_list");
+        }
+        else{
+          navigate("/Profile");
+        }
+       
       }
       else{
         toast.error("Your username or password is incorrect. Kindly check it.");

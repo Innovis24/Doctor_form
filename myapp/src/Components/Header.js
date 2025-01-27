@@ -1,7 +1,7 @@
 import "./Header.css";
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { faSignOut,faUserMd } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut,faUserMd,faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -10,10 +10,17 @@ const Header = ({ title }) => {
   const searchParams = new URLSearchParams(window.location.pathname);
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
+  const [currentLogin, setCurrentLogin] = useState('');
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   const navigate = useNavigate();
+
+  useEffect(() => {
+  
+      const values =JSON.parse(localStorage.getItem('currentUser'));
+      setCurrentLogin(values[0].UserRole)
+    }, []);
   const OpenPopup= () => {
     setIsOpen(true)
   }
@@ -51,19 +58,25 @@ const Header = ({ title }) => {
               <h3>Doctor Search</h3>
             </div>
             <ul className="sidebar-menu">
-              <li>
-                
-                <a href="/registration_list" className="active">
-                <FontAwesomeIcon className="list_icon" icon={faUserMd } /> DOCTOR LIST
-                </a>
-              </li>
-            </ul>
+            <li>
+              
+              <a href="/registration_list" className="active">
+              <FontAwesomeIcon className="list_icon" icon={faUserMd } /> DOCTOR LIST
+              </a>
+              <a href="/user_master" className="active">
+              <FontAwesomeIcon className="list_icon" icon={faUserPlus } /> USER MASTER
+              </a>
+            </li>
+
+          </ul>
+            
           </div>
         )}
 
         <div className="display_flea_align">
           {/* Sidebar toggle button on the left */}
-          {isSidebarOpen && searchParams && (
+          
+          {currentLogin === "Admin" && isSidebarOpen && searchParams && (
             <button
               className="sidebar-toggle-button-open"
               onClick={toggleSidebar}
