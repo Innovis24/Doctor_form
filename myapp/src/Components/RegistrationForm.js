@@ -388,7 +388,7 @@ const RegistrationForm = () => {
       setusername('');
       setpassword('');
       setIsPopupOpen(true)
-      navigate('/registration_list', { state:UserID});
+      navigate('/profile', { state:UserID});
     }
     else {
       toast.error("Failed to submit the form!", { position: "top-center" });

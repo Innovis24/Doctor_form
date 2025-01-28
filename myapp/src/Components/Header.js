@@ -19,7 +19,15 @@ const Header = ({ title }) => {
   useEffect(() => {
   
       const values =JSON.parse(localStorage.getItem('currentUser'));
-      setCurrentLogin(values[0].UserRole)
+      const newOne =localStorage.getItem('newUser');
+      if(!newOne &&  !values ){
+        setCurrentLogin()
+        
+      }
+      else{
+        setCurrentLogin(values[0].UserRole)
+      }
+      
     }, []);
   const OpenPopup= () => {
     setIsOpen(true)

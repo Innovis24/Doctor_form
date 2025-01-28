@@ -14,45 +14,64 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState(""); 
   const [currentID, setcurrentID] = useState(""); 
   const navigate = useNavigate(); // Use useNavigate for navigation
+ 
+  const location = useLocation();
+  const data = location.state;
+
+  useEffect(() => {
+    const newOne =localStorage.getItem('newUser');
+    const values =JSON.parse(localStorage.getItem('currentUser'));
+   
+    if((values === '' || values === null || values === undefined) && (!newOne )){
+      navigate("/");
+      return;
+    }
+
+    if(!data){
+      fetchData(values[0].RegNumber);
+      
+    }
+    else{
+      fetchData(data);
+    }
+   
+      
+      
+  }, []); 
   const handleTabChange = (tab) => {
     setActiveTab(tab); // Update activeTab state correctly
   };
-  const location = useLocation();
-  const data = location.state;
-  useEffect(() => {
-    const values =JSON.parse(localStorage.getItem('currentUser'));
-    fetchData(values[0].RegNumber);
-      if(values === '' || values === null || values === undefined){
-        navigate("/");
-        return;
-      }
-      if(data !== ""){
-        setcurrentID(data)
-      }
-  }, []); // Empty dependency array, so it runs only once when the component mounts
- 
   const fetchData = async (ID) => {
     try {
       const response = await axios.get(apiUrl);
-      const filterVal = []
+      
       if(currentID !== ""){
-        filterVal = response.data.filter((record) =>
+       const filterValNew = response.data.filter((record) =>
           record.RegistrationNumber === currentID
         );
+        if(filterValNew.length > 0 ){
+          setUserData(filterValNew[0]);
+          setActiveTab("personal")
+        }
+        else{
+          setUserData([]);
+        }
       }
+
       else{
-        filterVal = response.data.filter((record) =>
+       const filterValOld = response.data.filter((record) =>
           record.RegistrationNumber === ID
         );
+        if(filterValOld.length > 0 ){
+          setUserData(filterValOld[0]);
+          setActiveTab("personal")
+        }
+        else{
+          setUserData([]);
+        }
       }
     
-      if(filterVal.length > 0 ){
-        setUserData(filterVal[0]);
-        setActiveTab("personal")
-      }
-      else{
-        setUserData([]);
-      }
+      
       
     } catch (error) {
       toast.error("Failed to fetch registrations!");

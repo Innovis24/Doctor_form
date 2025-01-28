@@ -185,35 +185,18 @@ padding: 17px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-/* Icon Styling */
-.qualification-info-item1 .fa-icon {
-  font-size: 20px; /* Icon size */
-  color: #ee7715; /* Same teal color for icons */
-}
-
-/* Text Styling */
-.qualification-info-item1 strong {
-  font-size: 16px; /* Font size for labels */
-  font-weight: 600; /* Slightly bolder text */
-}
-
-.qualification-info-item1 span {
-  color: #00b4b6; /* Content text color */
-  font-size: 15px; /* Font size for content */
-}
-
 /* Hover Effect */
 .qualification-info-item1:hover {
   background: #eaeaea; /* Slightly lighter grey on hover */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
 }
-.svg-inline--fa {
+/* .svg-inline--fa {
   display: var(--fa-display, inline-block);
   height: 1em;
   overflow: visible;
   vertical-align: -0.125em;
   color: #00b4b6;
-}
+} */
 /* Responsive Design */
 @media (max-width: 768px) {
   .qualification-info-item1 {
@@ -246,12 +229,7 @@ padding: 17px;
   color: #333;
 }
 
-/* Icon Styling */
-.registration-info-item1 svg {
-  font-size: 20px; /* Adjust icon size */
-  color: #00b4b6; /* Match your theme color */
-  margin-right: 10px; /* Space between icon and text */
-}
+
 
 /* Bold Text Styling */
 .registration-info-item1 strong {
