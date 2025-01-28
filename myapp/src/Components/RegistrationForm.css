@@ -245,3 +245,10 @@ textarea::placeholder {
   overflow: none !important;
 }
 }
+.usernamepwd_style{
+  padding: 10px;
+  border: 1px solid #00b4b6;
+  background-color: #00b4b6;
+  color: white;
+  border-radius: 10px;
+ }

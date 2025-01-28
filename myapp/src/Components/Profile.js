@@ -3,7 +3,7 @@ import Header from "./Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhoneAlt, faEnvelope, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake,faIdCard,faCalendarAlt,faBriefcase ,faUniversity,faGraduationCap,faStethoscope,faCalendarCheck} from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
-import { useNavigate } from "react-router-dom"; // Use useNavigate for React Router v6+
+import { useNavigate,useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
 import { toast } from 'react-toastify';
 
@@ -11,29 +11,41 @@ const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const Profile = () => {
   const [userData, setUserData] = useState([]);
-  const [activeTab, setActiveTab] = useState(""); // State for active tab
+  const [activeTab, setActiveTab] = useState(""); 
+  const [currentID, setcurrentID] = useState(""); 
   const navigate = useNavigate(); // Use useNavigate for navigation
   const handleTabChange = (tab) => {
     setActiveTab(tab); // Update activeTab state correctly
   };
-  
+  const location = useLocation();
+  const data = location.state;
   useEffect(() => {
     const values =JSON.parse(localStorage.getItem('currentUser'));
+    fetchData(values[0].RegNumber);
       if(values === '' || values === null || values === undefined){
         navigate("/");
         return;
       }
-      setTimeout(() => {
-        fetchData(values[0].RegNumber);
-      }, 1000);
+      if(data !== ""){
+        setcurrentID(data)
+      }
   }, []); // Empty dependency array, so it runs only once when the component mounts
  
   const fetchData = async (ID) => {
     try {
       const response = await axios.get(apiUrl);
-      const filterVal = response.data.filter((record) =>
-        record.RegistrationNumber === ID
-      );
+      const filterVal = []
+      if(currentID !== ""){
+        filterVal = response.data.filter((record) =>
+          record.RegistrationNumber === currentID
+        );
+      }
+      else{
+        filterVal = response.data.filter((record) =>
+          record.RegistrationNumber === ID
+        );
+      }
+    
       if(filterVal.length > 0 ){
         setUserData(filterVal[0]);
         setActiveTab("personal")

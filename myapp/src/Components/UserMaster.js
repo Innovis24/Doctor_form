@@ -382,7 +382,7 @@ const UserMaster = () => {
                   }))}
                 value={currentDoctorName ? { label: `${currentDoctorName}` } : null}
                 onChange={handleUsernameChange}
-                placeholder="Select a Status"
+                placeholder="Select a name"
                 isSearchable
                 className="status_style"
               />

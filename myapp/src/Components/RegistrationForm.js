@@ -12,8 +12,10 @@ import { faUser,faCalendar ,faTransgenderAlt ,faPhone,faEnvelope ,faAddressCard,
 import { useNavigate,useLocation  } from "react-router-dom"; 
 import { Button } from "@mui/material";
 import { faTrash} from '@fortawesome/free-solid-svg-icons';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
-
+const userapiUrl = "http://localhost/Doctor_search/Usermaster.php";
 const RegistrationForm = () => {
   // const [formData, setFormData] = useState({
   //   name: "",
@@ -57,13 +59,27 @@ const RegistrationForm = () => {
   const [currentfilename, setcurrentfilename] = useState();
   const [CurrentSno, setSno] = useState();
   const [imagePath, setimagePath] = useState();
+  const [pwdUsernamePopup, setpwdUsernamePopup] = useState(false);
   const [imageName, setimageName] = useState();
   const [image, setImage] = useState();
   const [Array, setArray] = useState([]);
   const location = useLocation();
   const data = location.state;
   const today = new Date().toISOString().split("T")[0];
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const navigate = useNavigate(); // Use useNavigate for navigation
+
+  //username popup-start
+
+ 
+  const [Arrayval, setArrayVal] = useState([]);
+  const [currentDoctorName, setcurrentDoctorName] = useState("");
+  const [username, setusername] = useState();
+  const [password, setpassword] = useState();
+  const [UserID, setUserID] = useState([]);
+
+   //username popup-end
+
   useEffect(() => {
     const newOne =localStorage.getItem('newUser');
     setnewuser(newOne)
@@ -76,6 +92,7 @@ const RegistrationForm = () => {
    
 
     fetchRegistrations()
+    getUserDetails()
 
     const value = localStorage.getItem('editItem');
     // console.log(data)
@@ -114,6 +131,14 @@ const RegistrationForm = () => {
       toast.error("Failed to fetch registrations!");
     }
   };
+  const getUserDetails = async () => {
+    try {
+      const response = await axios.get(userapiUrl);
+      setArrayVal(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch registrations!");
+    }
+  };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -144,7 +169,13 @@ const RegistrationForm = () => {
               setregNumber(event.target.value);
             
   }
+  const openCreateuser = ()=>{
+    setIsPopupOpen(false)
+    setpwdUsernamePopup(true)
+  }
+
   const handleSubmit = async (e) => {
+
     
     e.preventDefault();
 
@@ -212,6 +243,8 @@ const RegistrationForm = () => {
         });
         if (response.data.code === 200) {
           toast.success(response.data.message, { position: "top-center" });
+          setcurrentDoctorName(capitalizeFirstLetter(name));
+          setUserID(regNumber)
           setname('');
           setfatherName('');
           setphonenumber('');
@@ -232,6 +265,7 @@ const RegistrationForm = () => {
           setuniversity('');
           setstateOfMedicine('');
           setyearOfQualification('');
+          setIsPopupOpen(true)
           
         }else {
           toast.error("Failed to submit the form!", { position: "top-center" });
@@ -309,14 +343,57 @@ const RegistrationForm = () => {
   
   };
 
-  
+  const closePopup = () => {
+    setcurrentDoctorName('');
+    setusername('');
+    setpassword('');
+
+  }
 
   const handleRegisterClick = () => {
     navigate("/registration_list"); // Redirect to registration form
     localStorage.setItem('editItem',false );
   };
 
+   const handleInputChange = (event) => {
+      const newUsername = event.target.value;
+      setusername(newUsername);
+      const validRecords = Arrayval.filter((record) => record && record.UserName);
+  
+      const isUsernameTaken = validRecords.some((record) =>
+        record.UserName.toLowerCase() === newUsername.toLowerCase()
+      );
+  
+      if (isUsernameTaken ) {
+        toast.error('Username already exists'); // Show an error notification
+      }
+    };
 
+  const handleSave = async () => {
+
+    const FormData = {
+      ID: UserID,
+      name: currentDoctorName,
+      userName: username,
+      password: password,
+      userRole: "Doctor",
+      status:"Active"
+    };
+    const response = await axios.post(userapiUrl, FormData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.data.code === 200) {
+      toast.success(response.data.message);
+      setcurrentDoctorName('');
+      setusername('');
+      setpassword('');
+      setIsPopupOpen(true)
+      navigate('/registration_list', { state:UserID});
+    }
+    else {
+      toast.error("Failed to submit the form!", { position: "top-center" });
+    }
+  }
 
   return (
     <div className="form-container">
@@ -326,7 +403,22 @@ const RegistrationForm = () => {
         toastStyle={{ backgroundColor: "white", color: 'black' ,  fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }}
 />
-      
+{isPopupOpen === true && pwdUsernamePopup === false && (
+      <Popup open={isPopupOpen} closeOnDocumentClick onClose={() => setIsPopupOpen(false)}>
+      <div className="bg-white rounded-lg shadow-lg p-6 max-w-md text-center">
+        <h2 className="text-2xl font-bold mb-4 text-green-600">Thank You!</h2>
+        <p className="text-gray-700">You have successfully registered. Please create a username and password to view your profile.</p>
+        <button
+        onClick={openCreateuser} 
+          className="usernamepwd_style"
+        >
+          Create Username & Password
+        </button>
+      </div>
+    </Popup>
+)}
+
+{isPopupOpen === false && pwdUsernamePopup === false && (
       <div className="form-box">
         <h1 className="fontFam">New Registration </h1>
         {/* Back Button */}
@@ -569,6 +661,37 @@ const RegistrationForm = () => {
          
           </form>
       </div>
+      )}
+
+{pwdUsernamePopup && 
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Create Your Account</h2>
+            <div className="mrg_bottom">
+              <div className="ft_wt">User name</div>
+              <input
+                type="text"
+                placeholder="Enter username"
+                value={username}
+                maxLength={50}
+                onChange={(e) => handleInputChange(e)}
+              />
+              
+              <div className="ft_wt">Password</div>
+              <input
+                type="text"
+                placeholder="Enter password"
+                value={password}
+                maxLength={50}
+                onChange={(e) => setpassword(e.target.value)}
+              />
+            </div>
+
+            <button onClick={handleSave} className="btn_submitclr">Submit</button>
+            <button onClick={closePopup} className="btn_cancelClr">Clear</button>
+          </div>
+        </div>
+      }
     </div>
   );
 };
