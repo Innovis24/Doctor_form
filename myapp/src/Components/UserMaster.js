@@ -259,7 +259,7 @@ const UserMaster = () => {
 
                             />
                             <FontAwesomeIcon className="view-button icon_style" icon={faSearch} style={{ marginRight: "8px" }} onClick={() => handleSearch()}/>
-                            <FontAwesomeIcon className="view-button icon_style" icon={faTimes} style={{ marginRight: "8px" }} onClick={() => clear()}/>
+                            <FontAwesomeIcon className="view-button cancelStyle" icon={faTimes} style={{ marginRight: "8px" }} onClick={() => clear()}/>
 
                           {/* <SearchIcon className="search-icon" onClick={() => ()} />
 
@@ -299,7 +299,7 @@ const UserMaster = () => {
                               <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleEdit(record)}/>
                              
                              { record && record.UserRole !== "Admin"  &&  (
-                              <FontAwesomeIcon className="view-button cancelStyle" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)}/>
+                              <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)}/>
                               )}
                               
                              </div>
