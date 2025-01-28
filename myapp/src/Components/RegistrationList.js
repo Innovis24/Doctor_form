@@ -55,7 +55,7 @@ const RegistrationList = () => {
   const totalPages = Math.ceil(registrations.length / rowsPerPage);
   useEffect(() => {
     const values =JSON.parse(localStorage.getItem('currentUser'));
-    if(values)
+   
     if(values === '' || values === null || values === undefined){
       navigate("/");
       return;
@@ -217,7 +217,7 @@ const RegistrationList = () => {
             <th>Father / Spouse Name</th>
             <th>Qualification</th>
             <th>UPRN Number</th>
-            <th>Registration No</th>
+            {/* <th>Registration No</th> */}
             <th>Year of Registration</th>
             <th>State of Medicine</th>
             <th>City</th>
@@ -238,12 +238,20 @@ const RegistrationList = () => {
               />
                   </div>
                 </td> */}
-                <td className="text-wrap">{record.Name}</td>
+                <td className="text-wrap">
+                  <div>
+                  {record.Name}
+                  <div className="regNumFont">
+                 #{record.RegistrationNumber}
+                  </div>
+                  </div>
+                 
+                  </td>
                 <td className="text-wrap txt_trans">{record.Gender}</td>
                 <td className="text-wrap">{record.Fathername}</td>
                 <td className="text-wrap">{record.Qualification}</td>
                 <td className="text-wrap">{record.Uprnnumber}</td>
-                <td className="text-wrap">{record.RegistrationNumber}</td>
+                {/* <td className="text-wrap">{record.RegistrationNumber}</td> */}
                 <td className="text-wrap">{record.Yearofregistration}</td>
                 <td className="text-wrap">{record.Stateofmedicine}</td>
                 <td className="text-wrap">{record.City}</td>

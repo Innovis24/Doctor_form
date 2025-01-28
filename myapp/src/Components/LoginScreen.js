@@ -44,8 +44,8 @@ const LoginScreen = () => {
     }
     const filtered = Array.filter((item) => item.UserName === username); 
     if(filtered.length > 0 ){
-      const filtered = Array.filter((item) => item.Password === password && item.Status === "Active"); 
-      if(filtered.length>0){
+      const filteredVal = filtered.filter((item) => item.Password === password && item.Status === "Active"); 
+      if(filteredVal.length>0){
         // onLogin();
         const loginFilter = currentuser.filter((item) => item.UserName === username );
         const currentUserRole =  loginFilter

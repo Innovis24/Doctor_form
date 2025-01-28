@@ -58,6 +58,7 @@ const RegistrationForm = () => {
   const [imagePath, setimagePath] = useState();
   const [imageName, setimageName] = useState();
   const [image, setImage] = useState();
+  const [Array, setArray] = useState([]);
   const location = useLocation();
   const data = location.state;
   const today = new Date().toISOString().split("T")[0];
@@ -70,6 +71,7 @@ const RegistrationForm = () => {
       return;
     }
 
+    fetchRegistrations()
 
     const value = localStorage.getItem('editItem');
     // console.log(data)
@@ -100,6 +102,14 @@ const RegistrationForm = () => {
     }
   }, [data,navigate]);
 
+  const fetchRegistrations = async () => {
+    try {
+      const response = await axios.get(apiUrl);
+      setArray(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch registrations!");
+    }
+  };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -118,7 +128,18 @@ const RegistrationForm = () => {
   function capitalizeFirstLetter(string) {
     return string.replace(/^\w/, c => c.toUpperCase());
   }
-  
+  const checkregnumber = (event) =>{
+            const value = event.target.value;
+            const isUsernameTaken = Array.some((record) =>
+              record.RegistrationNumber.toLowerCase() === value.toLowerCase()
+            );
+
+            if (isUsernameTaken && value.length > 0) {
+              toast.error('Given Register number is already exists'); // Show an error notification
+            }
+              setregNumber(event.target.value);
+            
+  }
   const handleSubmit = async (e) => {
     
     e.preventDefault();
@@ -148,7 +169,15 @@ const RegistrationForm = () => {
         return;
       }
   
+      const checkRegNumber = Array.some((record) =>
+        record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
+      );
 
+      if (checkRegNumber && regNumber.length > 0) {
+        toast.error('Given Register number is already exists'); // Show an error notification
+        return;
+      }
+ 
       try {
         //insert new record
         if(CurrentSno === "" || CurrentSno === undefined || CurrentSno === null){
@@ -173,7 +202,7 @@ const RegistrationForm = () => {
         formData.append('yearOfQualification', yearOfQualification);
         formData.append('images', image)
         console.log(formData)
-        const response =  await axios.post(apiUrl, formData, {
+        const response =  await axios.post(apiUrl+ '?action=create', formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         if (response.data.code === 200) {
@@ -427,7 +456,9 @@ const RegistrationForm = () => {
             <div className="input-group">
             <FontAwesomeIcon icon={faIdCard } />
               <span className="asterisk">*</span>
-              <input type="text" placeholder="Registration Number" onChange={(e) => setregNumber(e.target.value)} value={regNumber} maxLength={50} />
+              <input type="text" placeholder="Registration Number" 
+              onChange={(e) => checkregnumber(e)}
+              value={regNumber} maxLength={50} />
             </div>
             <div className="input-group">
             <FontAwesomeIcon icon={faCalendarAlt } />

@@ -59,7 +59,7 @@
     gap: 8px; /* Space between icon and text */
     color: black;
     border: none;
-    padding: 8px 12px;
+    padding: 5px;
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
@@ -546,7 +546,7 @@ input::placeholder {
 /* ResponsiveTable.css */
 .table-container {
   width: 100%;
-  max-height: 400px;
+  max-height: 410px;
   overflow-x: auto; /* Enables horizontal scrolling on small screens */
 }
 .text-wrap {
@@ -642,3 +642,6 @@ input::placeholder {
   box-shadow: none;
   margin-right: 24px;
 }
+.regNumFont{
+  color: #3c7da5
+ }
