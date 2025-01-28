@@ -20,12 +20,21 @@ const Header = ({ title }) => {
   
       const values =JSON.parse(localStorage.getItem('currentUser'));
       const newOne =localStorage.getItem('newUser');
-      if(!newOne &&  !values ){
+      if(!newOne &&  values ){
+        setCurrentLogin(values[0].UserRole)
+      } 
+      else if(newOne &&  !values ){
         setCurrentLogin()
       }
-      else{
-        setCurrentLogin(values[0].UserRole)
+      else {
+        setCurrentLogin()
       }
+      // if(!newOne &&  !values ){
+      //   setCurrentLogin()
+      // }
+      // else{
+      //   setCurrentLogin(values[0].UserRole)
+      // }
       
     }, []);
   const OpenPopup= () => {
