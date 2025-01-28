@@ -144,14 +144,15 @@ const UserMaster = () => {
         return;
     }
 
-    const isUsernameTaken = Arrayval.some((record) =>
-      record.UserName.toLowerCase() === username.toLowerCase()
-    );
-
-    if (isUsernameTaken && username.length > 0) {
-      toast.error('Username already exists'); // Show an error notification
-    }
+    
     if (popupTitle[0].btnNmae === "Submit") {
+      const isUsernameTaken = Arrayval.some((record) =>
+        record.UserName.toLowerCase() === username.toLowerCase()
+      );
+  
+      if (isUsernameTaken && username.length > 0) {
+        toast.error('Username already exists'); // Show an error notification
+      }
       const FormData = {
         ID: UserID,
         name: currentDoctorName,

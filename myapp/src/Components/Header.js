@@ -22,7 +22,6 @@ const Header = ({ title }) => {
       const newOne =localStorage.getItem('newUser');
       if(!newOne &&  !values ){
         setCurrentLogin()
-        
       }
       else{
         setCurrentLogin(values[0].UserRole)

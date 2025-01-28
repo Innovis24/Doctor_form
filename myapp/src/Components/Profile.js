@@ -149,19 +149,19 @@ const Profile = () => {
         {activeTab === "registration" && (
            <div className="tab-content active">
             <div className="registration-info-item1">
-                <FontAwesomeIcon icon={faIdCard} />
+                <FontAwesomeIcon icon={faIdCard} className="icon_style_profile" />
               <strong>Registration No:</strong> {userData.RegistrationNumber}
             </div>
             <div className="registration-info-item1">
-            <FontAwesomeIcon icon={faCalendarAlt} />
+            <FontAwesomeIcon icon={faCalendarAlt} className="icon_style_profile" />
               <strong>Year of Registration:</strong> {userData.Yearofregistration}
             </div>
             <div className="registration-info-item1">
-            <FontAwesomeIcon icon={faBriefcase} />
+            <FontAwesomeIcon icon={faBriefcase} className="icon_style_profile" />
               <strong>State of Medicine:</strong> {userData.Stateofmedicine}
             </div>
             <div className="registration-info-item1">
-            <FontAwesomeIcon icon={faUniversity} />
+            <FontAwesomeIcon icon={faUniversity} className="icon_style_profile" />
               <strong>University:</strong> {userData.Universityname}
             </div>
           </div>
@@ -171,15 +171,15 @@ const Profile = () => {
         {activeTab === "qualification" && (
            <div className="tab-content active">
             <div className="qualification-info-item1">
-             <FontAwesomeIcon icon={faGraduationCap} />
+             <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
               <strong>Qualification:</strong> {userData.Qualification}
             </div>
             <div className="qualification-info-item1">
-             <FontAwesomeIcon icon={faStethoscope} />
+             <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
               <strong>Specialization:</strong> {userData.Specialization}
             </div>
             <div className="qualification-info-item1">
-           <FontAwesomeIcon icon={faCalendarCheck} />
+           <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
               <strong>Year of Qualification:</strong> {userData.Yearofqualification}
             </div>
           </div>

@@ -6,7 +6,9 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   scrollbar-width: thin; /* For modern browsers */
-  scrollbar-color: #00b4b6 #f5f5f5; /* Scrollbar colors */
+  height: 80vh; /* Limit height of profile container */
+  overflow-y: auto; /* Enable vertical scrolling */
+
 }
 
 .profile-header {
@@ -180,23 +182,12 @@ padding: 17px;
   gap: 10px; /* Space between icon and text */
   margin-bottom: 15px; /* Spacing between items */
   padding: 10px 15px; /* Inner padding */
-  background: #00b4b6; /* Same light grey background as registration */
   border-radius: 8px; /* Rounded corners */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-/* Hover Effect */
-.qualification-info-item1:hover {
-  background: #eaeaea; /* Slightly lighter grey on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
-}
-/* .svg-inline--fa {
-  display: var(--fa-display, inline-block);
-  height: 1em;
-  overflow: visible;
-  vertical-align: -0.125em;
-  color: #00b4b6;
-} */
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .qualification-info-item1 {
@@ -236,4 +227,7 @@ padding: 17px;
   font-weight: bold;
  
   margin-right: 5px;
+}
+.icon_style_profile{
+  color: #00b4b6; 
 }
