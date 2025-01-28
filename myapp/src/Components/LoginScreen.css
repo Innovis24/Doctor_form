@@ -140,3 +140,23 @@ body {
     font-family: 'Roboto', sans-serif;
     color: gray; /* Optional: Change placeholder color */
   }
+  .signuplg {
+    color: #00b4b6;
+    border: none;
+    padding: 5px 10px; /* Smaller padding */
+    font-size: 14px; /* Reduced font size */
+    cursor: pointer;
+    border-radius: 3px;
+   
+  }
+  
+  .signuplg:hover {
+    color: #069a9c; /* Change text color */
+    text-decoration: underline; /* Add underline */
+  }
+  
+  
+  .register-prompt {
+    text-align: center;
+  
+  }

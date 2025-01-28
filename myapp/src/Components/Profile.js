@@ -4,17 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhoneAlt, faEnvelope, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake,faIdCard,faCalendarAlt,faBriefcase ,faUniversity,faGraduationCap,faStethoscope,faCalendarCheck} from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate } from "react-router-dom"; // Use useNavigate for React Router v6+
-import doctorIllustration from '../assets/image/img-1.jpg';
 import axios from "axios";
 import { toast } from 'react-toastify';
+
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
-  const [activeTab, setActiveTab] = useState("personal"); // State for active tab
-  const [error, setError] = useState(null); // Error state
-  const[handleTabChange,sethandleTabChange]=useState(null);
+  const [userData, setUserData] = useState([]);
+  const [activeTab, setActiveTab] = useState(""); // State for active tab
   const navigate = useNavigate(); // Use useNavigate for navigation
+  const handleTabChange = (tab) => {
+    setActiveTab(tab); // Update activeTab state correctly
+  };
   
   useEffect(() => {
     const values =JSON.parse(localStorage.getItem('currentUser'));
@@ -22,9 +23,11 @@ const Profile = () => {
         navigate("/");
         return;
       }
+      setTimeout(() => {
         fetchData(values[0].RegNumber);
-    
+      }, 1000);
   }, []); // Empty dependency array, so it runs only once when the component mounts
+ 
   const fetchData = async (ID) => {
     try {
       const response = await axios.get(apiUrl);
@@ -33,6 +36,7 @@ const Profile = () => {
       );
       if(filterVal.length > 0 ){
         setUserData(filterVal[0]);
+        setActiveTab("personal")
       }
       else{
         setUserData([]);
@@ -42,16 +46,18 @@ const Profile = () => {
       toast.error("Failed to fetch registrations!");
     }
   };
+ 
   return (
     <div>
       <Header title="Profile" />
       <div className="profile-container">
         {/* Profile Header */}
         <div className="profile-header">
-            <img
-        src={doctorIllustration}
-        alt="Doctor Illustration"
-        className="illustration-img responsive-image" />
+        <img 
+   
+    className="profile-image"
+    src={`http://localhost/Doctor_search/${userData.image_path}`} 
+  />
   {/* <h1>{userData.Name}</h1> */}
 </div>
 
@@ -72,84 +78,87 @@ const Profile = () => {
 
         {/* Personal Info */}
         {activeTab === "personal" && (
-          <div className="tab-content active">
+          <div className="tab-content actively">
             <div className="personal-info-item">
               <FontAwesomeIcon icon={faUser} />
               <strong>Name:</strong> {userData.Name}
             </div>
-            {/* <div className="personal-info-item">
+            <div className="personal-info-item">
               <FontAwesomeIcon icon={faTransgenderAlt} />
-              <strong>Gender:</strong> {userData.gender}
+              <strong>Gender:</strong> {userData.Gender}
             </div>
             <div className="personal-info-item">
               <FontAwesomeIcon icon={faBirthdayCake} />
-              <strong>Date of Birth:</strong> {userData.dob}
+              <strong>Date of Birth:</strong> {userData.DOB}
             </div>
             <div className="personal-info-item">
               <FontAwesomeIcon icon={faPhoneAlt} />
-              <strong>Phone:</strong> {userData.phone}
+              <strong>Phone:</strong> {userData.Phonenumber}
             </div>
             <div className="personal-info-item">
               <FontAwesomeIcon icon={faEnvelope} />
-              <strong>Email:</strong> {userData.email}
+              <strong>Email:</strong> {userData.Email}
             </div>
             <div className="personal-info-item">
               <FontAwesomeIcon icon={faCity} />
-              <strong>City:</strong> {userData.city}
+              <strong>City:</strong> {userData.City}
             </div>
             <div className="personal-info-item">
               <FontAwesomeIcon icon={faMapMarkerAlt} />
-              <strong>State:</strong> {userData.state}
+              <strong>State:</strong> {userData.State}
             </div>
             <div className="personal-info-item">
                 <FontAwesomeIcon icon={faMapMarkerAlt} />
-              <strong>Address:</strong> {userData.address}
-            </div> */}
+              <strong>Address:</strong> {userData.Address}
+            </div>
           </div>
         )}
 
-        {/* Registration Info */}
-        {/* {activeTab === "registration" && (
+        {/*Registration Info */}
+        {activeTab === "registration" && (
            <div className="tab-content active">
             <div className="registration-info-item">
                 <FontAwesomeIcon icon={faIdCard} />
-              <strong>Registration No:</strong> {userData.registrationNumber}
+              <strong>Registration No:</strong> {userData.RegistrationNumber}
             </div>
             <div className="registration-info-item">
             <FontAwesomeIcon icon={faCalendarAlt} />
-              <strong>Year of Registration:</strong> {userData.yearOfRegistration}
+              <strong>Year of Registration:</strong> {userData.Yearofregistration}
             </div>
             <div className="registration-info-item">
             <FontAwesomeIcon icon={faBriefcase} />
-              <strong>State of Medicine:</strong> {userData.stateOfMedicine}
+              <strong>State of Medicine:</strong> {userData.Stateofmedicine}
             </div>
             <div className="registration-info-item">
             <FontAwesomeIcon icon={faUniversity} />
-              <strong>University:</strong> {userData.university}
+              <strong>University:</strong> {userData.Universityname}
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Qualification Info */}
-        {/* {activeTab === "qualification" && (
+        {activeTab === "qualification" && (
            <div className="tab-content active">
             <div className="qualification-info-item">
              <FontAwesomeIcon icon={faGraduationCap} />
-              <strong>Qualification:</strong> {userData.qualification}
+              <strong>Qualification:</strong> {userData.Qualification}
             </div>
             <div className="qualification-info-item">
              <FontAwesomeIcon icon={faStethoscope} />
-              <strong>Specialization:</strong> {userData.specialization}
+              <strong>Specialization:</strong> {userData.Specialization}
             </div>
             <div className="qualification-info-item">
            <FontAwesomeIcon icon={faCalendarCheck} />
-              <strong>Year of Qualification:</strong> {userData.yearOfQualification}
+              <strong>Year of Qualification:</strong> {userData.Yearofqualification}
             </div>
           </div>
-        )} */}
-
-        {/* Close Button */}
-        <button className="close-button" onClick={() => console.log("Close")}>Close</button>
+        )}
+      {/* Close Button */}
+        <div>
+        <button className="close-button-Profile" onClick={() => console.log("Close")}>Close</button>
+        </div>
+      
+       
       </div>
     </div>
   );

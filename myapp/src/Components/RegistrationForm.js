@@ -37,6 +37,7 @@ const RegistrationForm = () => {
   // });
   const [name, setname] = useState();
   const [fatherName, setfatherName] = useState();
+  const [newuser, setnewuser] = useState();
   const [phonenumber, setphonenumber] = useState();
   const [dob, setdob] = useState();
   const [gender, setgender] = useState();
@@ -64,12 +65,15 @@ const RegistrationForm = () => {
   const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate(); // Use useNavigate for navigation
   useEffect(() => {
+    const newOne =localStorage.getItem('newUser');
+    setnewuser(newOne)
 
     const values =JSON.parse(localStorage.getItem('currentUser'));
-    if(values === '' || values === null || values === undefined){
+    if((values === '' || values === null || values === undefined) && (!newOne )){
       navigate("/");
       return;
     }
+   
 
     fetchRegistrations()
 
@@ -326,9 +330,10 @@ const RegistrationForm = () => {
         <h1 className="fontFam">New Registration </h1>
         {/* Back Button */}
         <div className="btn-align">
-  <button className="register-button" onClick={handleRegisterClick}>
+          {!newuser && <button className="register-button" onClick={handleRegisterClick}>
     Back
-  </button>
+  </button>}
+  
 </div>
 
         <form onSubmit={handleSubmit}>

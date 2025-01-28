@@ -67,6 +67,10 @@ const LoginScreen = () => {
     }
          // Navigate to the home page
 };
+const handleRegisterClick = () => {
+  localStorage.setItem('newUser',true);
+  navigate("/registration_form"); 
+};
   return (
     <div className="login-container">
        <ToastContainer
@@ -128,7 +132,15 @@ const LoginScreen = () => {
              Login
             </button>
               </div>
-            
+              <div className="register-prompt">
+              <p>Don't have an account?</p>
+              <div
+                className="signuplg"
+                onClick={handleRegisterClick}
+              >
+                Sign Up
+              </div>
+            </div>
           </form>
         </div>
       </div>
