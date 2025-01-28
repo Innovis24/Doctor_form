@@ -177,14 +177,15 @@ const RegistrationForm = () => {
         record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
       );
 
-      if (checkRegNumber && regNumber.length > 0) {
-        toast.error('Given Register number is already exists'); // Show an error notification
-        return;
-      }
+     
  
       try {
         //insert new record
         if(CurrentSno === "" || CurrentSno === undefined || CurrentSno === null){
+          if (checkRegNumber && regNumber.length > 0) {
+            toast.error('Given Register number is already exists'); // Show an error notification
+            return;
+          }
           let formData = new FormData();
         formData.append('name', capitalizeFirstLetter(name));
         formData.append('fatherName', capitalizeFirstLetter(fatherName));

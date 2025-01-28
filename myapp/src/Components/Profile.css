@@ -161,4 +161,31 @@ padding: 17px;
     padding: 8px 16px;
   }
 }
+.registration-info-item1 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #f9f9f9;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+}
+.qualification-info-item1 {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between icon and text */
+  background-color: #f9f9f9; /* Light background for visibility */
+  padding: 10px 15px; /* Padding around each item */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  font-size: 16px; /* Text size */
+  margin-bottom: 12px
+}
+.cls_btn_style{
+  display: flex;
+      justify-content: center;
+      padding: 17px;
+      height: 34px;
   
+}

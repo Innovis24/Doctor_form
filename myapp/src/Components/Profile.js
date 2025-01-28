@@ -117,19 +117,19 @@ const Profile = () => {
         {/*Registration Info */}
         {activeTab === "registration" && (
            <div className="tab-content active">
-            <div className="registration-info-item">
+            <div className="registration-info-item1">
                 <FontAwesomeIcon icon={faIdCard} />
               <strong>Registration No:</strong> {userData.RegistrationNumber}
             </div>
-            <div className="registration-info-item">
+            <div className="registration-info-item1">
             <FontAwesomeIcon icon={faCalendarAlt} />
               <strong>Year of Registration:</strong> {userData.Yearofregistration}
             </div>
-            <div className="registration-info-item">
+            <div className="registration-info-item1">
             <FontAwesomeIcon icon={faBriefcase} />
               <strong>State of Medicine:</strong> {userData.Stateofmedicine}
             </div>
-            <div className="registration-info-item">
+            <div className="registration-info-item1">
             <FontAwesomeIcon icon={faUniversity} />
               <strong>University:</strong> {userData.Universityname}
             </div>
@@ -139,22 +139,22 @@ const Profile = () => {
         {/* Qualification Info */}
         {activeTab === "qualification" && (
            <div className="tab-content active">
-            <div className="qualification-info-item">
+            <div className="qualification-info-item1">
              <FontAwesomeIcon icon={faGraduationCap} />
               <strong>Qualification:</strong> {userData.Qualification}
             </div>
-            <div className="qualification-info-item">
+            <div className="qualification-info-item1">
              <FontAwesomeIcon icon={faStethoscope} />
               <strong>Specialization:</strong> {userData.Specialization}
             </div>
-            <div className="qualification-info-item">
+            <div className="qualification-info-item1">
            <FontAwesomeIcon icon={faCalendarCheck} />
               <strong>Year of Qualification:</strong> {userData.Yearofqualification}
             </div>
           </div>
         )}
       {/* Close Button */}
-        <div>
+        <div className="cls_btn_style">
         <button className="close-button-Profile" onClick={() => console.log("Close")}>Close</button>
         </div>
       
