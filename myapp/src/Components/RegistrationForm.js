@@ -169,6 +169,28 @@ const RegistrationForm = () => {
               setregNumber(event.target.value);
             
   }
+  const handlecancel=()=>{
+    setname('');
+    setfatherName('');
+    setphonenumber('');
+    setdob('');
+    setgender('');
+    setemail('');
+    setaddress('');
+    setcity('');
+    setstate('');
+    setImage('');
+    setcurrentfilename()
+    setqualification('');
+    setspecialization('');
+    setregNumber('');
+    setregYear('');
+    setemploymentType('');
+    setuprn('');
+    setuniversity('');
+    setstateOfMedicine('');
+    setyearOfQualification('');
+  }
   const openCreateuser = ()=>{
     setIsPopupOpen(false)
     setpwdUsernamePopup(true)
@@ -351,8 +373,14 @@ const RegistrationForm = () => {
   }
 
   const handleRegisterClick = () => {
-    navigate("/registration_list"); // Redirect to registration form
-    localStorage.setItem('editItem',false );
+    if (newuser === "true"){
+      localStorage.clear();
+      navigate("/");
+    }else{
+      navigate("/registration_list"); // Redirect to registration form
+      localStorage.setItem('editItem',false );
+    }
+   
   };
 
    const handleInputChange = (event) => {
@@ -423,14 +451,15 @@ const RegistrationForm = () => {
         <h1 className="fontFam">New Registration </h1>
         {/* Back Button */}
         <div className="btn-align">
-          {!newuser && <button className="register-button" onClick={handleRegisterClick}>
+          <button className="register-button" onClick={handleRegisterClick}>
     Back
-  </button>}
+  </button>
   
 </div>
 
-        <form onSubmit={handleSubmit}>
+        <form >
          {/* Name and Father/Spouse Name */}
+         <div className="grid-cols-2">
          <div className="input-group">
             <FontAwesomeIcon icon={faUser} />
             <span className="asterisk">*</span>
@@ -451,6 +480,7 @@ const RegistrationForm = () => {
               onChange={(e) => setfatherName(e.target.value)} value={fatherName}
               maxLength={100}
             />            
+          </div>
           </div>
           
           {/* {errors.name && <span className="error">{errors.name}</span>} */}
@@ -652,11 +682,15 @@ const RegistrationForm = () => {
             </div>
             
         {/* Submit Button */}
-<div className="submit-button-container"><center>
-  <button type="submit" className="submit-button">
-    Submit
-  </button></center>
-</div>
+      <div className="submit-button-container grid-cols-3">
+      
+        <button type="submit" className="submit-button mrg_right_submit" onClick={handleSubmit}>
+          Submit
+        </button>
+        <button className="cancel_btn_form" onClick={handlecancel}>
+          Cancel
+        </button>
+      </div>
 
          
           </form>

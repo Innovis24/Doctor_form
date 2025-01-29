@@ -107,7 +107,7 @@ const handleRegisterClick = () => {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group mrn_bottom15">
               <label htmlFor="password" className="form-label">
                 Password
               </label>
@@ -122,11 +122,11 @@ const handleRegisterClick = () => {
               />
             </div>
 
-            {/* <div className="form-footer">
+            <div className="form-footer">
               <a href="#" className="forgot-password">
                 Forgot Password
               </a>
-            </div> */}
+            </div>
               <div className="logjustify">
               <button  className="loginBtn" >
              Login
