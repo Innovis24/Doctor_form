@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt,faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Button } from "@mui/material";
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const Profile = () => {
@@ -37,6 +37,7 @@ const Profile = () => {
   const [qualification, setqualification] = useState();
   const [yearOfQualification, setyearOfQualification] = useState();
   const [CurrentSno, setSno] = useState();
+  const [currentfilename, setcurrentfilename] = useState();
   const [imagePath, setimagePath] = useState();
   const [imageName, setimageName] = useState();
   const [image, setImage] = useState();
@@ -120,7 +121,7 @@ const Profile = () => {
     setcity(data.City);
     setstate(data.State);
     setImage(data.image_name);
-    // setcurrentfilename(data.image_name);
+    setcurrentfilename(data.image_name);
     setqualification(data.Qualification);
     setspecialization(data.Specialization);
     setregNumber(data.RegistrationNumber);
@@ -134,6 +135,17 @@ const Profile = () => {
     setimageName(data.image_name);
 
   }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setcurrentfilename(file.name)
+      // Process file upload here (e.g., send it to the server)
+
+      // Clear the input field after file selection
+      // fileInputRef.current.value = null; // Reset the file input field
+    }
+  };
   const SubmitFn = async () => {
 
     if (!name ||
@@ -170,6 +182,19 @@ const Profile = () => {
       toast.error('Given Register number is already exists'); // Show an error notification
       return;
     }
+
+     // check upran
+
+     const isUsernameTaken = valrArr.some((record) =>
+      record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
+    );
+
+    if (isUsernameTaken) {
+      toast.error('Given Uprnnumber is already exists'); // Show an error notification
+      return;
+
+    }
+
     //phone number
     const phoneRegex = /^[0-9]{10}$/;
     if (!phonenumber) {
@@ -188,17 +213,7 @@ const Profile = () => {
       toast.error("Enter a valid email address.");
       return
     }
-    // check upran
-
-    const isUsernameTaken = Array.some((record) =>
-      record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
-    );
-
-    if (isUsernameTaken) {
-      toast.error('Given Uprnnumber is already exists'); // Show an error notification
-      return;
-
-    }
+   
 
     let formData = new FormData();
     formData.append('Sno', capitalizeFirstLetter(CurrentSno));
@@ -290,7 +305,10 @@ const Profile = () => {
     setuprn(event.target.value);
 
   }
-
+  const handleDelete = ()=>{
+    setcurrentfilename('')
+    setImage('')
+  }
   return (
     <div>
       <Header title="Profile" />
@@ -593,7 +611,9 @@ const Profile = () => {
         {/* Qualification Info */}
         {activeTab === "qualification" && (
           <div className="tab-content active">
-            <div className="qualification-info-item1">
+
+        <div className="algin_tab">
+              <div className="qualification-info-item1 tab_input_width">
               <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
               {editItem === true &&
                 <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
@@ -604,8 +624,8 @@ const Profile = () => {
                 </div>
               }
 
-            </div>
-            <div className="qualification-info-item1">
+              </div>
+              <div className="registration-info-item1 tab_input_width txt_transform">
               <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
               {editItem === true &&
                 <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
@@ -617,8 +637,11 @@ const Profile = () => {
 
               }
 
+              </div>
             </div>
-            <div className="qualification-info-item1">
+
+            <div className="algin_tab">
+              <div className="qualification-info-item1 tab_input_width">
               <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
               {editItem === true &&
                 <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
@@ -629,6 +652,53 @@ const Profile = () => {
                 </div>
               }
 
+              </div>
+            </div>
+            <div className="algin_tab">
+              <div className="qualification-info-item1 tab_input_width">
+             
+              <div className="img_style_pro">
+            <div className="img_input" >
+              
+            <input type="file" id="file"  // Attach the ref to the file input
+        onChange={handleFileChange} accept="image/*" style={{
+        display: "none", // Hides the default file input
+      }} />
+          <div className="display_fileupload">
+            <div className="display_flex">
+            <button 
+                  htmlFor="file"
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: "white",
+                    color: "black",
+                    padding: "4Px",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    fontSize: "11px",
+                    border: "1px solid grey",
+                    textTransform:"math-auto",
+                    width: "120px", // Fixed width
+                    // overflow: "hidden", // Hides overflow text
+                    // whiteSpace: "nowrap", // Prevents text wrapping
+                    // textOverflow: "ellipsis",
+                  }}
+                  onClick={() => document.getElementById("file").click()}
+                >
+                <span> Choose File</span> 
+                </button>
+                {(currentfilename !== "" && image !== "" && currentfilename  !== undefined && image !== undefined) &&
+                <FontAwesomeIcon className="view-button" title = 'Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
+            </div>
+                  
+                <span className="filenamestyle">{currentfilename}</span>
+          </div>
+         
+            </div>
+      
+          </div>
+
+              </div>
             </div>
           </div>
         )}
