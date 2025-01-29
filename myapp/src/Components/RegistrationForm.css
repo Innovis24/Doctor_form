@@ -84,7 +84,7 @@ body {
     font-weight: 600;
     font-size: 16px;
     text-align: center;
-    padding: 12px;
+    padding: 12px 30px 12px 30px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
@@ -104,7 +104,7 @@ body {
     font-weight: 600;
     font-size: 16px;
     text-align: center;
-    padding: 12px;
+    padding: 12px 30px 12px 30px;
     border-radius: 8px;
     border: 2px solid #00b4b6;
     cursor: pointer;
@@ -301,4 +301,11 @@ textarea::placeholder {
   }
   .mrg_right_submit{
     margin-right: 18%;
+  }
+  .create_popup_aligm{
+    display: flex;
+    justify-content: space-around;
+  }
+  .create_back_width{
+    width: 26%;
   }

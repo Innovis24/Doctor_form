@@ -155,6 +155,21 @@ body {
     text-decoration: underline; /* Add underline */
   }
   
+  .forget_pwd {
+    color: #00b4b6;
+    border: none;
+    padding: 5px 10px; /* Smaller padding */
+    font-size: 14px; /* Reduced font size */
+    cursor: pointer;
+    border-radius: 3px;
+    text-align: end;
+  }
+  
+  .forget_pwd:hover {
+    color: #069a9c; /* Change text color */
+    text-decoration: underline; /* Add underline */
+  }
+  
   
   .register-prompt {
     text-align: center;
@@ -162,4 +177,7 @@ body {
   }
   .mrn_bottom15{
     margin-bottom: 15px !important;
+  }
+  .acc_mrg_btm{
+    margin-bottom: 5px;
   }

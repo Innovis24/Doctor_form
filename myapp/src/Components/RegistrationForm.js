@@ -96,7 +96,7 @@ const RegistrationForm = () => {
 
     const value = localStorage.getItem('editItem');
     // console.log(data)
-    if(value === "true"){
+    if(value === "true" && data){
       setSno(data.Sno)
       setname(data.Name);
       setfatherName(data.Fathername);
@@ -198,10 +198,9 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
 
-    
     e.preventDefault();
 
- 
+  
     if ( !name ||
       !fatherName ||
       !dob ||
@@ -382,7 +381,9 @@ const RegistrationForm = () => {
     }
    
   };
-
+  const backPwdPopup = ()=>{
+    navigate("/");
+  }
    const handleInputChange = (event) => {
       const newUsername = event.target.value;
       setusername(newUsername);
@@ -436,12 +437,21 @@ const RegistrationForm = () => {
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md text-center">
         <h2 className="text-2xl font-bold mb-4 text-green-600">Thank You!</h2>
         <p className="text-gray-700">You have successfully registered. Please create a username and password to view your profile.</p>
+        <div className="create_popup_aligm">
         <button
         onClick={openCreateuser} 
           className="usernamepwd_style"
         >
           Create Username & Password
         </button>
+        {/* <button
+        onClick={backPwdPopup} 
+          className="usernamepwd_style create_back_width"
+        >
+          Back
+        </button> */}
+        </div>
+       
       </div>
     </Popup>
 )}

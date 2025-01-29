@@ -27,6 +27,9 @@ const LoginScreen = () => {
     })
     .catch((error) => console.error("Error fetching users:", error));
   }
+  const forgetPassword = ()=>{
+    navigate('/forget_password')
+  }
 
   const loginFn = (e) => {
     e.preventDefault();
@@ -63,7 +66,7 @@ const LoginScreen = () => {
     }
     }
     else{
-        toast.error("Your username or password is incorrect. Kindly check it.");
+        toast.error("You don't have an account.");
     }
          // Navigate to the home page
 };
@@ -123,9 +126,12 @@ const handleRegisterClick = () => {
             </div>
 
             <div className="form-footer">
-              <a href="#" className="forgot-password">
-                Forgot Password
-              </a>
+            <div
+                className="forget_pwd"
+                onClick={forgetPassword}
+              >
+                Forget password
+              </div>
             </div>
               <div className="logjustify">
               <button  className="loginBtn" >
@@ -133,12 +139,12 @@ const handleRegisterClick = () => {
             </button>
               </div>
               <div className="register-prompt">
-              <p>Don't have an account?</p>
+              <p className="acc_mrg_btm">Don't have an account?</p>
               <div
                 className="signuplg"
                 onClick={handleRegisterClick}
               >
-                Sign Up
+                Sign up
               </div>
             </div>
           </form>
