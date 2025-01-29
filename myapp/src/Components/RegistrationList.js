@@ -185,9 +185,9 @@ const RegistrationList = () => {
     <div className="list-container">
     <div className="btn-align1">
 
-    {/* <button className="register-button1" onClick={handleRegisterClick}>
+    <button className="register-button1" onClick={handleRegisterClick}>
     <FontAwesomeIcon icon={faPlus} /> Register
-    </button> */}
+    </button>
   </div>
       <div className="controls">
         {/* Search Bar */}
