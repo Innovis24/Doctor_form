@@ -188,7 +188,17 @@ const Profile = () => {
       toast.error("Enter a valid email address.");
       return
     }
+    // check upran
 
+    const isUsernameTaken = Array.some((record) =>
+      record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
+    );
+
+    if (isUsernameTaken) {
+      toast.error('Given Uprnnumber is already exists'); // Show an error notification
+      return;
+
+    }
 
     let formData = new FormData();
     formData.append('Sno', capitalizeFirstLetter(CurrentSno));
@@ -267,6 +277,20 @@ const Profile = () => {
     setregNumber(event.target.value);
 
   }
+  const checkURPN = (event) => {
+    const value = event.target.value;
+    const isUsernameTaken = Array.some((record) =>
+      record.Uprnnumber.toLowerCase() === value.toLowerCase()
+    );
+
+    if (isUsernameTaken && value.length > 0) {
+      toast.error('Given Uprnnumber is already exists'); // Show an error notification
+
+    }
+    setuprn(event.target.value);
+
+  }
+
   return (
     <div>
       <Header title="Profile" />
@@ -335,7 +359,7 @@ const Profile = () => {
                 {editItem === true &&
                   <input
                     type="text" className="txt_transform pro_input"
-                    placeholder="Name"
+                    placeholder="Father name"
                     value={fatherName}
                     onChange={(e) => setfatherName(e.target.value)}
                     maxLength={100}
@@ -343,7 +367,7 @@ const Profile = () => {
                 }
                 {editItem === false &&
                   <div>
-                    <strong>Name:</strong> {userData.Name}
+                    <strong>Father Name:</strong> {userData.Fathername}
                   </div>
                 }
 
@@ -523,7 +547,9 @@ const Profile = () => {
               <div className="registration-info-item1 tab_input_width txt_transform">
                 <FontAwesomeIcon icon={faBarcode} className="icon_style_profile" />
                 {editItem === true &&
-                  <input type="text" placeholder="UPRN Number" className="txt_transform pro_input" onChange={(e) => setuprn(e.target.value)} value={uprn} maxLength={50} />
+                  <input type="text" placeholder="UPRN Number" className="txt_transform pro_input" 
+                  onChange={(e) => checkURPN(e)}
+                    value={uprn} maxLength={50} />
                 }
                 {editItem === false &&
                   <div>
