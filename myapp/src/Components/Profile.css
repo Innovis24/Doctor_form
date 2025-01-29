@@ -1,20 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 .profile-container {
-  max-width: 900px;
-  margin: 50px auto;
+  max-width: 94%;
+  margin: 17px auto;
   background: white;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   scrollbar-width: thin; /* For modern browsers */
-  height: 80vh; /* Limit height of profile container */
+  height: 90vh; /* Limit height of profile container */
   overflow-y: auto; /* Enable vertical scrolling */
 
 }
-
+.font_family_robot{
+  font-family: 'Roboto', sans-serif;
+}
 .profile-header {
   position: relative;
   background: linear-gradient(135deg, #4bd6d8, #00b4b6);
-  height: 200px;
+  height: 155px;
 }
 
 .profile-header img {
@@ -22,7 +25,7 @@
   bottom: 5px;
   left: 20px;
   width: 100px;
-  height: 140px;
+  height: 135px;
   border-radius: 8px;
   border: 3px solid white;
 }
@@ -56,7 +59,19 @@ padding: 17px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
- 
+  padding: 11px 18px 11px 18px;
+
+}
+
+.submit-button-Profile {
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10%;
+  padding: 11px 18px 11px 18px;
+
 }
 
 .close-button-Profile:hover {
@@ -191,7 +206,7 @@ padding: 17px;
 /* Responsive Design */
 @media (max-width: 768px) {
   .qualification-info-item1 {
-      flex-direction: column; /* Stack content vertically */
+      flex-direction: row; /* Stack content vertically */
       align-items: flex-start; /* Align content to the left */
   }
 }
@@ -231,3 +246,51 @@ padding: 17px;
 .icon_style_profile{
   color: #00b4b6; 
 }
+.algin_tab{
+  display: flex;
+    gap: 4%;
+}
+.tab_input_width{
+  width: 45%;
+}
+@media only screen and (max-width: 600px) {
+  .algin_tab{
+    display: block;
+      gap: 4%;
+  }
+  .tab_input_width{
+    width: auto;
+  }
+}
+.edit_icon_pad{
+  display: flex;
+    justify-content: end;
+    padding: 22px;
+    color: white;
+    font-size: 18px;
+}
+.pro_input{
+  width: 100%;
+  height: 26px;
+  border: 1px solid grey;
+    border-radius: 4px;
+}
+.cursor{
+  cursor: pointer;
+}
+.pro_GENDER{
+  width: 100%;
+  height: 30px;
+  border: 1px solid grey;
+    border-radius: 4px;
+}
+.padding_align{
+  padding: 5px 20px 7px 20px !important;
+}
+.pro_emploType {
+  width: 252%;
+  height: 30px;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
