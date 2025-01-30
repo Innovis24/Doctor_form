@@ -195,7 +195,37 @@ const RegistrationForm = () => {
     setIsPopupOpen(false)
     setpwdUsernamePopup(true)
   }
+ const checkURPN = (event) => {
+    const value = event.target.value;
+    const isUsernameTaken = Array.some((record) =>
+      record.Uprnnumber.toLowerCase() === value.toLowerCase()
+    );
 
+    if (isUsernameTaken && value.length > 0) {
+      toast.error('Given Uprnnumber is already exists'); // Show an error notification
+
+    }
+    setuprn(event.target.value);
+
+  }
+   const checkPhonenumber = (phonenum) => {
+      const phoneRegex = /^[0-9]{10}$/;
+      if (!phonenum) {
+        return;
+      }
+      if (!phoneRegex.test(phonenum)) {
+        toast.error("Enter a valid 10-digit phone number.");
+      }
+    }
+   const checkEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        toast.error("Enter a valid email address.");
+      }
+    }
   const handleSubmit = async (e) => {
 
     e.preventDefault();
@@ -286,7 +316,7 @@ const RegistrationForm = () => {
           setuniversity('');
           setstateOfMedicine('');
           setyearOfQualification('');
-          setIsPopupOpen(true)
+          // setIsPopupOpen(true)
           
         }else {
           toast.error("Failed to submit the form!", { position: "top-center" });
@@ -533,14 +563,19 @@ const RegistrationForm = () => {
             <FontAwesomeIcon icon={faPhone} />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="number"  placeholder="Phone Number"  onChange={(e) => setphonenumber(e.target.value)} value={phonenumber} maxLength={15}/>  
+              <input type="number"  placeholder="Phone Number" 
+               onChange={(e) => setphonenumber(e.target.value)}
+               onBlur={() => checkPhonenumber(phonenumber)}
+               value={phonenumber} maxLength={15}/>  
             </div>
             {/* {errors.name && <span className="error">{errors.name}</span>} */}
             <div className="input-group">
             <FontAwesomeIcon icon={faEnvelope } />
             <span className="asterisk">*</span>
               <span className="material-icons"></span>
-              <input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)} value={email} maxLength={50} />
+              <input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)} 
+               onBlur={() => checkEmail(email)}
+              value={email} maxLength={50} />
             </div>
             {/* {errors.name && <span className="error">{errors.name}</span>} */}
           </div>
@@ -623,7 +658,7 @@ const RegistrationForm = () => {
             <div className="input-group">
             <FontAwesomeIcon icon={faBarcode } />
               <span className="asterisk">*</span>
-              <input type="text" placeholder="UPRN Number" onChange={(e) => setuprn(e.target.value)} value={uprn}  maxLength={50}/>
+              <input type="text" placeholder="UPRN Number"  onChange={(e) => checkURPN(e)} value={uprn}  maxLength={50}/>
             </div>
           </div>
 
