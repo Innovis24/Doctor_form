@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate 
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Button } from "@mui/material";
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const Profile = () => {
