@@ -42,7 +42,6 @@ const UserMaster = () => {
   const closeModal = () => setIsOpen(false);
   const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
   const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
-  const api = "http://localhost/Doctor_search/Registrationform.php";
   useEffect(() => {
     const values = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -50,23 +49,28 @@ const UserMaster = () => {
       navigate("/");
       return;
     }
-    fetchRegistrations();
+    fetchUserList();
     fetchuserNameList();
   }, [navigate]);
 
-  const fetchRegistrations = async () => {
+  const fetchUserList = async () => {
     try {
       const response = await axios.get(apiUrl);
-      setArray(response.data);
+      if(response.data.code === 400){
+        setArray([]);
+      }
+      else{
+        setArray(response.data);
+      }
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
   };
   const fetchuserNameList = async () => {
     try {
-      const response = await axios.get(api);
+      const response = await axios.get(apiUrl);
       const options = response.data.map((user) => ({
-        value: user.RegistrationNumber,
+        value: user.RegNumber,
         label: user.Name,
       }));
       setusernameOption(options);
@@ -96,7 +100,7 @@ const UserMaster = () => {
         setpassword('');
         setuserrole('');
         setIsOpen(false)
-        fetchRegistrations()
+        fetchUserList()
       } else {
         toast.error(response.data.error || "Failed to delete record.");
       }
@@ -136,7 +140,7 @@ const UserMaster = () => {
   }
   const clear = () => {
     setSearchQuery('')
-    fetchRegistrations();
+    fetchUserList();
   }
   const handleSave = async () => {
     if(!UserID || !currentDoctorName || !username || !password || !userrole || !userStatusValue.label){
@@ -172,7 +176,7 @@ const UserMaster = () => {
         setusername('');
         setpassword('');
         setuserrole('');
-        fetchRegistrations();
+        fetchUserList();
 
       }
       else {
@@ -199,7 +203,7 @@ const UserMaster = () => {
         setusername('');
         setpassword('');
         setuserrole('');
-        fetchRegistrations();
+        fetchUserList();
 
       }
       else {

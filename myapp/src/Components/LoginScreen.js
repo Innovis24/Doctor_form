@@ -48,16 +48,23 @@ const LoginScreen = () => {
       toast.error("Please enter password");
       return;
     }
+    
+    
 
     const filtered = Array.filter((item) => item.UserName === username); 
     
 
+
+
     if(filtered && filtered.length > 0 ){
 
-      const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
-      if(regerList && regerList.length === 0){
-        toast.error("You don't have an account.");
-        return;
+      const adminRole = filtered.filter((item) => item.Password === password && item.Status === "Active" &&  item.UserRole === "Admin");
+      if(adminRole.length > 0){
+      
+        const loginFilterVal = currentuser.filter((item) => item.UserName === username );
+        localStorage.setItem('currentUser',JSON.stringify(loginFilterVal));
+        navigate("/registration_list");
+        return
       }
   
     }
@@ -65,7 +72,14 @@ const LoginScreen = () => {
 
 
     
-    if(filtered.length > 0 ){
+    if(filtered && filtered.length > 0 ){
+
+      const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
+      if(regerList && regerList.length === 0){
+        toast.error("You don't have an account.");
+        return;
+      }
+
       const filteredVal = filtered.filter((item) => item.Password === password && item.Status === "Active"); 
       if(filteredVal.length>0){
         // onLogin();
@@ -92,7 +106,13 @@ const LoginScreen = () => {
 const fetchRegistrations = async () => {
   try {
     const response = await axios.get(apiurl);
-    setregList(response.data);
+    if(response.data.code === 400){
+      setregList([]);
+    }
+    else{
+      setregList(response.data);
+    }
+    
   } catch (error) {
     toast.error("Failed to fetch registrations!");
   }

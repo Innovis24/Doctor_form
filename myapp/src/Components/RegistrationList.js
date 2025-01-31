@@ -67,7 +67,13 @@ const RegistrationList = () => {
   const fetchRegistrations = async () => {
     try {
       const response = await axios.get(apiUrl);
-      setRegistrations(response.data);
+      if(response.data.code === 400){
+        setRegistrations([]);
+      }
+      else{
+        setRegistrations(response.data);
+      }
+     
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
