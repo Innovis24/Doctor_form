@@ -166,6 +166,7 @@ const RegistrationForm = () => {
   const checkregnumber = (event) =>{
             const value = event.target.value;
             if(Array && Array.length === 0 ){
+              setregNumber(event.target.value);
               return
             }
             const isUsernameTaken = Array.some((record) =>
@@ -207,6 +208,7 @@ const RegistrationForm = () => {
  const checkUPRN = (event) => {
     const value = event.target.value;
     if(Array && Array.length === 0 ){
+      setuprn(event.target.value);
       return
     }
     const isUsernameTaken = Array.some((record) =>
@@ -259,6 +261,7 @@ const RegistrationForm = () => {
       !university ||
       !stateOfMedicine ||
       !yearOfQualification ||
+      !image ||
       image.length === 0 || // For checking empty image array
       !city ||
       !state  ) 
@@ -790,7 +793,7 @@ const RegistrationForm = () => {
       }} />
           <div className="display_fileupload">
             <div className="display_flex">
-            <button 
+            <Button 
                   htmlFor="file"
                   style={{
                     display: "inline-block",
@@ -810,7 +813,7 @@ const RegistrationForm = () => {
                   onClick={() => document.getElementById("file").click()}
                 >
                 <span> Choose File</span> 
-                </button>
+                </Button>
                 {(currentfilename !== "" && image !== "" && currentfilename  !== undefined && image !== undefined) &&
                 <FontAwesomeIcon className="view-button" title = 'Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
             </div>
