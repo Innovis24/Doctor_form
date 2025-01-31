@@ -255,19 +255,54 @@ const RegistrationForm = () => {
         return;
       }
   
-      const checkRegNumber = Array.some((record) =>
-        record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
-      );
+          
+
 
      
  
       try {
         //insert new record
         if(CurrentSno === "" || CurrentSno === undefined || CurrentSno === null){
-          if (checkRegNumber && regNumber.length > 0) {
+
+          //check register number
+          const checkRegNumber = Array.some((record) =>
+            record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
+          );
+          if (checkRegNumber) {
             toast.error('Given Register number is already exists'); // Show an error notification
             return;
           }
+
+            //phone number
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phonenumber) {
+              return;
+            }
+            if (!phoneRegex.test(phonenumber)) {
+              toast.error("Enter a valid 10-digit phone number.");
+              return
+            }
+            //email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+              return;
+            }
+            if (!emailRegex.test(email)) {
+              toast.error("Enter a valid email address.");
+              return
+            }
+
+            const isUsernameTaken = Array.some((record) =>
+              record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
+            );
+        
+            if (isUsernameTaken) {
+              toast.error('Given Uprnnumber is already exists'); // Show an error notification
+              return;
+        
+            }
+
+        // console.log('save')
           let formData = new FormData();
         formData.append('name', capitalizeFirstLetter(name));
         formData.append('fatherName', capitalizeFirstLetter(fatherName));
@@ -316,7 +351,7 @@ const RegistrationForm = () => {
           setuniversity('');
           setstateOfMedicine('');
           setyearOfQualification('');
-          // setIsPopupOpen(true)
+          setIsPopupOpen(true)
           
         }else {
           toast.error("Failed to submit the form!", { position: "top-center" });
@@ -324,6 +359,51 @@ const RegistrationForm = () => {
         }
         //update record
         else{
+
+            //register number
+            const valrArr = Array.filter((record) =>
+              record.Sno.toLowerCase() !== CurrentSno.toLowerCase()
+            );
+            const checkRegNumber = valrArr.some((record) =>
+              record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
+            );
+            if (checkRegNumber) {
+              toast.error('Given Register number is already exists'); // Show an error notification
+              return;
+            }
+
+            //phone number
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phonenumber) {
+              return;
+            }
+            if (!phoneRegex.test(phonenumber)) {
+              toast.error("Enter a valid 10-digit phone number.");
+              return
+            }
+            //email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+              return;
+            }
+            if (!emailRegex.test(email)) {
+              toast.error("Enter a valid email address.");
+              return
+            }
+
+            const isUsernameTaken = valrArr.some((record) =>
+              record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
+            );
+        
+            if (isUsernameTaken) {
+              toast.error('Given Uprnnumber is already exists'); // Show an error notification
+              return;
+        
+            }
+
+
+
+          console.log('edit')
           let formData = new FormData();
         formData.append('Sno', capitalizeFirstLetter(CurrentSno));
         formData.append('name', capitalizeFirstLetter(name));

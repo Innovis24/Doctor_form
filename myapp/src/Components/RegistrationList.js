@@ -185,9 +185,9 @@ const RegistrationList = () => {
     <div className="list-container">
     <div className="btn-align1">
 
-    <button className="register-button1" onClick={handleRegisterClick}>
+    {/* <button className="register-button1" onClick={handleRegisterClick}>
     <FontAwesomeIcon icon={faPlus} /> Register
-    </button>
+    </button> */}
   </div>
       <div className="controls">
         {/* Search Bar */}
@@ -261,7 +261,7 @@ const RegistrationList = () => {
                  
                 <div className="alignmentbtn">
                   <FontAwesomeIcon  className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
-                    <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleEdit(record)} />
+                    {/* <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleEdit(record)} /> */}
                   
                     <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)}
 />

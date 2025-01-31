@@ -11,11 +11,14 @@ const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [Array, setArray] = useState([]);
+  const [regList, setregList] = useState([]);
   const [currentuser, setcurrentuser] = useState([]);
   const navigate = useNavigate();
   const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
+  const apiurl = "http://localhost/Doctor_search/Registrationform.php";
   useEffect(() => {
     getuserListapi();
+    fetchRegistrations();
    }, []);
 
    const getuserListapi = () => {
@@ -45,7 +48,23 @@ const LoginScreen = () => {
       toast.error("Please enter password");
       return;
     }
+
     const filtered = Array.filter((item) => item.UserName === username); 
+    
+
+    if(filtered && filtered.length > 0 ){
+
+      const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
+      if(regerList && regerList.length === 0){
+        toast.error("You don't have an account.");
+        return;
+      }
+  
+    }
+   
+
+
+    
     if(filtered.length > 0 ){
       const filteredVal = filtered.filter((item) => item.Password === password && item.Status === "Active"); 
       if(filteredVal.length>0){
@@ -69,6 +88,14 @@ const LoginScreen = () => {
         toast.error("You don't have an account.");
     }
          // Navigate to the home page
+};
+const fetchRegistrations = async () => {
+  try {
+    const response = await axios.get(apiurl);
+    setregList(response.data);
+  } catch (error) {
+    toast.error("Failed to fetch registrations!");
+  }
 };
 const handleRegisterClick = () => {
   localStorage.setItem('newUser',true);
