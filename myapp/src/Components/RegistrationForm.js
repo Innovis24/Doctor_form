@@ -239,254 +239,254 @@ const RegistrationForm = () => {
       }
     }
   const handleSubmit = async (e) => {
-    setIsPopupOpen(true)
-    // e.preventDefault();
+  
+    e.preventDefault();
 
   
-    // if ( !name ||
-    //   !fatherName ||
-    //   !dob ||
-    //   !gender ||
-    //   !phonenumber ||
-    //   !email ||
-    //   !address ||
-    //   !qualification ||
-    //   !specialization ||
-    //   !regNumber ||
-    //   !regYear ||
-    //   !employmentType ||
-    //   !uprn ||
-    //   !university ||
-    //   !stateOfMedicine ||
-    //   !yearOfQualification ||
-    //   image.length === 0 || // For checking empty image array
-    //   !city ||
-    //   !state  ) 
-    //   {
-    //     toast.error("Please fill all fields!", { position: "top-center" });
-    //     return;
-    //   }
+    if ( !name ||
+      !fatherName ||
+      !dob ||
+      !gender ||
+      !phonenumber ||
+      !email ||
+      !address ||
+      !qualification ||
+      !specialization ||
+      !regNumber ||
+      !regYear ||
+      !employmentType ||
+      !uprn ||
+      !university ||
+      !stateOfMedicine ||
+      !yearOfQualification ||
+      image.length === 0 || // For checking empty image array
+      !city ||
+      !state  ) 
+      {
+        toast.error("Please fill all fields!", { position: "top-center" });
+        return;
+      }
   
           
 
 
      
  
-    //   try {
-    //     //insert new record
-    //     if(CurrentSno === "" || CurrentSno === undefined || CurrentSno === null){
+      try {
+        //insert new record
+        if(CurrentSno === "" || CurrentSno === undefined || CurrentSno === null){
 
-    //       if(Array.length > 0 ){
-    //         //check register number
-    //       const checkRegNumber = Array.some((record) =>
-    //         record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
-    //       );
-    //       if (checkRegNumber) {
-    //         toast.error('Given Register number is already exists'); // Show an error notification
-    //         return;
-    //       }
+          if(Array.length > 0 ){
+            //check register number
+          const checkRegNumber = Array.some((record) =>
+            record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
+          );
+          if (checkRegNumber) {
+            toast.error('Given Register number is already exists'); // Show an error notification
+            return;
+          }
 
-    //         //phone number
-    //         const phoneRegex = /^[0-9]{10}$/;
-    //         if (!phonenumber) {
-    //           return;
-    //         }
-    //         if (!phoneRegex.test(phonenumber)) {
-    //           toast.error("Enter a valid 10-digit phone number.");
-    //           return
-    //         }
-    //         //email
-    //         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //         if (!email) {
-    //           return;
-    //         }
-    //         if (!emailRegex.test(email)) {
-    //           toast.error("Enter a valid email address.");
-    //           return
-    //         }
+            //phone number
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phonenumber) {
+              return;
+            }
+            if (!phoneRegex.test(phonenumber)) {
+              toast.error("Enter a valid 10-digit phone number.");
+              return
+            }
+            //email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+              return;
+            }
+            if (!emailRegex.test(email)) {
+              toast.error("Enter a valid email address.");
+              return
+            }
 
-    //         const isUsernameTaken = Array.some((record) =>
-    //           record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
-    //         );
+            const isUsernameTaken = Array.some((record) =>
+              record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
+            );
         
-    //         if (isUsernameTaken) {
-    //           toast.error('Given Uprnnumber is already exists'); // Show an error notification
-    //           return;
+            if (isUsernameTaken) {
+              toast.error('Given Uprnnumber is already exists'); // Show an error notification
+              return;
         
-    //         }
+            }
 
-    //       }
+          }
 
           
 
-    //     // console.log('save')
-    //       let formData = new FormData();
-    //     formData.append('name', capitalizeFirstLetter(name));
-    //     formData.append('fatherName', capitalizeFirstLetter(fatherName));
-    //     formData.append('dob', dob);
-    //     formData.append('gender', gender);
-    //     formData.append('phone', phonenumber);
-    //     formData.append('email', email);
-    //     formData.append('address',capitalizeFirstLetter(address));
-    //     formData.append('city',capitalizeFirstLetter(city));
-    //     formData.append('state',capitalizeFirstLetter(state));
-    //     formData.append('qualification', capitalizeFirstLetter(qualification));
-    //     formData.append('specialization', capitalizeFirstLetter(specialization));
-    //     formData.append('regNumber', regNumber);
-    //     formData.append('regYear', regYear);
-    //     formData.append('employmentType', employmentType);
-    //     formData.append('uprn', uprn);
-    //     formData.append('university', capitalizeFirstLetter(university));
-    //     formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
-    //     formData.append('yearOfQualification', yearOfQualification);
-    //     formData.append('images', image)
-    //     console.log(formData)
-    //     const response =  await axios.post(apiUrl+ '?action=create', formData, {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     });
-    //     if (response.data.code === 200) {
-    //       toast.success(response.data.message, { position: "top-center" });
-    //       setcurrentDoctorName(capitalizeFirstLetter(name));
-    //       setUserID(regNumber)
-    //       setname('');
-    //       setfatherName('');
-    //       setphonenumber('');
-    //       setdob('');
-    //       setgender('');
-    //       setemail('');
-    //       setaddress('');
-    //       setcity('');
-    //       setstate('');
-    //       setImage('');
-    //       setcurrentfilename()
-    //       setqualification('');
-    //       setspecialization('');
-    //       setregNumber('');
-    //       setregYear('');
-    //       setemploymentType('');
-    //       setuprn('');
-    //       setuniversity('');
-    //       setstateOfMedicine('');
-    //       setyearOfQualification('');
-    //       setIsPopupOpen(true)
+        // console.log('save')
+          let formData = new FormData();
+        formData.append('name', capitalizeFirstLetter(name));
+        formData.append('fatherName', capitalizeFirstLetter(fatherName));
+        formData.append('dob', dob);
+        formData.append('gender', gender);
+        formData.append('phone', phonenumber);
+        formData.append('email', email);
+        formData.append('address',capitalizeFirstLetter(address));
+        formData.append('city',capitalizeFirstLetter(city));
+        formData.append('state',capitalizeFirstLetter(state));
+        formData.append('qualification', capitalizeFirstLetter(qualification));
+        formData.append('specialization', capitalizeFirstLetter(specialization));
+        formData.append('regNumber', regNumber);
+        formData.append('regYear', regYear);
+        formData.append('employmentType', employmentType);
+        formData.append('uprn', uprn);
+        formData.append('university', capitalizeFirstLetter(university));
+        formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
+        formData.append('yearOfQualification', yearOfQualification);
+        formData.append('images', image)
+        console.log(formData)
+        const response =  await axios.post(apiUrl+ '?action=create', formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (response.data.code === 200) {
+          toast.success(response.data.message, { position: "top-center" });
+          setcurrentDoctorName(capitalizeFirstLetter(name));
+          setUserID(regNumber)
+          setname('');
+          setfatherName('');
+          setphonenumber('');
+          setdob('');
+          setgender('');
+          setemail('');
+          setaddress('');
+          setcity('');
+          setstate('');
+          setImage('');
+          setcurrentfilename()
+          setqualification('');
+          setspecialization('');
+          setregNumber('');
+          setregYear('');
+          setemploymentType('');
+          setuprn('');
+          setuniversity('');
+          setstateOfMedicine('');
+          setyearOfQualification('');
+          setIsPopupOpen(true)
           
-    //     }else {
-    //       toast.error("Failed to submit the form!", { position: "top-center" });
-    //     }
-    //     }
-    //     //update record
-    //     else{
+        }else {
+          toast.error("Failed to submit the form!", { position: "top-center" });
+        }
+        }
+        //update record
+        else{
 
-    //         //register number
-    //         const valrArr = Array.filter((record) =>
-    //           record.Sno.toLowerCase() !== CurrentSno.toLowerCase()
-    //         );
-    //         const checkRegNumber = valrArr.some((record) =>
-    //           record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
-    //         );
-    //         if (checkRegNumber) {
-    //           toast.error('Given Register number is already exists'); // Show an error notification
-    //           return;
-    //         }
+            //register number
+            const valrArr = Array.filter((record) =>
+              record.Sno.toLowerCase() !== CurrentSno.toLowerCase()
+            );
+            const checkRegNumber = valrArr.some((record) =>
+              record.RegistrationNumber.toLowerCase() === regNumber.toLowerCase()
+            );
+            if (checkRegNumber) {
+              toast.error('Given Register number is already exists'); // Show an error notification
+              return;
+            }
 
-    //         //phone number
-    //         const phoneRegex = /^[0-9]{10}$/;
-    //         if (!phonenumber) {
-    //           return;
-    //         }
-    //         if (!phoneRegex.test(phonenumber)) {
-    //           toast.error("Enter a valid 10-digit phone number.");
-    //           return
-    //         }
-    //         //email
-    //         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //         if (!email) {
-    //           return;
-    //         }
-    //         if (!emailRegex.test(email)) {
-    //           toast.error("Enter a valid email address.");
-    //           return
-    //         }
+            //phone number
+            const phoneRegex = /^[0-9]{10}$/;
+            if (!phonenumber) {
+              return;
+            }
+            if (!phoneRegex.test(phonenumber)) {
+              toast.error("Enter a valid 10-digit phone number.");
+              return
+            }
+            //email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+              return;
+            }
+            if (!emailRegex.test(email)) {
+              toast.error("Enter a valid email address.");
+              return
+            }
 
-    //         const isUsernameTaken = valrArr.some((record) =>
-    //           record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
-    //         );
+            const isUsernameTaken = valrArr.some((record) =>
+              record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
+            );
         
-    //         if (isUsernameTaken) {
-    //           toast.error('Given Uprnnumber is already exists'); // Show an error notification
-    //           return;
+            if (isUsernameTaken) {
+              toast.error('Given Uprnnumber is already exists'); // Show an error notification
+              return;
         
-    //         }
+            }
 
 
 
-    //       console.log('edit')
-    //       let formData = new FormData();
-    //     formData.append('Sno', capitalizeFirstLetter(CurrentSno));
-    //     formData.append('name', capitalizeFirstLetter(name));
-    //     formData.append('fatherName', capitalizeFirstLetter(fatherName));
-    //     formData.append('dob', dob);
-    //     formData.append('gender', gender);
-    //     formData.append('phone', phonenumber);
-    //     formData.append('email', email);
-    //     formData.append('address',capitalizeFirstLetter(address));
-    //     formData.append('city',capitalizeFirstLetter(city));
-    //     formData.append('state',capitalizeFirstLetter(state));
-    //     formData.append('qualification', capitalizeFirstLetter(qualification));
-    //     formData.append('specialization', capitalizeFirstLetter(specialization));
-    //     formData.append('regNumber', regNumber);
-    //     formData.append('regYear', regYear);
-    //     formData.append('employmentType', employmentType);
-    //     formData.append('uprn', uprn);
-    //     formData.append('university', capitalizeFirstLetter(university));
-    //     formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
-    //     formData.append('yearOfQualification', yearOfQualification);
-    //     formData.append('images', image)
-    //     formData.append('image_path', imagePath);
-    //     if(imageName === image){
-    //       formData.append('image_name', imageName);
-    //     }
-    //     else{
-    //       formData.append('image_name', image.name);
-    //     }
+          console.log('edit')
+          let formData = new FormData();
+        formData.append('Sno', capitalizeFirstLetter(CurrentSno));
+        formData.append('name', capitalizeFirstLetter(name));
+        formData.append('fatherName', capitalizeFirstLetter(fatherName));
+        formData.append('dob', dob);
+        formData.append('gender', gender);
+        formData.append('phone', phonenumber);
+        formData.append('email', email);
+        formData.append('address',capitalizeFirstLetter(address));
+        formData.append('city',capitalizeFirstLetter(city));
+        formData.append('state',capitalizeFirstLetter(state));
+        formData.append('qualification', capitalizeFirstLetter(qualification));
+        formData.append('specialization', capitalizeFirstLetter(specialization));
+        formData.append('regNumber', regNumber);
+        formData.append('regYear', regYear);
+        formData.append('employmentType', employmentType);
+        formData.append('uprn', uprn);
+        formData.append('university', capitalizeFirstLetter(university));
+        formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
+        formData.append('yearOfQualification', yearOfQualification);
+        formData.append('images', image)
+        formData.append('image_path', imagePath);
+        if(imageName === image){
+          formData.append('image_name', imageName);
+        }
+        else{
+          formData.append('image_name', image.name);
+        }
         
-    //     console.log(formData)
-    //     const response =  await  axios.post(apiUrl, formData, {
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     });
-    //     if (response.data.code === 200) {
-    //       toast.success(response.data.message, { position: "top-center" });
-    //       localStorage.setItem('editItem',false );
-    //       setname('');
-    //       setfatherName('');
-    //       setphonenumber('');
-    //       setdob('');
-    //       setgender('');
-    //       setemail('');
-    //       setaddress('');
-    //       setcity('');
-    //       setstate('');
-    //       setImage('');
-    //       setcurrentfilename()
-    //       setqualification('');
-    //       setspecialization('');
-    //       setregNumber('');
-    //       setregYear('');
-    //       setemploymentType('');
-    //       setuprn('');
-    //       setuniversity('');
-    //       setstateOfMedicine('');
-    //       setyearOfQualification('');
+        console.log(formData)
+        const response =  await  axios.post(apiUrl, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        if (response.data.code === 200) {
+          toast.success(response.data.message, { position: "top-center" });
+          localStorage.setItem('editItem',false );
+          setname('');
+          setfatherName('');
+          setphonenumber('');
+          setdob('');
+          setgender('');
+          setemail('');
+          setaddress('');
+          setcity('');
+          setstate('');
+          setImage('');
+          setcurrentfilename()
+          setqualification('');
+          setspecialization('');
+          setregNumber('');
+          setregYear('');
+          setemploymentType('');
+          setuprn('');
+          setuniversity('');
+          setstateOfMedicine('');
+          setyearOfQualification('');
           
-    //     }else {
-    //       toast.error("Failed to update the form!", { position: "top-center" });
-    //     }
-    //     }
+        }else {
+          toast.error("Failed to update the form!", { position: "top-center" });
+        }
+        }
         
-    //   } catch (error) {
-    //     console.error("Error submitting the form:", error);
-    //     toast.error("An error occurred while submitting the form.", { position: "top-center" });
-    //   }
+      } catch (error) {
+        console.error("Error submitting the form:", error);
+        toast.error("An error occurred while submitting the form.", { position: "top-center" });
+      }
     
   
   };
