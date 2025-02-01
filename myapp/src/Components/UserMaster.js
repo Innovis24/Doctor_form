@@ -228,7 +228,6 @@ const UserMaster = () => {
   const handleUsernameChange = (selectedOption) => {
 
     const selectedName = selectedOption.label.split('#')[0];
-    const idvalue = selectedOption.label.split('#')[1];
     setcurrentDoctorName(selectedName);
     setUserID(selectedOption.value)
   };

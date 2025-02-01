@@ -1,7 +1,7 @@
 import "./Header.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSignOut, faUserMd, faUserPlus ,faUser } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faUserMd, faUserPlus ,faUser ,faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -107,6 +107,10 @@ const Header = ({ title }) => {
 
                 <a href="/Profile" className="active">
                   <FontAwesomeIcon className="list_icon" icon={faUser} /> MY PROFILE
+                </a>
+
+                <a href="/registration_list" className="active">
+                  <FontAwesomeIcon className="list_icon" icon={faSearch} /> SEARCH DOCTOR
                 </a>
                 
               </li>
