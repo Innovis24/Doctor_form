@@ -1,7 +1,7 @@
 import "./Header.css";
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSignOut,faUserMd,faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faUserMd, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -17,27 +17,27 @@ const Header = ({ title }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  
-      const values =JSON.parse(localStorage.getItem('currentUser'));
-      const newOne =localStorage.getItem('newUser');
-      if(!newOne &&  values ){
-        setCurrentLogin(values[0].UserRole)
-      } 
-      else if(newOne &&  !values ){
-        setCurrentLogin()
-      }
-      else {
-        setCurrentLogin()
-      }
-      // if(!newOne &&  !values ){
-      //   setCurrentLogin()
-      // }
-      // else{
-      //   setCurrentLogin(values[0].UserRole)
-      // }
-      
-    }, []);
-  const OpenPopup= () => {
+
+    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const newOne = localStorage.getItem('newUser');
+    if (!newOne && values) {
+      setCurrentLogin(values[0].UserRole)
+    }
+    else if (newOne && !values) {
+      setCurrentLogin()
+    }
+    else {
+      setCurrentLogin()
+    }
+    // if(!newOne &&  !values ){
+    //   setCurrentLogin()
+    // }
+    // else{
+    //   setCurrentLogin(values[0].UserRole)
+    // }
+
+  }, []);
+  const OpenPopup = () => {
     setIsOpen(true)
   }
   const handleExit = () => {
@@ -46,19 +46,19 @@ const Header = ({ title }) => {
   };
   return (
     <div>
-    <Popup open={isOpen} onClose={closeModal} contentStyle={{
-        width: '385px', // Adjust the width to your desired size
-        padding: '20px', // Optional: Adjust padding if needed
-        border: '1px solid #ccc', // Optional: Styling for better appearance
-        borderRadius: '8px', // Optional: Rounded corners
+      <Popup open={isOpen} onClose={closeModal} contentStyle={{
+        width: '385px', 
+        padding: '20px', 
+        border: '1px solid #ccc',
+        borderRadius: '8px',
       }}>
         <div >
           <h2 className="fontFam">Are you sure you want to logout?</h2>
           <div className="popup_btn">
-          <button className="btn_yesclr" onClick={handleExit}>Yes</button>
-          <button className="btn_noClr" onClick={closeModal}>No</button>
+            <button className="btn_yesclr" onClick={handleExit}>Yes</button>
+            <button className="btn_noClr" onClick={closeModal}>No</button>
           </div>
-       
+
         </div>
       </Popup>
       <div className="header_font">
@@ -74,24 +74,24 @@ const Header = ({ title }) => {
               <h3>Doctor Search</h3>
             </div>
             <ul className="sidebar-menu">
-            <li>
-              
-              <a href="/registration_list" className="active">
-              <FontAwesomeIcon className="list_icon" icon={faUserMd } /> DOCTOR LIST
-              </a>
-              <a href="/user_master" className="active">
-              <FontAwesomeIcon className="list_icon" icon={faUserPlus } /> USER MASTER
-              </a>
-            </li>
+              <li>
 
-          </ul>
-            
+                <a href="/registration_list" className="active">
+                  <FontAwesomeIcon className="list_icon" icon={faUserMd} /> DOCTOR LIST
+                </a>
+                <a href="/user_master" className="active">
+                  <FontAwesomeIcon className="list_icon" icon={faUserPlus} /> USER MASTER
+                </a>
+              </li>
+
+            </ul>
+
           </div>
         )}
 
         <div className="display_flea_align">
           {/* Sidebar toggle button on the left */}
-          
+
           {currentLogin === "Admin" && isSidebarOpen && searchParams && (
             <button
               className="sidebar-toggle-button-open"
@@ -105,13 +105,13 @@ const Header = ({ title }) => {
             className="font_header">
             {title}
           </div>
-          <div  className="logout_style">
-            <button className="icon_button"  onClick={OpenPopup}>
-            <FontAwesomeIcon icon={faSignOut } />
+          <div className="logout_style">
+            <button className="icon_button" onClick={OpenPopup}>
+              <FontAwesomeIcon icon={faSignOut} />
             </button>
-         
+
           </div>
-          
+
         </div>
 
       </div>

@@ -56,10 +56,10 @@ const UserMaster = () => {
   const fetchUserList = async () => {
     try {
       const response = await axios.get(apiUrl);
-      if(response.data.code === 400){
+      if (response.data.code === 400) {
         setArray([]);
       }
-      else{
+      else {
         setArray(response.data);
       }
     } catch (error) {
@@ -143,17 +143,17 @@ const UserMaster = () => {
     fetchUserList();
   }
   const handleSave = async () => {
-    if(!UserID || !currentDoctorName || !username || !password || !userrole || !userStatusValue.label){
-       toast.error("Please fill all fields!", { position: "top-center" });
-        return;
+    if (!UserID || !currentDoctorName || !username || !password || !userrole || !userStatusValue.label) {
+      toast.error("Please fill all fields!", { position: "top-center" });
+      return;
     }
 
-    
+
     if (popupTitle[0].btnNmae === "Submit") {
       const isUsernameTaken = Arrayval.some((record) =>
         record.UserName.toLowerCase() === username.toLowerCase()
       );
-  
+
       if (isUsernameTaken && username.length > 0) {
         toast.error('Username already exists'); // Show an error notification
       }
@@ -239,7 +239,7 @@ const UserMaster = () => {
       record.UserName.toLowerCase() === newUsername.toLowerCase()
     );
 
-    if (isUsernameTaken ) {
+    if (isUsernameTaken) {
       toast.error('Username already exists'); // Show an error notification
     }
   };

@@ -1,7 +1,7 @@
-import React, { useState, useEffect ,useCallback} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt,faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
@@ -80,7 +80,7 @@ const Profile = () => {
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
-  }, [ currentID]);
+  }, [currentID]);
 
 
 
@@ -103,11 +103,11 @@ const Profile = () => {
 
 
 
-  }, [navigate,data,fetchData]);
+  }, [navigate, data, fetchData]);
   const handleTabChange = (tab) => {
     setActiveTab(tab); // Update activeTab state correctly
   };
- 
+
   function capitalizeFirstLetter(string) {
     return string.replace(/^\w/, c => c.toUpperCase());
   }
@@ -185,10 +185,10 @@ const Profile = () => {
       toast.error('Given Register number is already exists'); // Show an error notification
       return;
     }
- 
-     // check upran
 
-     const isUsernameTaken = valrArr.some((record) =>
+    // check upran
+
+    const isUsernameTaken = valrArr.some((record) =>
       record.Uprnnumber.toLowerCase() === uprn.toLowerCase()
     );
 
@@ -216,7 +216,7 @@ const Profile = () => {
       toast.error("Enter a valid email address.");
       return
     }
-   
+
 
     let formData = new FormData();
     formData.append('Sno', capitalizeFirstLetter(CurrentSno));
@@ -247,7 +247,7 @@ const Profile = () => {
       formData.append('image_name', image.name);
     }
 
-    console.log(formData)
+    // console.log(formData)
     const response = await axios.post(apiUrl, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -308,7 +308,7 @@ const Profile = () => {
     setuprn(event.target.value);
 
   }
-  const handleDelete = ()=>{
+  const handleDelete = () => {
     setcurrentfilename('')
     setImage('')
   }
@@ -568,8 +568,8 @@ const Profile = () => {
               <div className="registration-info-item1 tab_input_width txt_transform">
                 <FontAwesomeIcon icon={faBarcode} className="icon_style_profile" />
                 {editItem === true &&
-                  <input type="text" placeholder="UPRN Number" className="txt_transform pro_input" 
-                  onChange={(e) => checkURPN(e)}
+                  <input type="text" placeholder="UPRN Number" className="txt_transform pro_input"
+                    onChange={(e) => checkURPN(e)}
                     value={uprn} maxLength={50} />
                 }
                 {editItem === false &&
@@ -615,91 +615,91 @@ const Profile = () => {
         {activeTab === "qualification" && (
           <div className="tab-content active">
 
-        <div className="algin_tab">
+            <div className="algin_tab">
               <div className="qualification-info-item1 tab_input_width">
-              <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
-              {editItem === true &&
-                <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
-              }
-              {editItem === false &&
-                <div>
-                  <strong>Qualification:</strong> {userData.Qualification}
-                </div>
-              }
+                <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
+                }
+                {editItem === false &&
+                  <div>
+                    <strong>Qualification:</strong> {userData.Qualification}
+                  </div>
+                }
 
               </div>
               <div className="registration-info-item1 tab_input_width txt_transform">
-              <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
-              {editItem === true &&
-                <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
-              }
-              {editItem === false &&
-                <div>
-                  <strong>Specialization:</strong> {userData.Specialization}
-                </div>
+                <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
+                }
+                {editItem === false &&
+                  <div>
+                    <strong>Specialization:</strong> {userData.Specialization}
+                  </div>
 
-              }
+                }
 
               </div>
             </div>
 
             <div className="algin_tab">
               <div className="qualification-info-item1 tab_input_width">
-              <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
-              {editItem === true &&
-                <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
-              }
-              {editItem === false &&
-                <div>
-                  <strong>Year of Qualification:</strong> {userData.Yearofqualification}
-                </div>
-              }
+                <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
+                }
+                {editItem === false &&
+                  <div>
+                    <strong>Year of Qualification:</strong> {userData.Yearofqualification}
+                  </div>
+                }
 
               </div>
             </div>
             <div className="algin_tab">
               <div className="qualification-info-item1 tab_input_width">
-             
-              <div className="img_style_pro">
-            <div className="img_input" >
-              
-            <input type="file" id="file"  // Attach the ref to the file input
-        onChange={handleFileChange} accept="image/*" style={{
-        display: "none", // Hides the default file input
-      }} />
-          <div className="display_fileupload">
-            <div className="display_flex">
-            <button 
-                  htmlFor="file"
-                  style={{
-                    display: "inline-block",
-                    backgroundColor: "white",
-                    color: "black",
-                    padding: "4Px",
-                    borderRadius: "5px",
-                    cursor: "pointer",
-                    fontSize: "11px",
-                    border: "1px solid grey",
-                    textTransform:"math-auto",
-                    width: "120px", // Fixed width
-                    // overflow: "hidden", // Hides overflow text
-                    // whiteSpace: "nowrap", // Prevents text wrapping
-                    // textOverflow: "ellipsis",
-                  }}
-                  onClick={() => document.getElementById("file").click()}
-                >
-                <span> Choose File</span> 
-                </button>
-                {(currentfilename !== "" && image !== "" && currentfilename  !== undefined && image !== undefined) &&
-                <FontAwesomeIcon className="view-button" title = 'Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
-            </div>
-                  
-                <span className="filenamestyle">{currentfilename}</span>
-          </div>
-         
-            </div>
-      
-          </div>
+            
+                <div className="img_style_pro">
+                  <div className="img_input" >
+
+                    <input type="file" id="file"  // Attach the ref to the file input
+                      onChange={handleFileChange} accept="image/*" style={{
+                        display: "none", // Hides the default file input
+                      }} />
+                    <div className="display_fileupload">
+                      <div className="display_flex">
+                        <button
+                          htmlFor="file"
+                          style={{
+                            display: "inline-block",
+                            backgroundColor: "white",
+                            color: "black",
+                            padding: "4Px",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            fontSize: "11px",
+                            border: "1px solid grey",
+                            textTransform: "math-auto",
+                            width: "120px", // Fixed width
+                            // overflow: "hidden", // Hides overflow text
+                            // whiteSpace: "nowrap", // Prevents text wrapping
+                            // textOverflow: "ellipsis",
+                          }}
+                          onClick={() => document.getElementById("file").click()}
+                        >
+                          <span> Choose File</span>
+                        </button>
+                        {(currentfilename !== "" && image !== "" && currentfilename !== undefined && image !== undefined) &&
+                          <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
+                      </div>
+
+                      <span className="filenamestyle">{currentfilename}</span>
+                    </div>
+
+                  </div>
+
+                </div>
 
               </div>
             </div>
