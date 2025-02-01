@@ -16,7 +16,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 const userapiUrl = "http://localhost/Doctor_search/Usermaster.php";
-const RegistrationForm = () => {
+const RegistrationForm = () => { 
   // const [formData, setFormData] = useState({
   //   name: "",
   //   fatherName: "",

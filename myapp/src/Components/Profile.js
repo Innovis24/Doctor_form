@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useCallback} from "react";
 import Header from "./Header";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhoneAlt,faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
@@ -45,30 +45,7 @@ const Profile = () => {
   const location = useLocation();
   const data = location.state;
 
-  useEffect(() => {
-    const newOne = localStorage.getItem('newUser');
-    const values = JSON.parse(localStorage.getItem('currentUser'));
-
-    if ((values === '' || values === null || values === undefined) && (!newOne)) {
-      navigate("/");
-      return;
-    }
-
-    if (!data) {
-      fetchData(values[0].RegNumber);
-
-    }
-    else {
-      fetchData(data);
-    }
-
-
-
-  }, []);
-  const handleTabChange = (tab) => {
-    setActiveTab(tab); // Update activeTab state correctly
-  };
-  const fetchData = async (ID) => {
+  const fetchData = useCallback(async (ID) => {
     try {
       const response = await axios.get(apiUrl);
       setarray(response.data)
@@ -103,7 +80,34 @@ const Profile = () => {
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
+  }, [ currentID]);
+
+
+
+  useEffect(() => {
+    const newOne = localStorage.getItem('newUser');
+    const values = JSON.parse(localStorage.getItem('currentUser'));
+
+    if ((values === '' || values === null || values === undefined) && (!newOne)) {
+      navigate("/");
+      return;
+    }
+
+    if (!data) {
+      fetchData(values[0].RegNumber);
+
+    }
+    else {
+      fetchData(data);
+    }
+
+
+
+  }, [navigate,data,fetchData]);
+  const handleTabChange = (tab) => {
+    setActiveTab(tab); // Update activeTab state correctly
   };
+ 
   function capitalizeFirstLetter(string) {
     return string.replace(/^\w/, c => c.toUpperCase());
   }
@@ -181,7 +185,7 @@ const Profile = () => {
       toast.error('Given Register number is already exists'); // Show an error notification
       return;
     }
-
+ 
      // check upran
 
      const isUsernameTaken = valrArr.some((record) =>
@@ -321,9 +325,9 @@ const Profile = () => {
         <div>
           <div className="profile-header">
             <img
-
               className="profile-image"
               src={`http://localhost/Doctor_search/${userData.image_path}`}
+              alt="Profile not loading"
             />
             <div className="edit_icon_pad">
               <FontAwesomeIcon icon={faPencil}

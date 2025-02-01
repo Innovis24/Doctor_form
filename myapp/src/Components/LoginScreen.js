@@ -133,7 +133,7 @@ const handleRegisterClick = () => {
         <div className="login-image">
             <img
         src={doctorIllustration}
-        alt="Doctor Illustration"
+        alt="Doctor profile"
         className="illustration-img responsive-image" />
         </div>
       {/* Login Form Section */}

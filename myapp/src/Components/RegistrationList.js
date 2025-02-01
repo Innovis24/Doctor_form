@@ -8,9 +8,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope ,faTransgenderAlt} from '@fortawesome/free-solid-svg-icons';
-import { faEye,faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope ,faTransgenderAlt,faEye} from '@fortawesome/free-solid-svg-icons';
+// import { faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
+// import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -195,7 +195,7 @@ const RegistrationList = () => {
     <FontAwesomeIcon icon={faPlus} /> Register
     </button> */}
   </div>
-      <div className="controls">
+      <div className="controls"> 
         {/* Search Bar */}
         <input
           type="text"
