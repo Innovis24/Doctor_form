@@ -109,7 +109,7 @@ const Header = ({ title }) => {
                   <FontAwesomeIcon className="list_icon" icon={faUser} /> MY PROFILE
                 </a>
 
-                <a href="/registration_list" className="active">
+                <a href="/registration_list?param1=searchDoctor" className="active">
                   <FontAwesomeIcon className="list_icon" icon={faSearch} /> SEARCH DOCTOR
                 </a>
                 

@@ -3,7 +3,7 @@ import "./RegistrationList.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom"; // Use useNavigate for React Router v6+
+import { useNavigate,useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
@@ -40,6 +40,7 @@ const RegistrationList = () => {
   const [currentImagepath, setcurrentImagepath] = useState(''); // State for search input
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate(); // Use useNavigate for navigation
+  const location = useLocation();
   const rowsPerPage = 5; // Adjust as needed
 
   // Calculate the indices for slicing
@@ -63,6 +64,13 @@ const RegistrationList = () => {
     }
     fetchRegistrations();
   }, [navigate]);
+
+  const getQueryParam = (param) => {
+    const searchParams = new URLSearchParams(location.search);
+    return searchParams.get(param);
+  };
+
+  const param1 = getQueryParam('param1');
 
   const fetchRegistrations = async () => {
     try {
@@ -90,19 +98,30 @@ const RegistrationList = () => {
   }
 
   const handleSearch = (e) => {
-    const filteredRegistrations = registrations.filter((record) =>
-      record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Qualification.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Uprnnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Fathername.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Gender.toLowerCase().includes(searchQuery.toLowerCase())
-
-    );
-    setRegistrations(filteredRegistrations)
+    console.log(param1)
+    if(param1 === 'searchDoctor'){
+      const filteredRegistrations = registrations.filter((record) =>
+        record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) 
+      );
+      setRegistrations(filteredRegistrations)
+    }
+    else{
+      const filteredRegistrations = registrations.filter((record) =>
+        record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.Qualification.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.Uprnnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.Fathername.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        record.Gender.toLowerCase().includes(searchQuery.toLowerCase())
+  
+      );
+      setRegistrations(filteredRegistrations)
+    }
+   
   };
 
   const clear = () => {
@@ -168,7 +187,7 @@ const RegistrationList = () => {
 
   return (
     <div>
-      <Header title="Registration List" />
+      <Header title="Doctors List" />
       <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
         toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
@@ -246,7 +265,7 @@ const RegistrationList = () => {
                   </div>
                 </td> */}
                     <td className="text-wrap">
-                      <div>
+                      <div className="font_wt">
                         {record.Name}
                         <div className="regNumFont">
                           #{record.RegistrationNumber}

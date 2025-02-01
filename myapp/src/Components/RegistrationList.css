@@ -645,3 +645,6 @@ input::placeholder {
 .regNumFont{
   color: #3c7da5
  }
+.font_wt{
+  font-weight: 700;
+}
