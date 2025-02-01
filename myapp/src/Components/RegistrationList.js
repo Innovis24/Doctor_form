@@ -269,8 +269,7 @@ const RegistrationList = () => {
                   <FontAwesomeIcon  className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => handleView(record)} />
                     {/* <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => handleEdit(record)} /> */}
                   
-                    <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)}
-/>
+                    {/* <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} /> */}
                   </div>
 
                 </td>
