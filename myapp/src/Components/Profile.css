@@ -319,3 +319,12 @@ padding: 17px;
   }
 
 }
+.content_display{
+  display: flex;
+}
+.Profile_txt_wrap {
+  white-space: normal; /* Enables text wrapping */
+  word-wrap: break-word; /* Breaks long words */
+  word-break: break-word; /* Ensures long words break within the cell */
+  max-width: 100%; /* Optional: Set a maximum width for the column */
+}

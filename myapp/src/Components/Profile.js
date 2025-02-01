@@ -382,8 +382,11 @@ const Profile = () => {
                   />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Name:</strong> {userData.Name}
+                  <div className="content_display">
+                    <strong>Name:</strong> 
+                    <div className="Profile_txt_wrap">
+                      {userData.Name}
+                    </div>
                   </div>
                 }
 
@@ -400,8 +403,11 @@ const Profile = () => {
                   />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Father Name:</strong> {userData.Fathername}
+                  <div className="content_display">
+                    <strong>Father Name:</strong> 
+                    <div className="Profile_txt_wrap">
+                      {userData.Fathername}
+                    </div>
                   </div>
                 }
 
@@ -421,8 +427,12 @@ const Profile = () => {
                   value={dob}
                 />}
                 {editItem === false &&
-                  <div>
-                    <strong>Date of Birth:</strong> {userData.DOB}
+                   <div className="content_display">
+                    <strong>Date of Birth:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.DOB}
+                    </div>
+                   
                   </div>
                 }
 
@@ -439,8 +449,11 @@ const Profile = () => {
                   </select>
                 }
                 {editItem === false &&
-                  <div className="txt_trans">
-                    <strong>Gender:</strong> {userData.Gender}
+                  <div className="txt_trans content_display">
+                    <strong>Gender:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Gender}
+                    </div>
                   </div>
                 }
 
@@ -458,8 +471,11 @@ const Profile = () => {
                     value={email} maxLength={50} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Email:</strong> {userData.Email}
+                    <div className="content_display">
+                    <strong>Email:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Email}
+                    </div>
                   </div>
                 }
               </div>
@@ -473,8 +489,11 @@ const Profile = () => {
                     value={phonenumber} maxLength={15} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Phone:</strong> {userData.Phonenumber}
+                   <div className="content_display">
+                    <strong>Phone:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Phonenumber}
+                    </div>
                   </div>
                 }
 
@@ -488,8 +507,11 @@ const Profile = () => {
                   <input type="text" placeholder="City" className="txt_transform pro_input" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>City:</strong> {userData.City}
+                  <div className="content_display">
+                    <strong>City:</strong>
+                    <div className="Profile_txt_wrap">
+                    {userData.City}
+                    </div>
                   </div>
                 }
 
@@ -500,8 +522,11 @@ const Profile = () => {
                   <input type="text" placeholder="State" className="txt_transform pro_input" onChange={(e) => setstate(e.target.value)} value={state} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>State:</strong> {userData.State}
+                 <div className="content_display">
+                    <strong>State:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.State}
+                    </div>
                   </div>
                 }
               </div>
@@ -513,8 +538,11 @@ const Profile = () => {
                   <textarea placeholder="Address" rows="2" className="txt_transform pro_input" onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Address:</strong> {userData.Address}
+                    <div className="content_display">
+                    <strong>Address:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Address}
+                    </div>
                   </div>
                 }
 
@@ -538,7 +566,12 @@ const Profile = () => {
                     value={regNumber} maxLength={50} />
                 }
                 {editItem === false &&
-                  <div> <strong>Registration No:</strong> {userData.RegistrationNumber} </div>
+                     <div className="content_display"> <strong>Registration No:</strong> 
+                     
+                     <div className="Profile_txt_wrap">
+                     {userData.RegistrationNumber} 
+                    </div>
+                     </div>
                 }
 
               </div>
@@ -549,8 +582,11 @@ const Profile = () => {
                     className="pro_input" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={50} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Year of Registration:</strong> {userData.Yearofregistration}
+                   <div className="content_display">
+                    <strong>Year of Registration:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Yearofregistration}
+                    </div>
                   </div>
                 }
 
@@ -574,7 +610,12 @@ const Profile = () => {
                   // </div>
                 }
                 {editItem === false &&
-                  <div> <strong>EmploymentType:</strong> {userData.Employmenttype} </div>
+                  <div className="content_display">
+                    <strong>EmploymentType:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Employmenttype}
+                    </div>
+                    </div>
                 }
 
               </div>
@@ -586,8 +627,11 @@ const Profile = () => {
                     value={uprn} maxLength={50} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>UPRN Number:</strong> {userData.Uprnnumber}
+                 <div className="content_display">
+                    <strong>UPRN Number:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Uprnnumber}
+                    </div>
                   </div>
                 }
 
@@ -601,8 +645,11 @@ const Profile = () => {
                   <input type="text" placeholder="State of Medicine" className="txt_transform pro_input" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>State of Medicine:</strong> {userData.Stateofmedicine}
+                   <div className="content_display">
+                    <strong>State of Medicine:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Stateofmedicine}
+                    </div>
                   </div>
                 }
 
@@ -613,8 +660,11 @@ const Profile = () => {
                   <input type="text" placeholder="University Name" className="txt_transform pro_input" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>University:</strong> {userData.Universityname}
+                   <div className="content_display">
+                    <strong>University:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Universityname}
+                    </div>
                   </div>
                 }
 
@@ -635,8 +685,11 @@ const Profile = () => {
                   <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Qualification:</strong> {userData.Qualification}
+                   <div className="content_display">
+                    <strong>Qualification:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Qualification}
+                    </div>
                   </div>
                 }
 
@@ -647,8 +700,11 @@ const Profile = () => {
                   <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Specialization:</strong> {userData.Specialization}
+                   <div className="content_display">
+                    <strong>Specialization:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Specialization}
+                    </div>
                   </div>
 
                 }
@@ -663,8 +719,11 @@ const Profile = () => {
                   <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
                 }
                 {editItem === false &&
-                  <div>
-                    <strong>Year of Qualification:</strong> {userData.Yearofqualification}
+                  <div className="content_display">
+                    <strong>Year of Qualification:</strong> 
+                    <div className="Profile_txt_wrap">
+                    {userData.Yearofqualification}
+                    </div>
                   </div>
                 }
 
