@@ -11,7 +11,7 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
   const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
   useEffect(() => {
-    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
     fetchuserNameList();
   }, [navigate]);

@@ -1,7 +1,7 @@
 import "./Header.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSignOut, faUserMd, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faUserMd, faUserPlus ,faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -18,7 +18,7 @@ const Header = ({ title }) => {
 
   useEffect(() => {
 
-    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     const newOne = localStorage.getItem('newUser');
     if (!newOne && values) {
       setCurrentLogin(values[0].UserRole)
@@ -65,7 +65,8 @@ const Header = ({ title }) => {
         {/* Render content only if logged in */}
 
         {/* Sidebar Section */}
-        {!isSidebarOpen && searchParams && (
+        {/* Fora admin */}
+        {currentLogin === "Admin" && !isSidebarOpen && searchParams && (
           <div className="sidebar">
             <button className="sidebar-toggle-button" onClick={toggleSidebar}>
               ✖
@@ -89,17 +90,45 @@ const Header = ({ title }) => {
           </div>
         )}
 
+        {currentLogin !== "Admin" && !isSidebarOpen && searchParams && (
+          <div className="sidebar">
+            <button className="sidebar-toggle-button" onClick={toggleSidebar}>
+              ✖
+            </button>
+            <div className="sidebar-header">
+              <h3>Doctor Search</h3>
+            </div>
+            <ul className="sidebar-menu">
+              <li>
+
+                <a href="/registration_list" className="active">
+                  <FontAwesomeIcon className="list_icon" icon={faUserMd} /> DOCTOR LIST
+                </a>
+
+                <a href="/Profile" className="active">
+                  <FontAwesomeIcon className="list_icon" icon={faUser} /> MY PROFILE
+                </a>
+                
+              </li>
+
+            </ul>
+
+          </div>
+        )}
+
+
+
         <div className="display_flea_align">
           {/* Sidebar toggle button on the left */}
 
-          {currentLogin === "Admin" && isSidebarOpen && searchParams && (
+          {/* {currentLogin === "Admin" && isSidebarOpen && searchParams && ( */}
             <button
               className="sidebar-toggle-button-open"
               onClick={toggleSidebar}
             >
               ☰
             </button>
-          )}
+          {/* )} */}
 
           <div
             className="font_header">

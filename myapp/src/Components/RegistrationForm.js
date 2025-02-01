@@ -85,8 +85,9 @@ const RegistrationForm = () => {
     const newOne = localStorage.getItem('newUser');
     setnewuser(newOne)
 
-    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     if ((values === '' || values === null || values === undefined) && (!newOne)) {
+
       navigate("/");
       return;
     }
@@ -142,6 +143,22 @@ const RegistrationForm = () => {
     try {
       const response = await axios.get(userapiUrl);
       setArrayVal(response.data);
+     
+    } catch (error) {
+      toast.error("Failed to fetch registrations!");
+    }
+  };
+
+  const SetCurrentval = async () => {
+    try {
+      const response = await axios.get(userapiUrl);
+      if(response.data.length > 0 ){
+        
+        const newuserDetails = response.data.filter((val)=>val.RegNumber === UserID)
+        localStorage.setItem('currentUser', JSON.stringify(newuserDetails));
+        navigate('/profile', { state: UserID });
+      } 
+     
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -542,7 +559,8 @@ const RegistrationForm = () => {
       setusername('');
       setpassword('');
       setIsPopupOpen(true)
-      navigate('/profile', { state: UserID });
+      SetCurrentval()
+     
     }
     else {
       toast.error("Failed to submit the form!", { position: "top-center" });

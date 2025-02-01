@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
+const UserapiUrl = "http://localhost/Doctor_search/Usermaster.php";
 
 const Profile = () => {
   const [userData, setUserData] = useState([]);
@@ -82,11 +83,23 @@ const Profile = () => {
     }
   }, [currentID]);
 
-
+  const fetchUserlist = async () => {
+    // try {
+    //   const response = await axios.get(UserapiUrl);
+    //   if (response.data.code === 400) {
+    //     setArray([]);
+    //   }
+    //   else {
+    //     setArray(response.data);
+    //   }
+    // } catch (error) {
+    //   toast.error("Failed to fetch registrations!");
+    // }
+  };
 
   useEffect(() => {
     const newOne = localStorage.getItem('newUser');
-    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
     if ((values === '' || values === null || values === undefined) && (!newOne)) {
       navigate("/");
@@ -101,7 +114,7 @@ const Profile = () => {
       fetchData(data);
     }
 
-
+    fetchUserlist()
 
   }, [navigate, data, fetchData]);
   const handleTabChange = (tab) => {
@@ -417,7 +430,7 @@ const Profile = () => {
               <div className="personal-info-item tab_input_width">
                 <FontAwesomeIcon icon={faTransgenderAlt} />
                 {editItem === true &&
-                  <select className="pro_GENDER" onChange={(e) => setgender(e.target.value)} value={gender}>
+                  <select className="pro_GENDER txt_trans" onChange={(e) => setgender(e.target.value)} value={gender}>
                     <option value="Select">Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -426,7 +439,7 @@ const Profile = () => {
                   </select>
                 }
                 {editItem === false &&
-                  <div>
+                  <div className="txt_trans">
                     <strong>Gender:</strong> {userData.Gender}
                   </div>
                 }

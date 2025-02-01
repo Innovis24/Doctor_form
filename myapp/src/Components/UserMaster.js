@@ -42,8 +42,9 @@ const UserMaster = () => {
   const closeModal = () => setIsOpen(false);
   const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
   const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
+  const regapiUrl = "http://localhost/Doctor_search/Registrationform.php";
   useEffect(() => {
-    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
     if (values === '' || values === null || values === undefined) {
       navigate("/");
@@ -66,11 +67,12 @@ const UserMaster = () => {
       toast.error("Failed to fetch registrations!");
     }
   };
+  //for bind value in Dropdown
   const fetchuserNameList = async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(regapiUrl);
       const options = response.data.map((user) => ({
-        value: user.RegNumber,
+        value: user.RegistrationNumber,
         label: user.Name,
       }));
       setusernameOption(options);

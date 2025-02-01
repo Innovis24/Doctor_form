@@ -54,7 +54,7 @@ const RegistrationList = () => {
   // Calculate total pages
   const totalPages = Math.ceil(registrations.length / rowsPerPage);
   useEffect(() => {
-    const values = JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     const newOne = localStorage.getItem('newUser');
 
     if ((values === '' || values === null || values === undefined) && (!newOne)) {
