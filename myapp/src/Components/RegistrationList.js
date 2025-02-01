@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope, faTransgenderAlt, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope, faTransgenderAlt, faEye,faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 // import { faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 // import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";

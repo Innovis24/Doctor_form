@@ -142,10 +142,10 @@ padding: 17px;
 }
 /* Responsive design */
 @media (max-width: 768px) {
-  .controls {
+  /* .controls {
     flex-direction: column;
     gap: 15px;
-  }
+  } */
 
   .personal-info {
     grid-template-columns: 1fr;
@@ -158,8 +158,19 @@ padding: 17px;
   .tabs {
     flex-direction: column;
   }
+  .qualification-info-item1 {
+    flex-direction: row; /* Stack content vertically */
+    align-items: flex-start; /* Align content to the left */
 }
-
+.profile-container {
+  height: 85vh !important;
+}
+}
+@media (max-width: 1024px) {
+  .profile-container {
+    height: 72vh !important;
+  }
+}
 @media (max-width: 480px) {
   .register-button1 {
     font-size: 12px;
@@ -179,7 +190,11 @@ padding: 17px;
     font-size: 12px;
     padding: 8px 16px;
   }
+  .profile-container {
+    height: 83vh !important;
+  }
 }
+
 .registration-info-item1 {
   display: flex;
   align-items: center;
@@ -202,14 +217,6 @@ padding: 17px;
 }
 
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .qualification-info-item1 {
-      flex-direction: row; /* Stack content vertically */
-      align-items: flex-start; /* Align content to the left */
-  }
-}
 .cls_btn_style{
   display: flex;
       justify-content: center;
@@ -299,4 +306,16 @@ padding: 17px;
   width: 100%;
   border-radius: 10px;
   background-color: #d3d3d35e;
+}
+@media (min-width: 2800px)  {
+  .profile-container {
+    height: 14vh !important;
+  }
+
+}
+@media (min-width: 2000px) and (max-width:2700px) {
+  .profile-container {
+    height: 18vh !important;
+  }
+
 }
