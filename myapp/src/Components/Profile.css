@@ -257,6 +257,14 @@ padding: 17px;
   display: flex;
     gap: 4%;
 }
+.img_align{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+   height: 100%;
+   text-align: center; 
+}
 .tab_input_width{
   width: 45%;
 }
@@ -327,4 +335,22 @@ padding: 17px;
   word-wrap: break-word; /* Breaks long words */
   word-break: break-word; /* Ensures long words break within the cell */
   max-width: 100%; /* Optional: Set a maximum width for the column */
+}
+.img_wrap{
+  display: flex;
+      gap: 1%;
+      flex-wrap: wrap;
+}
+.img_padding{
+  margin-right: 10px;
+  margin-bottom: 70%;
+  margin-left: 4px;
+
+}
+.img_align_rt{
+  display: flex;
+      gap: 2% !important;  
+}
+.img_mrg_btm{
+  margin-bottom: 15px;
 }

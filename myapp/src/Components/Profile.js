@@ -181,6 +181,9 @@ const Profile = () => {
       // fileInputRef.current.value = null; // Reset the file input field
     }
   };
+  const handleEdit = (value)=>{
+
+  }
   const SubmitFn = async () => {
 
     if (!name ||
@@ -385,6 +388,9 @@ const Profile = () => {
           </div>
           <div className={`tab ${activeTab === "qualification" ? "active" : ""}`} onClick={() => handleTabChange("qualification")}>
             Qualification Info
+          </div>
+          <div className={`tab ${activeTab === "gallery" ? "active" : ""}`} onClick={() => handleTabChange("gallery")}>
+            Gallery
           </div>
 
         </div>
@@ -801,6 +807,42 @@ const Profile = () => {
             </div>
           </div>
         )}
+        {/* gallery */}
+        {activeTab === "gallery" && (
+          <div className="tab-content active">
+          <div className={!userData.gallery_image_paths ? "img_align  algin_tab" : "algin_tab img_align_rt"} >
+
+        <div>
+        {!userData.gallery_image_paths &&
+         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
+           <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red" }}>No images found</div>
+          </div>}
+        </div>
+        <div className="img_wrap">
+          {userData.gallery_image_paths &&
+        userData.gallery_image_paths.split(",").map((imgPath, index) => (
+          <div>
+              <img
+            key={index}
+            src={`http://localhost/Doctor_search/${imgPath}`}
+            alt={`Gallery Image ${index + 1}`}
+            width="150"
+            height="150"
+            className="img_mrg_btm"
+            style={{ borderRadius: "8px", objectFit: "cover" }}
+          />
+      <FontAwesomeIcon className="view-button img_padding" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleEdit(index)} />
+          </div>
+        
+          
+        ))}
+        </div>
+            </div>
+          
+          </div>
+        )}
+      
+
         {/* Close Button */}
         <div className="cls_btn_style">
           {editItem === true &&

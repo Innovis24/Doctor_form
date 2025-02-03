@@ -64,6 +64,7 @@ const RegistrationForm = () => {
   const [imageName, setimageName] = useState();
   const [image, setImage] = useState();
   const [Array, setArray] = useState([]);
+  const [galleryArray, setgalleryArray] = useState([]);
   const location = useLocation();
   const data = location.state;
   const today = new Date().toISOString().split("T")[0];
@@ -148,7 +149,7 @@ const RegistrationForm = () => {
       toast.error("Failed to fetch registrations!");
     }
   };
-
+  
   const SetCurrentval = async () => {
     try {
       const response = await axios.get(userapiUrl);
@@ -174,6 +175,17 @@ const RegistrationForm = () => {
       // fileInputRef.current.value = null; // Reset the file input field
     }
   };
+  const handleFileGalleryChange = (event) => {
+    const selectedFiles = event.target.files;
+  
+    if (selectedFiles) {
+      setgalleryArray([...galleryArray, ...selectedFiles]); // Append selected files to the array
+    }
+    
+  };
+  const handleDeleteGallery = (fileToDelete)=>{
+    setgalleryArray(prevFiles => prevFiles.filter(file => file !== fileToDelete));
+  }
   const handleDelete = () => {
     setcurrentfilename('')
     setImage('')
@@ -358,10 +370,14 @@ const RegistrationForm = () => {
         formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
         formData.append('yearOfQualification', yearOfQualification);
         formData.append('images', image)
-   
+        galleryArray.forEach((file, index) => {
+          formData.append(`galleryImages[${index}]`, file);
+      });
         const response = await axios.post(apiUrl + '?action=create', formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+       
+        
         if (response.data.code === 200) {
           toast.success(response.data.message, { position: "top-center" });
           setcurrentDoctorName(capitalizeFirstLetter(name));
@@ -386,7 +402,8 @@ const RegistrationForm = () => {
           setuniversity('');
           setstateOfMedicine('');
           setyearOfQualification('');
-          setIsPopupOpen(true)
+          setIsPopupOpen(true);
+          setgalleryArray([])
 
         } else {
           toast.error("Failed to submit the form!", { position: "top-center" });
@@ -795,7 +812,7 @@ const RegistrationForm = () => {
               </div>
             </div>
             <div>
-              <div className="prfile_font">Upload Image for Your profile<span className="asterisk">*</span></div>
+              <div className="prfile_font">Upload image for your profile<span className="asterisk">*</span></div>
 
               <div className="img_style">
                 <div className="img_input" >
@@ -838,7 +855,81 @@ const RegistrationForm = () => {
 
               </div>
             </div>
+            <div >
+              <div className="pading_top_reg">
 
+            <div className="prfile_font">Upload image for your gallery
+              {/* <span className="asterisk">*</span> */}
+              </div>
+
+                <div className="img_style">
+                  <div className="img_input" >
+
+                    <input type="file" id="file1"  // Attach the ref to the file input
+                    multiple 
+                      onChange={handleFileGalleryChange} accept="image/*" style={{
+                        display: "none", // Hides the default file input
+                      }} />
+                    <div className="display_fileupload">
+                      <div className="display_flex">
+                        <Button
+                          htmlFor="file1"
+                          style={{
+                            display: "inline-block",
+                            backgroundColor: "white",
+                            color: "black",
+                            padding: "4Px",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            fontSize: "11px",
+                            border: "1px solid grey",
+                            textTransform: "math-auto",
+                            width: "120px", // Fixed width
+                            // overflow: "hidden", // Hides overflow text
+                            // whiteSpace: "nowrap", // Prevents text wrapping
+                            // textOverflow: "ellipsis",
+                          }}
+                          onClick={() => document.getElementById("file1").click()}
+                        >
+                          <span> Choose File</span>
+                        </Button>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+            </div>
+            <div>
+              {galleryArray.length > 0 && 
+                  <table className="table table-1">
+                  <thead>
+                    <tr>
+                    <th className="th th-1">S.No</th>
+                    <th className="th th-2">File name</th>
+                    <th className="th th-3">Action</th>
+                    </tr>
+                  </thead>  
+                  <tbody class="upload-name-style">
+                  </tbody>
+                    {  galleryArray.map((record, index) => (
+                                   <tr key={index}>
+                                     <td className="text-wrap">{index + 1}</td>
+                                   
+                                     <td className="text-wrap txt_trans">{record.name}</td>
+                                     <td class="td td-3">
+                          <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDeleteGallery(record)} />
+                          </td>
+                                   </tr>
+                                 ))}
+                             
+                 
+
+                  </table>
+               }
+            </div>
+            </div>
             {/* Submit Button */}
             <div className="submit-button-container grid-cols-3">
 

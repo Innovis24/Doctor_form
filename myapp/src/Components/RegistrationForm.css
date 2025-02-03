@@ -309,3 +309,28 @@ textarea::placeholder {
   .create_back_width{
     width: 26%;
   }
+  .pading_top_reg{
+    padding-top: 10px;
+  }
+  .th-1 {
+    background-color: #3498db;
+    color: white;
+    width: 5% !important;
+  }
+  
+  .th-2 {
+    background-color: #3498db;
+    color: white;
+    width: 85% !important;
+  }
+  .th-3 {
+    background-color: #3498db;
+    color: white;
+    width: 10% !important;
+  }
+  .td-3 {
+    text-align: center !important;
+  }
+  .td-1 {
+    text-align: center !important;
+  }
