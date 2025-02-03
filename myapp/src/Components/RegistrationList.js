@@ -366,7 +366,7 @@ const RegistrationList = () => {
 
 
         </div>
-        {/* Details Modal */}.
+        {/* Details Modal */}
         {showDetails && selectedRecord && (
           <div className="modal">
             <div className="modal-content">
