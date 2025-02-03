@@ -1,14 +1,16 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route ,Router} from "react-router-dom";
 import RegistrationList from "./Components/RegistrationList";
 import RegistrationForm from "./Components/RegistrationForm"; // Assuming you have this
 import LoginScreen from "./Components/LoginScreen";
 import UserMaster from "./Components/UserMaster";
 import Profile from "./Components/Profile";
 import ForgetPassword from "./Components/ForgetPassword"
-
+import PreventBackNavigation from "./Components/PreventBackNavigation"
 const App = () => {
   return (
+    <>
+      <PreventBackNavigation /> 
     <Routes>
        <Route path="/" element={<LoginScreen />} />
        <Route path="/Profile" element={<Profile />} />
@@ -17,6 +19,7 @@ const App = () => {
       <Route path="/user_master" element={<UserMaster />} />
       <Route path="/registration_form" element={<RegistrationForm />} />
     </Routes>
+    </>
   );
 };
 
