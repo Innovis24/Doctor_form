@@ -8,13 +8,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope, faTransgenderAlt, faEye,faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope, faTransgenderAlt, faEye,faSearch, faTimes ,faSpinner } from '@fortawesome/free-solid-svg-icons';
 // import { faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 // import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import Header from './Header'
+import Header from './Header';
+import { ClipLoader } from 'react-spinners';
 import {
   faIdCard,
   faCalendarAlt,
@@ -32,6 +33,7 @@ import {
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 
 const RegistrationList = () => {
+  const [loading, setLoading] = useState(true);
   const [registrations, setRegistrations] = useState([]);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
@@ -41,8 +43,8 @@ const RegistrationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const location = useLocation();
-  const rowsPerPage = 5; // Adjust as needed
-
+  const rowsPerPage =6; // Adjust as needed
+  const [totalRecord, setTotalRecord] = useState(0);
   // Calculate the indices for slicing
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -50,8 +52,19 @@ const RegistrationList = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
-
-
+  const overlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  };
+ 
   // Calculate total pages
   const totalPages = Math.ceil(registrations.length / rowsPerPage);
   useEffect(() => {
@@ -73,18 +86,23 @@ const RegistrationList = () => {
   const param1 = getQueryParam('param1');
 
   const fetchRegistrations = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(apiUrl);
       if (response.data.code === 400) {
+        setLoading(false);
         setRegistrations([]);
-      }
-      else {
+      } else {
+        setLoading(false);
         setRegistrations(response.data);
+        setTotalRecord(response.data.length)
       }
-
     } catch (error) {
       toast.error("Failed to fetch registrations!");
-    }
+    } 
+    // finally {
+    //   setLoading(false);  // Stop loader after data is fetched
+    // }
   };
 
   const handleView = (record) => {
@@ -160,20 +178,23 @@ const RegistrationList = () => {
   };
 
   const handleYesDelete = async () => {
-
+    setLoading(true);
     try {
       const response = await axios.delete(apiUrl, {
         data: { Sno: Number(currentDeleteSno), image_path: currentImagepath }, // Send the Sno for deletion
       });
 
       if (response.status === 200) {
+        setLoading(false);
         toast.success("Record deleted successfully!");
         setIsOpen(false)
         fetchRegistrations()
       } else {
+        setLoading(false);
         toast.error(response.data.error || "Failed to delete record.");
       }
     } catch (error) {
+      setLoading(false);
       console.error("Error deleting record:", error);
       toast.error("Failed to delete record. Please try again.");
     }
@@ -187,11 +208,17 @@ const RegistrationList = () => {
 
   return (
     <div>
+    {loading && (
+        <div style={overlayStyle}>
+          <ClipLoader size={50} color="#fff" />
+        </div>
+      )}
       <Header title="Doctors List" />
       <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
         toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }} />
+        
       <Popup open={isOpen} onClose={closeModal} contentStyle={{
         width: '385px', // Adjust the width to your desired size
         padding: '20px', // Optional: Adjust padding if needed
@@ -207,7 +234,7 @@ const RegistrationList = () => {
 
         </div>
       </Popup>
-      <div className="list-container">
+      <div className="list-container1">
         <div className="btn-align1">
 
           {/* <button className="register-button1" onClick={handleRegisterClick}>
@@ -241,6 +268,7 @@ const RegistrationList = () => {
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Father / Spouse Name</th>
+                <th>Phone Number</th>
                 <th>Qualification</th>
                 <th>UPRN Number</th>
                 {/* <th>Registration No</th> */}
@@ -275,6 +303,7 @@ const RegistrationList = () => {
                     </td>
                     <td className="text-wrap txt_trans">{record.Gender}</td>
                     <td className="text-wrap">{record.Fathername}</td>
+                    <td className="text-wrap">{record.Phonenumber}</td>
                     <td className="text-wrap">{record.Qualification}</td>
                     <td className="text-wrap">{record.Uprnnumber}</td>
                     {/* <td className="text-wrap">{record.RegistrationNumber}</td> */}
@@ -296,35 +325,43 @@ const RegistrationList = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="10"><b>No records found!</b></td>
+                  <td colSpan="11"><b>No records found!</b></td>
                 </tr>
               )}
             </tbody>
           </table>
 
-          <div className="table_postiion">
-            <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style">
-              Previous
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToPage(index + 1)}
-                style={{
-                  margin: "0 5px",
-                  backgroundColor: currentPage === index + 1 ? "#00b4b6" : "#fff",
-                  color: currentPage === index + 1 ? "#fff" : "#000",
-                  border: "1px solid #00b4b6",
-                  borderRadius: "5px"
-                }}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style">
-              Next
-            </button>
-          </div>
+          <div className="table_position">
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="pagination_style_reg"
+                >
+                  Previous
+                </button>
+                <div className="pagination_buttons">
+                  {[...Array(totalPages)].map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToPage(index + 1)}
+                      className={`pagination_button ${currentPage === index + 1 ? 'active' : ''}`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="pagination_style_reg"
+                >
+                  Next
+                </button>
+                <div className="total_record totalrecord_style ">
+                  <span>TOTAL RECORD:</span> {totalRecord}
+                </div>
+              </div>
+
 
 
 

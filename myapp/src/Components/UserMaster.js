@@ -57,12 +57,7 @@ const UserMaster = () => {
   const fetchUserList = async () => {
     try {
       const response = await axios.get(apiUrl);
-      if (response.data.code === 400) {
-        setArray([]);
-      }
-      else {
-        setArray(response.data);
-      }
+      setArray(response.data);
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -71,12 +66,19 @@ const UserMaster = () => {
   const fetchuserNameList = async () => {
     try {
       const response = await axios.get(regapiUrl);
-      const options = response.data.map((user) => ({
-        value: user.RegistrationNumber,
-        label: user.Name,
-      }));
-      setusernameOption(options);
-      setuserList(options)
+      if (response.data.code === 400) {
+        setusernameOption([]);
+        setuserList([])
+
+      }else{
+        const options = response.data.map((user) => ({
+          value: user.RegistrationNumber,
+          label: user.Name,
+        }));
+        setusernameOption(options);
+        setuserList(options)
+      }
+     
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -340,7 +342,7 @@ const UserMaster = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="txt_align"><b>No records found!</b></td>
+                <td colSpan="6" className="txt_align"><b>No records found!</b></td>
               </tr>
             )}
           </tbody>

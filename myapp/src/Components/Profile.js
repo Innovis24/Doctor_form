@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
+import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhoneAlt, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
@@ -7,10 +8,13 @@ import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate 
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ClipLoader } from 'react-spinners';
+
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
 const UserapiUrl = "http://localhost/Doctor_search/Usermaster.php";
 
 const Profile = () => {
+  const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState([]);
   const [activeTab, setActiveTab] = useState("");
   const [fatherName, setfatherName] = useState();
@@ -45,12 +49,25 @@ const Profile = () => {
 
   const location = useLocation();
   const data = location.state;
-
+  const overlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  };
   const fetchData = useCallback(async (ID) => {
+    setLoading(true)
     try {
       const response = await axios.get(apiUrl);
       setarray(response.data)
       if (currentID !== "") {
+        setLoading(false)
         const filterValNew = response.data.filter((record) =>
           record.RegistrationNumber === currentID
         );
@@ -64,6 +81,7 @@ const Profile = () => {
       }
 
       else {
+        setLoading(false)
         const filterValOld = response.data.filter((record) =>
           record.RegistrationNumber === ID
         );
@@ -79,6 +97,7 @@ const Profile = () => {
 
 
     } catch (error) {
+      setLoading(false)
       toast.error("Failed to fetch registrations!");
     }
   }, [currentID]);
@@ -327,6 +346,11 @@ const Profile = () => {
   }
   return (
     <div>
+         {loading && (
+                <div style={overlayStyle}>
+                  <ClipLoader size={50} color="#fff" />
+                </div>
+              )}
       <Header title="Profile" />
       <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
