@@ -362,8 +362,26 @@ const Profile = () => {
       if (response.status === 200) {
         setLoading(false);
         toast.success("Record deleted successfully!");
-        fetchData(regNumber)
-        setActiveTab("gallery")
+  
+        const response = await axios.get(apiUrl);
+       
+
+        const filterValNew = response.data.filter((record) =>
+            record.Sno === CurrentSno
+          );
+        if (filterValNew.length > 0) {
+            setUserData(filterValNew[0]);
+            setActiveTab("gallery")
+        }
+          else {
+            setUserData([]);
+        }
+
+
+
+
+
+        setActiveTab('gallery')
       } else {
         setLoading(false);
         toast.error(response.data.error || "Failed to delete record.");
