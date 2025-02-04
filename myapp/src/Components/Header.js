@@ -11,6 +11,9 @@ const Header = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const [currentLogin, setCurrentLogin] = useState('');
+  const [currentUser, setcurrentUser] = useState('');
+  const [currentUsername, setcurrentUsername] = useState('')
+  const [openpopup, setopenpopup] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -21,7 +24,14 @@ const Header = ({ title }) => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     const newOne = localStorage.getItem('newUser');
     if (!newOne && values) {
-      setCurrentLogin(values[0].UserRole)
+      setCurrentLogin(values[0].UserRole);
+      if (values[0].Name) {
+        setcurrentUsername(values[0].Name)
+        
+        const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
+       
+        setcurrentUser(nameParts);
+      }
     }
     else if (newOne && !values) {
       setCurrentLogin()
@@ -35,32 +45,38 @@ const Header = ({ title }) => {
     // else{
     //   setCurrentLogin(values[0].UserRole)
     // }
-
+   
   }, []);
-  const OpenPopup = () => {
+  const OpenPopupcard = () => {
     setIsOpen(true)
+  }
+  const OpenUser=()=>{
+    setopenpopup(prevState => !prevState);
   }
   const handleExit = () => {
     localStorage.clear();
     navigate("/")
   };
+
   return (
     <div>
-      <Popup open={isOpen} onClose={closeModal} contentStyle={{
-        width: '385px', 
-        padding: '20px', 
-        border: '1px solid #ccc',
-        borderRadius: '8px',
-      }}>
-        <div >
-          <h2 className="fontFam">Are you sure you want to logout?</h2>
-          <div className="popup_btn">
-            <button className="btn_yesclr" onClick={handleExit}>Yes</button>
-            <button className="btn_noClr" onClick={closeModal}>No</button>
-          </div>
-
+    <Popup open={isOpen} onClose={closeModal} contentStyle={{
+      width: '385px', 
+      padding: '20px', 
+      border: '1px solid #ccc',
+      borderRadius: '8px',
+    }}>
+      <div >
+        <h2 className="fontFam">Are you sure you want to logout?</h2>
+        <div className="popup_btn">
+          <button className="btn_yesclr" onClick={handleExit}>Yes</button>
+          <button className="btn_noClr" onClick={closeModal}>No</button>
         </div>
-      </Popup>
+
+      </div>
+    </Popup>
+      
+  
       <div className="header_font">
         {/* Render content only if logged in */}
 
@@ -88,6 +104,25 @@ const Header = ({ title }) => {
             </ul>
 
           </div>
+        )}
+        {openpopup === true && (
+                <div className="menu_card ">
+                  <div className="menu-alignment" >
+                    
+                    <div className="userName ">
+                    <FontAwesomeIcon icon={faUser} className="color_logout mrg_rgt"/>
+                    <div className="cls_imagecolor">{currentUsername}</div>
+                    </div>
+
+                    <div className="logout_btn cursor_logout" onClick={OpenPopupcard}>
+                    <FontAwesomeIcon icon={faSignOut} className="color_logout"/>
+                    <button className="logout_alignment" >
+                      Logout
+                    </button>
+                  </div>
+
+                  </div>
+                </div>
         )}
 
         {currentLogin !== "Admin" && !isSidebarOpen && searchParams && (
@@ -139,8 +174,10 @@ const Header = ({ title }) => {
             {title}
           </div>
           <div className="logout_style">
-            <button className="icon_button" onClick={OpenPopup}>
-              <FontAwesomeIcon icon={faSignOut} />
+
+            <button className="icon_button" title={currentUsername} onClick={OpenUser}>
+              {/* <FontAwesomeIcon icon={faSignOut} /> */}
+              {currentUser}
             </button>
 
           </div>

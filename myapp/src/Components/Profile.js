@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt,faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
 
 const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
-const UserapiUrl = "http://localhost/Doctor_search/Usermaster.php";
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -44,9 +43,10 @@ const Profile = () => {
   const [currentfilename, setcurrentfilename] = useState();
   const [imagePath, setimagePath] = useState();
   const [imageName, setimageName] = useState();
+   const [galleryArray, setgalleryArray] = useState([]);
   const [image, setImage] = useState();
   const [Array, setarray] = useState({});
-
+  const [newImsge, setnewImsge] = useState([]);
   const location = useLocation();
   const data = location.state;
   const overlayStyle = {
@@ -102,19 +102,7 @@ const Profile = () => {
     }
   }, [currentID]);
 
-  const fetchUserlist = async () => {
-    // try {
-    //   const response = await axios.get(UserapiUrl);
-    //   if (response.data.code === 400) {
-    //     setArray([]);
-    //   }
-    //   else {
-    //     setArray(response.data);
-    //   }
-    // } catch (error) {
-    //   toast.error("Failed to fetch registrations!");
-    // }
-  };
+
 
   useEffect(() => {
     const newOne = localStorage.getItem('newUser');
@@ -133,11 +121,29 @@ const Profile = () => {
       fetchData(data);
     }
 
-    fetchUserlist()
-
   }, [navigate, data, fetchData]);
   const handleTabChange = (tab) => {
     setActiveTab(tab); // Update activeTab state correctly
+  };
+  const handleFileGalleryChange = (event) => {
+   
+
+    if (!event.target.files || event.target.files.length === 0) {
+      console.log("No files selected.");
+      return;
+    }
+
+    const selectedFiles = [...event.target.files]; // Correct conversion ✅
+    const newImageURLs = selectedFiles.map((file) => URL.createObjectURL(file)); // Convert to preview URLs
+
+    setnewImsge((prev) => [...prev, ...newImageURLs]); 
+
+    console.log('fileupload')
+    const selectedFilesapi = event.target.files;
+  
+    if (selectedFiles) {
+      setgalleryArray([...galleryArray, ...selectedFilesapi]); // Append selected files to the array
+    }
   };
 
   function capitalizeFirstLetter(string) {
@@ -281,7 +287,9 @@ const Profile = () => {
     else {
       formData.append('image_name', image.name);
     }
-
+    galleryArray.forEach((file, index) => {
+      formData.append(`galleryImages[${index}]`, file);
+   });
     // console.log(formData)
     const response = await axios.post(apiUrl, formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -291,6 +299,7 @@ const Profile = () => {
       localStorage.setItem('editItem', false);
       fetchData(regNumber)
       seteditItem(false)
+      setnewImsge([])
 
 
     } else {
@@ -343,6 +352,54 @@ const Profile = () => {
     setuprn(event.target.value);
 
   }
+  const handleImgDelete = async (imgDet)=>{
+   
+    try {
+      const response = await axios.delete((apiUrl + '?action=deleteImage'), {
+        data: { Sno: Number(CurrentSno), imageName: imgDet }, // Send the Sno for deletion
+      });
+
+      if (response.status === 200) {
+        setLoading(false);
+        toast.success("Record deleted successfully!");
+        fetchData(regNumber)
+        setActiveTab("gallery")
+      } else {
+        setLoading(false);
+        toast.error(response.data.error || "Failed to delete record.");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error deleting record:", error);
+      toast.error("Failed to delete record. Please try again.");
+    }
+
+  }
+  const newhandleImgDelete = async (ind,imageURL)=>{
+   
+      
+  // let indexToRemove = 1; // Remove the second element
+
+  // let updatedBlobs = newImsge.filter((_, index) => index !== indexToRemove);
+
+  //   setnewImsge(updatedBlobs)
+  setnewImsge((prevImages) => {
+    const indexToDelete = prevImages.indexOf(imageURL); // Find index of deleted image
+    
+    if (indexToDelete === -1) return prevImages; // If not found, return same state
+
+    // Remove the image URL
+    const updatedImages = prevImages.filter((_, index) => index !== indexToDelete);
+
+    setgalleryArray((prevGallery) => {
+      const updatedGallery = prevGallery.filter((_, index) => index !== indexToDelete);
+      return updatedGallery.length > 0 ? updatedGallery : []; // Ensure empty array when last item is deleted
+    });
+
+    return updatedImages;
+  });
+   
+  }
   const handleDelete = () => {
     setcurrentfilename('')
     setImage('')
@@ -389,8 +446,12 @@ const Profile = () => {
           <div className={`tab ${activeTab === "qualification" ? "active" : ""}`} onClick={() => handleTabChange("qualification")}>
             Qualification Info
           </div>
-          <div className={`tab ${activeTab === "gallery" ? "active" : ""}`} onClick={() => handleTabChange("gallery")}>
+          <div className={`tab ${activeTab === "gallery" ? "active gallery_icon" : "gallery_icon"}`} onClick={() => handleTabChange("gallery")}>
+          
+            <div >
             Gallery
+            </div>
+       
           </div>
 
         </div>
@@ -414,7 +475,7 @@ const Profile = () => {
                 {editItem === false &&
                   <div className="content_display">
                     <strong>Name:</strong> 
-                    <div className="Profile_txt_wrap">
+                    <div className="Profile_txt_wrap txt_transform">
                       {userData.Name}
                     </div>
                   </div>
@@ -811,14 +872,33 @@ const Profile = () => {
         {activeTab === "gallery" && (
           <div className="tab-content active">
           <div className={!userData.gallery_image_paths ? "img_align  algin_tab" : "algin_tab img_align_rt"} >
-
+          {editItem === true && (
+            <div>
+                <FontAwesomeIcon icon={faCirclePlus} className="add_icon curserPointer"  onClick={() => document.getElementById("file1").click()}  />
+                <input 
+              type="file" 
+              id="file1" 
+              multiple 
+              onChange={handleFileGalleryChange} 
+              accept="image/*" 
+              style={{
+                display: 'none',  // Hides the file input
+              }}
+            />
+            </div>
+            
+          )
+        
+          
+          }
         <div>
-        {!userData.gallery_image_paths &&
+        {!userData.gallery_image_paths && newImsge.length === 0 &&
          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
            <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red" }}>No images found</div>
           </div>}
         </div>
-        <div className="img_wrap">
+       
+        <div className="img_wrap img_gap_scroll" >
           {userData.gallery_image_paths &&
         userData.gallery_image_paths.split(",").map((imgPath, index) => (
           <div>
@@ -831,17 +911,34 @@ const Profile = () => {
             className="img_mrg_btm"
             style={{ borderRadius: "8px", objectFit: "cover" }}
           />
-      <FontAwesomeIcon className="view-button img_padding" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleEdit(index)} />
+           {editItem === true &&
+      <FontAwesomeIcon className="view-button img_padding" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleImgDelete(imgPath)} />
+           }
           </div>
         
           
         ))}
+        {newImsge.length > 0 &&
+          newImsge.map((imgUrl, index) => (
+            <div key={index} style={{ display: "inline-block" }} className="newlt_img">
+              <img
+                src={imgUrl}
+                alt={`New Image ${index + 1}`}
+                width="150"
+                height="150"
+                style={{ borderRadius: "8px", objectFit: "cover" }}
+              />
+                <FontAwesomeIcon className="view-button img_padding newImg_btom" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => newhandleImgDelete(index,imgUrl)} />
+            </div>
+            
+          ))}
         </div>
             </div>
           
           </div>
         )}
-      
+
+
 
         {/* Close Button */}
         <div className="cls_btn_style">

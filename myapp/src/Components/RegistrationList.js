@@ -180,7 +180,7 @@ const RegistrationList = () => {
   const handleYesDelete = async () => {
     setLoading(true);
     try {
-      const response = await axios.delete(apiUrl, {
+      const response = await axios.delete((apiUrl + '?action=deleteuser'), {
         data: { Sno: Number(currentDeleteSno), image_path: currentImagepath }, // Send the Sno for deletion
       });
 
@@ -392,6 +392,13 @@ const RegistrationList = () => {
                 >
                   Qualification Info
                 </div>
+
+                <div
+                  className={`tab ${activeTab === 'gallery' ? 'active' : ''}`}
+                  onClick={() => setActiveTab('gallery')}
+                >
+                 Gallery
+                </div>
               </div>
 
               {/* Tab Contents */}
@@ -497,7 +504,33 @@ const RegistrationList = () => {
                 </div>
               </div>
 
+              <div className={`tab-content ${activeTab === 'gallery' ? 'active' : ''}`}>
+                <div className={selectedRecord.gallery_image_paths ? "img_flex image-container" : ""}>
+                
+                 {selectedRecord.gallery_image_paths &&
+                        selectedRecord.gallery_image_paths.split(",").map((imgPath, index) => (
+                          <div >
+                              <img
+                            key={index}
+                            src={`http://localhost/Doctor_search/${imgPath}`}
+                            alt={`Gallery Image ${index + 1}`}
+                            width="150"
+                            height="150"
+                            className="img_mrg_btm"
+                            style={{ borderRadius: "8px", objectFit: "cover" }}
+                          />
+                          </div>
+                        
+                          
+                        ))}
 
+              {!selectedRecord.gallery_image_paths && (
+                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
+                  <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red" }}>No images found</div>
+                 </div>
+              )}
+                      </div>
+              </div>
 
               {/* Close Button */}
               <button className="close-button" onClick={closeDetails}>

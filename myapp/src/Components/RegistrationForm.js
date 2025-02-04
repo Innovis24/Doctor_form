@@ -903,8 +903,9 @@ const RegistrationForm = () => {
             </div>
             <div>
               {galleryArray.length > 0 && 
-                  <table className="table table-1">
-                  <thead>
+              <div className="table_scroll_galler">
+                   <table className="table marb_0px" style={{ width: "100%", borderCollapse: "collapse" }}>
+                  <thead >
                     <tr>
                     <th className="th th-1">S.No</th>
                     <th className="th th-2">File name</th>
@@ -927,6 +928,8 @@ const RegistrationForm = () => {
                  
 
                   </table>
+              </div>
+               
                }
             </div>
             </div>

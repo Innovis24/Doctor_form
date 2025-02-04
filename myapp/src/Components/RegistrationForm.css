@@ -334,3 +334,12 @@ textarea::placeholder {
   .td-1 {
     text-align: center !important;
   }
+  .marb_0px{
+    margin-top: 0px !important;
+  }
+  .table_scroll_galler{
+    max-height: 300px;
+     overflow-y: auto;
+     border: 1px solid #ddd ;
+     margin-top:20px;
+  }

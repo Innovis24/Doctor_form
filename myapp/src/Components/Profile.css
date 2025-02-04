@@ -349,8 +349,33 @@ padding: 17px;
 }
 .img_align_rt{
   display: flex;
-      gap: 2% !important;  
+      gap: 1% !important;  
 }
 .img_mrg_btm{
   margin-bottom: 15px;
+}
+.gallery_icon{
+  display: flex;
+    justify-content: space-between;
+}
+.add_icon{
+  font-size: 30px;
+  color: #00b4b6;
+}
+.img_gap_scroll{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-height: 335px;
+    overflow-y: auto ;
+    scrollbar-width: 'thin';
+}
+.newImg_btom{
+  margin-bottom: 64% !important;
+}
+.newlt_img{
+  margin: 1px 10px 10px 10px !important;
+}
+.curserPointer{
+  cursor: pointer;
 }
