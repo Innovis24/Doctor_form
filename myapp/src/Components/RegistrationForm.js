@@ -144,22 +144,22 @@ const RegistrationForm = () => {
     try {
       const response = await axios.get(userapiUrl);
       setArrayVal(response.data);
-     
+
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
   };
-  
+
   const SetCurrentval = async () => {
     try {
       const response = await axios.get(userapiUrl);
-      if(response.data.length > 0 ){
-        
-        const newuserDetails = response.data.filter((val)=>val.RegNumber === UserID)
+      if (response.data.length > 0) {
+
+        const newuserDetails = response.data.filter((val) => val.RegNumber === UserID)
         localStorage.setItem('currentUser', JSON.stringify(newuserDetails));
         navigate('/profile', { state: UserID });
-      } 
-     
+      }
+
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -177,13 +177,13 @@ const RegistrationForm = () => {
   };
   const handleFileGalleryChange = (event) => {
     const selectedFiles = event.target.files;
-  
+
     if (selectedFiles) {
       setgalleryArray([...galleryArray, ...selectedFiles]); // Append selected files to the array
     }
-    
+
   };
-  const handleDeleteGallery = (fileToDelete)=>{
+  const handleDeleteGallery = (fileToDelete) => {
     setgalleryArray(prevFiles => prevFiles.filter(file => file !== fileToDelete));
   }
   const handleDelete = () => {
@@ -261,6 +261,19 @@ const RegistrationForm = () => {
       toast.error("Enter a valid 10-digit phone number.");
     }
   }
+  const handleYearChange = (e) => {
+    const inputYear = e.target.value;
+    setregYear(inputYear);
+
+    const currentYear = new Date().getFullYear();
+
+     if (inputYear < 1900 || inputYear > currentYear) {
+      toast.error(`Year must be between 1900 and ${currentYear}.`);
+    } else {
+      toast.error(""); // Clear error if valid
+    }
+  };
+
   const checkEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
@@ -372,12 +385,12 @@ const RegistrationForm = () => {
         formData.append('images', image)
         galleryArray.forEach((file, index) => {
           formData.append(`galleryImages[${index}]`, file);
-      });
+        });
         const response = await axios.post(apiUrl + '?action=create', formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-       
-        
+
+
         if (response.data.code === 200) {
           toast.success(response.data.message, { position: "top-center" });
           setcurrentDoctorName(capitalizeFirstLetter(name));
@@ -540,9 +553,7 @@ const RegistrationForm = () => {
     }
 
   };
-  const backPwdPopup = () => {
-    navigate("/");
-  }
+ 
   const handleInputChange = (event) => {
     const newUsername = event.target.value;
     setusername(newUsername);
@@ -577,7 +588,7 @@ const RegistrationForm = () => {
       setpassword('');
       setIsPopupOpen(true)
       SetCurrentval()
-     
+
     }
     else {
       toast.error("Failed to submit the form!", { position: "top-center" });
@@ -766,7 +777,7 @@ const RegistrationForm = () => {
               <div className="input-group">
                 <FontAwesomeIcon icon={faCalendarAlt} />
                 <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={50} />
+                <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
               </div>
             </div>
 
@@ -808,7 +819,7 @@ const RegistrationForm = () => {
               <div className="input-group">
                 <FontAwesomeIcon icon={faCalendarCheck} />
                 <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Qualification" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
+                <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  />
               </div>
             </div>
             <div>
@@ -858,15 +869,15 @@ const RegistrationForm = () => {
             <div >
               <div className="pading_top_reg">
 
-            <div className="prfile_font">Upload image for your gallery
-              {/* <span className="asterisk">*</span> */}
-              </div>
+                <div className="prfile_font">Upload image for your gallery
+                  {/* <span className="asterisk">*</span> */}
+                </div>
 
                 <div className="img_style">
                   <div className="img_input" >
 
                     <input type="file" id="file1"  // Attach the ref to the file input
-                    multiple 
+                      multiple
                       onChange={handleFileGalleryChange} accept="image/*" style={{
                         display: "none", // Hides the default file input
                       }} />
@@ -900,38 +911,38 @@ const RegistrationForm = () => {
                   </div>
 
                 </div>
-            </div>
-            <div>
-              {galleryArray.length > 0 && 
-              <div className="table_scroll_galler">
-                   <table className="table marb_0px" style={{ width: "100%", borderCollapse: "collapse" }}>
-                  <thead >
-                    <tr>
-                    <th className="th th-1">S.No</th>
-                    <th className="th th-2">File name</th>
-                    <th className="th th-3">Action</th>
-                    </tr>
-                  </thead>  
-                  <tbody class="upload-name-style">
-                  </tbody>
-                    {  galleryArray.map((record, index) => (
-                                   <tr key={index}>
-                                     <td className="text-wrap">{index + 1}</td>
-                                   
-                                     <td className="text-wrap txt_trans">{record.name}</td>
-                                     <td class="td td-3">
-                          <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDeleteGallery(record)} />
-                          </td>
-                                   </tr>
-                                 ))}
-                             
-                 
-
-                  </table>
               </div>
-               
-               }
-            </div>
+              <div>
+                {galleryArray.length > 0 &&
+                  <div className="table_scroll_galler">
+                    <table className="table marb_0px" style={{ width: "100%", borderCollapse: "collapse" }}>
+                      <thead >
+                        <tr>
+                          <th className="th th-1">S.No</th>
+                          <th className="th th-2">File name</th>
+                          <th className="th th-3">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="upload-name-style">
+                      </tbody>
+                      {galleryArray.map((record, index) => (
+                        <tr key={index}>
+                          <td className="text-wrap">{index + 1}</td>
+
+                          <td className="text-wrap txt_trans">{record.name}</td>
+                          <td class="td td-3">
+                            <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDeleteGallery(record)} />
+                          </td>
+                        </tr>
+                      ))}
+
+
+
+                    </table>
+                  </div>
+
+                }
+              </div>
             </div>
             {/* Submit Button */}
             <div className="submit-button-container grid-cols-3">

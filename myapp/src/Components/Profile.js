@@ -462,7 +462,7 @@ const Profile = () => {
             Registration Details
           </div>
           <div className={`tab ${activeTab === "qualification" ? "active" : ""}`} onClick={() => handleTabChange("qualification")}>
-            Qualification Info
+            Qualification Info & Profile Image
           </div>
           <div className={`tab ${activeTab === "gallery" ? "active gallery_icon" : "gallery_icon"}`} onClick={() => handleTabChange("gallery")}>
           
@@ -840,14 +840,17 @@ const Profile = () => {
             </div>
             <div className="algin_tab">
               <div className="qualification-info-item1 tab_input_width">
-            
+              <div className="prfile_font">Upload image for your profile</div>
                 <div className="img_style_pro">
+                  
                   <div className="img_input" >
+                  
 
                     <input type="file" id="file"  // Attach the ref to the file input
                       onChange={handleFileChange} accept="image/*" style={{
                         display: "none", // Hides the default file input
                       }} />
+
                     <div className="display_fileupload">
                       <div className="display_flex">
                         <button
@@ -923,7 +926,7 @@ const Profile = () => {
               <img
             key={index}
             src={`http://localhost/Doctor_search/${imgPath}`}
-            alt={`Gallery Image ${index + 1}`}
+            alt="Gallery Item"
             width="150"
             height="150"
             className="img_mrg_btm"
@@ -941,7 +944,7 @@ const Profile = () => {
             <div key={index} style={{ display: "inline-block" }} className="newlt_img">
               <img
                 src={imgUrl}
-                alt={`New Image ${index + 1}`}
+                alt="New gallery item"
                 width="150"
                 height="150"
                 style={{ borderRadius: "8px", objectFit: "cover" }}

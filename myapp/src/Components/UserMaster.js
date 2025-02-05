@@ -130,8 +130,15 @@ const UserMaster = () => {
   const sethandleSearch = (e) => {
     let searchValue = e.target.value
     setSearchQuery(searchValue.trim())
+    handleSearch()
+    if(searchValue === ""){
+      fetchUserList();
+    }
   }
   const handleSearch = () => {
+    if(searchQuery === ""){
+      fetchUserList();
+    }
     const filteredRegistrations = Arrayval.filter((record) =>
       record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -289,7 +296,11 @@ const UserMaster = () => {
             className="search-bar"
             placeholder="Search"
             value={searchQuery} onChange={(e) => sethandleSearch(e)}
-
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(); // Trigger search on Enter key press
+              }
+            }}
           />
           <FontAwesomeIcon className="view-button icon_style" icon={faSearch} style={{ marginRight: "8px" }} onClick={() => handleSearch()} />
           <FontAwesomeIcon className="view-button cancelStyle" icon={faTimes} style={{ marginRight: "8px" }} onClick={() => clear()} />

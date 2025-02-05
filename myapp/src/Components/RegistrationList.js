@@ -113,10 +113,17 @@ const RegistrationList = () => {
   const sethandleSearch = (e) => {
     let searchValue = e.target.value
     setSearchQuery(searchValue.trim())
+    handleSearch()
+    if(searchValue === ""){
+      fetchRegistrations();
+    }
   }
 
   const handleSearch = (e) => {
     console.log(param1)
+    // if(searchQuery === ""){
+    //   fetchRegistrations();
+    // }
     if(param1 === 'searchDoctor'){
       const filteredRegistrations = registrations.filter((record) =>
         record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -248,7 +255,11 @@ const RegistrationList = () => {
             className="search-bar"
             placeholder="Search"
             value={searchQuery} onChange={(e) => sethandleSearch(e)}
-
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(); // Trigger search on Enter key press
+              }
+            }}
           />
           <SearchIcon className="search-icon" onClick={() => handleSearch()} />
 
@@ -308,8 +319,8 @@ const RegistrationList = () => {
                     <td className="text-wrap">{record.Uprnnumber}</td>
                     {/* <td className="text-wrap">{record.RegistrationNumber}</td> */}
                     <td className="text-wrap">{record.Yearofregistration}</td>
-                    <td className="text-wrap">{record.Stateofmedicine}</td>
-                    <td className="text-wrap">{record.City}</td>
+                    <td className="text-wrap txt_trans">{record.Stateofmedicine}</td>
+                    <td className="text-wrap txt_trans">{record.City}</td>
 
                     <td>
 
@@ -513,7 +524,7 @@ const RegistrationList = () => {
                               <img
                             key={index}
                             src={`http://localhost/Doctor_search/${imgPath}`}
-                            alt={`Gallery Image ${index + 1}`}
+                            alt="gallery item"
                             width="150"
                             height="150"
                             className="img_mrg_btm"
