@@ -299,6 +299,7 @@ const Profile = () => {
       localStorage.setItem('editItem', false);
       fetchData(regNumber)
       seteditItem(false)
+      setgalleryArray([])
       setnewImsge([])
 
 
@@ -915,13 +916,13 @@ const Profile = () => {
         <div>
         {!userData.gallery_image_paths && newImsge.length === 0 &&
          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
-           <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red" }}>No images found</div>
+           <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red", padding: "20px" }}>No images found</div>
           </div>}
         </div>
        
         <div className="img_wrap img_gap_scroll" >
           {userData.gallery_image_paths &&
-        userData.gallery_image_paths.split(",").map((imgPath, index) => (
+        userData.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
           <div>
               <img
             key={index}

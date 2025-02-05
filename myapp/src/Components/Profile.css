@@ -226,7 +226,7 @@ padding: 17px;
 }
 /* Registration Info Container */
 .tab-content.active {
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   background: #f9f9f9; /* Light background for better contrast */
   border-radius: 8px;
   border: 1px solid #ddd; /* Optional: Add a border for separation */

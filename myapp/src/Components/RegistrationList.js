@@ -381,8 +381,14 @@ const RegistrationList = () => {
         {showDetails && selectedRecord && (
           <div className="modal">
             <div className="modal-content">
-              <h2>Registration Details</h2>
 
+              <div className="pop_up_cancelicon">
+              <div className="profile_style">Profile Details</div>  
+              <div> 
+                <CloseIcon className="clear-icon cancel_btn_style" onClick={closeDetails} /></div>
+              </div>
+            
+              
               {/* Tabs */}
               <div className="tabs">
                 <div
@@ -537,16 +543,16 @@ const RegistrationList = () => {
 
               {!selectedRecord.gallery_image_paths && (
                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
-                  <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red" }}>No images found</div>
+                  <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red"}}>No images found</div>
                  </div>
               )}
                       </div>
               </div>
 
               {/* Close Button */}
-              <button className="close-button" onClick={closeDetails}>
+              {/* <button className="close-button" onClick={closeDetails}>
                 Close
-              </button>
+              </button> */}
             </div>
           </div>
         )}
