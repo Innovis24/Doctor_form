@@ -10,7 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
 
-const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
+const apiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -442,7 +442,7 @@ const Profile = () => {
           <div className="profile-header">
             <img
               className="profile-image"
-              src={`http://localhost/Doctor_search/${userData.image_path}`}
+              src={`https://doctors.innovis24.com/Doctor_search/${userData.image_path}`}
               alt="Profile not loading"
             />
             <div className="edit_icon_pad">
@@ -848,6 +848,7 @@ const Profile = () => {
                   
 
                     <input type="file" id="file"  // Attach the ref to the file input
+                    disabled={!editItem}
                       onChange={handleFileChange} accept="image/*" style={{
                         display: "none", // Hides the default file input
                       }} />
@@ -858,12 +859,12 @@ const Profile = () => {
                           htmlFor="file"
                           style={{
                             display: "inline-block",
-                            backgroundColor: "white",
+                            backgroundColor: editItem ? "white" : "#ccc",
                             color: "black",
                             padding: "4Px",
                             borderRadius: "5px",
-                            cursor: "pointer",
                             fontSize: "11px",
+                            cursor: editItem ? "pointer" : "not-allowed",
                             border: "1px solid grey",
                             textTransform: "math-auto",
                             width: "120px", // Fixed width
@@ -926,7 +927,7 @@ const Profile = () => {
           <div>
               <img
             key={index}
-            src={`http://localhost/Doctor_search/${imgPath}`}
+            src={`https://doctors.innovis24.com/Doctor_search/${imgPath}`}
             alt="Gallery Item"
             width="150"
             height="150"

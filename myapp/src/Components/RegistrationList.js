@@ -30,11 +30,12 @@ import {
   faCalendarCheck
 } from "@fortawesome/free-solid-svg-icons";
 
-const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
+const apiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
 
 const RegistrationList = () => {
   const [loading, setLoading] = useState(true);
   const [registrations, setRegistrations] = useState([]);
+  const [wholearray, setwholearray] = useState([]);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
@@ -49,7 +50,17 @@ const RegistrationList = () => {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentRows = registrations.slice(startIndex, endIndex);
-
+  const [searchFilters, setSearchFilters] = useState({
+    Name: "",
+    Gender: "",
+    Fathername: "",
+    Phonenumber: "",
+    Qualification: "",
+    Uprnnumber: "",
+    Yearofregistration: "",
+    Stateofmedicine: "",
+    City: "",
+  });
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const overlayStyle = {
@@ -95,6 +106,7 @@ const RegistrationList = () => {
       } else {
         setLoading(false);
         setRegistrations(response.data);
+        setwholearray(response.data)
         setTotalRecord(response.data.length)
       }
     } catch (error) {
@@ -115,15 +127,13 @@ const RegistrationList = () => {
     setSearchQuery(searchValue.trim())
     handleSearch()
     if(searchValue === ""){
-      fetchRegistrations();
+      setRegistrations(wholearray)
     }
   }
 
   const handleSearch = (e) => {
     console.log(param1)
-    // if(searchQuery === ""){
-    //   fetchRegistrations();
-    // }
+  
     if(param1 === 'searchDoctor'){
       const filteredRegistrations = registrations.filter((record) =>
         record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -148,13 +158,43 @@ const RegistrationList = () => {
     }
    
   };
+  const handleSearchChange = (e, field) => {
+    const { value } = e.target;
+  
+    setSearchFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: value, // Update only the specific field
+    }));
+  
+    if(e.target.value === ""){
+      setRegistrations(wholearray)
+      return
+    }
+    
+    
 
+
+    // Check if Enter is pressed
+    // if (e.key !== "Enter") {
+      applyFilters({ ...searchFilters, [field]: value });
+    // }
+  };
+  
+  const applyFilters = (filters) => {
+
+    const filteredData = wholearray.filter((record) =>
+      Object.keys(filters).every((key) =>
+        filters[key] === "" || 
+        (record[key] && record[key].toString().toLowerCase().includes(filters[key].toLowerCase()))
+      )
+    );
+  
+    setRegistrations(filteredData);
+  };
   const clear = () => {
     setSearchQuery('')
     fetchRegistrations();
   }
-
-  // Filter registrations based on the search query
 
 
   const handleRegisterClick = () => {
@@ -256,9 +296,9 @@ const RegistrationList = () => {
             placeholder="Search"
             value={searchQuery} onChange={(e) => sethandleSearch(e)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              // if (e.key === 'Enter') {
                 handleSearch(); // Trigger search on Enter key press
-              }
+              // }
             }}
           />
           <SearchIcon className="search-icon" onClick={() => handleSearch()} />
@@ -289,6 +329,96 @@ const RegistrationList = () => {
 
                 <th>Action</th>
               </tr>
+              <tr>
+              <td></td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Name}
+                  onChange={(e) => handleSearchChange(e, "Name")}
+                  onKeyDown={(e) => applyFilters(searchFilters)}
+                  placeholder="Search Name"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Gender}
+                  onChange={(e) => handleSearchChange(e, "Gender")}
+                  onKeyDown={(e) =>  applyFilters(searchFilters)}
+                  placeholder="Search Gender"
+                />
+                {/* <select value={searchFilters.Gender} onChange={(e) => handleSearchChange(e, "Gender")}>
+                  <option value="">All</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select> */}
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Fathername}
+                  onChange={(e) => handleSearchChange(e, "Fathername")}
+                  onKeyDown={(e) =>  applyFilters(searchFilters)}
+                  placeholder="Search Father/Spouse"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Phonenumber}
+                  onChange={(e) => handleSearchChange(e, "Phonenumber")}
+                  onKeyDown={(e) => applyFilters(searchFilters)}
+                  placeholder="Search Phone"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Qualification}
+                  onChange={(e) => handleSearchChange(e, "Qualification")}
+                  onKeyDown={(e) => applyFilters(searchFilters)}
+                  placeholder="Search Qualification"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Uprnnumber}
+                  onChange={(e) => handleSearchChange(e, "Uprnnumber")}
+                  onKeyDown={(e) =>  applyFilters(searchFilters)}
+                  placeholder="Search UPRN"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Yearofregistration}
+                  onChange={(e) => handleSearchChange(e, "Yearofregistration")}
+                  onKeyDown={(e) =>  applyFilters(searchFilters)}
+                  placeholder="Search Year"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.Stateofmedicine}
+                  onChange={(e) => handleSearchChange(e, "Stateofmedicine")}
+                  onKeyDown={(e) =>  applyFilters(searchFilters)}
+                  placeholder="Search State"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={searchFilters.City}
+                  onChange={(e) => handleSearchChange(e, "City")}
+                  onKeyDown={(e) => applyFilters(searchFilters)}
+                  placeholder="Search City"
+                />
+              </td>
+              <td></td>
+            </tr>
             </thead>
             <tbody>
               {currentRows.length > 0 ? (
@@ -298,7 +428,7 @@ const RegistrationList = () => {
                     {/* <td className="text-wrap">
                   <div>
                   <img   style={{ height: '150px', width: '100%' }}
-                src={`http://localhost/Doctor_search/${record.image_path}`}
+                src={`https://doctors.innovis24.com/Doctor_search/${record.image_path}`}
                 alt={record.Name}
               />
                   </div>
@@ -427,7 +557,7 @@ const RegistrationList = () => {
                     <img
                       style={{ height: '50%', width: '50%%', objectFit: 'cover' }}
                       className="profile-image"
-                      src={`http://localhost/Doctor_search/${selectedRecord.image_path}`}
+                      src={`https://doctors.innovis24.com/Doctor_search/${selectedRecord.image_path}`}
                       alt={selectedRecord.Name}
                     />
                   </div>
@@ -523,13 +653,13 @@ const RegistrationList = () => {
 
               <div className={`tab-content ${activeTab === 'gallery' ? 'active' : ''}`}>
                 <div className={selectedRecord.gallery_image_paths ? "img_flex image-container" : ""}>
-                
+              
                  {selectedRecord.gallery_image_paths &&
-                        selectedRecord.gallery_image_paths.split(",").map((imgPath, index) => (
+                        selectedRecord.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
                           <div >
                               <img
                             key={index}
-                            src={`http://localhost/Doctor_search/${imgPath}`}
+                            src={`https://doctors.innovis24.com/Doctor_search/${imgPath}`}
                             alt="gallery item"
                             width="150"
                             height="150"

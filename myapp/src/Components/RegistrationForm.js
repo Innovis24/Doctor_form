@@ -15,8 +15,8 @@ import { Button } from "@mui/material";
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-const apiUrl = "http://localhost/Doctor_search/Registrationform.php";
-const userapiUrl = "http://localhost/Doctor_search/Usermaster.php";
+const apiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
+const userapiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
 const RegistrationForm = () => {
   // const [formData, setFormData] = useState({
   //   name: "",

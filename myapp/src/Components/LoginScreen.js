@@ -14,8 +14,8 @@ const LoginScreen = () => {
   const [regList, setregList] = useState([]);
   const [currentuser, setcurrentuser] = useState([]);
   const navigate = useNavigate();
-  const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
-  const apiurl = "http://localhost/Doctor_search/Registrationform.php";
+  const apiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
+  const apiurl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
   useEffect(() => {
     getuserListapi();
     fetchRegistrations();

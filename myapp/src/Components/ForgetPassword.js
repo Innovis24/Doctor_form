@@ -9,7 +9,7 @@ const ForgetPassword = () => {
   const [password, setpassword] = useState();
   const [Arrayval, setArrayVal] = useState([]);
   const navigate = useNavigate();
-  const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
+  const apiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 

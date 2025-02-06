@@ -41,8 +41,8 @@ const UserMaster = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
-  const apiUrl = "http://localhost/Doctor_search/Usermaster.php";
-  const regapiUrl = "http://localhost/Doctor_search/Registrationform.php";
+  const apiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
+  const regapiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
