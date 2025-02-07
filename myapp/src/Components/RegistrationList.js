@@ -413,6 +413,7 @@ const RegistrationList = () => {
               <td>
                 <input
                   type="text"
+                  className="input_hover_style"
                   value={searchFilters.Name}
                   onChange={(e) => handleSearchChange(e, "Name")}
                   onKeyDown={(e) => applyFilters(searchFilters)}
@@ -422,6 +423,7 @@ const RegistrationList = () => {
               <td>
                 <input
                   type="text"
+                   className="input_hover_style"
                   value={searchFilters.Gender}
                   onChange={(e) => handleSearchChange(e, "Gender")}
                   onKeyDown={(e) =>  applyFiltersGender(searchFilters)}
@@ -436,6 +438,7 @@ const RegistrationList = () => {
               <td>
                 <input
                   type="text"
+                   className="input_hover_style"
                   value={searchFilters.Fathername}
                   onChange={(e) => handleSearchChange(e, "Fathername")}
                   onKeyDown={(e) =>  applyFilters(searchFilters)}
@@ -445,6 +448,7 @@ const RegistrationList = () => {
               <td>
                 <input
                   type="text"
+                   className="input_hover_style"
                   value={searchFilters.Phonenumber}
                   onChange={(e) => handleSearchChange(e, "Phonenumber")}
                   onKeyDown={(e) => applyFilters(searchFilters)}
@@ -455,6 +459,7 @@ const RegistrationList = () => {
                 <input
                   type="text"
                   value={searchFilters.Qualification}
+                   className="input_hover_style"
                   onChange={(e) => handleSearchChange(e, "Qualification")}
                   onKeyDown={(e) => applyFilters(searchFilters)}
                   placeholder="Search Qualification"
@@ -464,6 +469,7 @@ const RegistrationList = () => {
                 <input
                   type="text"
                   value={searchFilters.Uprnnumber}
+                   className="input_hover_style"
                   onChange={(e) => handleSearchChange(e, "Uprnnumber")}
                   onKeyDown={(e) =>  applyFilters(searchFilters)}
                   placeholder="Search UPRN"
@@ -473,6 +479,7 @@ const RegistrationList = () => {
                 <input
                   type="text"
                   value={searchFilters.Yearofregistration}
+                   className="input_hover_style"
                   onChange={(e) => handleSearchChange(e, "Yearofregistration")}
                   onKeyDown={(e) =>  applyFilters(searchFilters)}
                   placeholder="Search Year"
@@ -482,6 +489,7 @@ const RegistrationList = () => {
                 <input
                   type="text"
                   value={searchFilters.Stateofmedicine}
+                   className="input_hover_style"
                   onChange={(e) => handleSearchChange(e, "Stateofmedicine")}
                   onKeyDown={(e) =>  applyFilters(searchFilters)}
                   placeholder="Search State"
@@ -491,6 +499,7 @@ const RegistrationList = () => {
                 <input
                   type="text"
                   value={searchFilters.City}
+                   className="input_hover_style"
                   onChange={(e) => handleSearchChange(e, "City")}
                   onKeyDown={(e) => applyFilters(searchFilters)}
                   placeholder="Search City"

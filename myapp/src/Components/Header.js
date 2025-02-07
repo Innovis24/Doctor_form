@@ -23,7 +23,10 @@ const Header = ({ title }) => {
 
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     const newOne = localStorage.getItem('newUser');
-    if (!newOne && values) {
+    if (!newOne && !values) {
+      return
+    }
+    if ( values && values[0]) {
       setCurrentLogin(values[0].UserRole);
       if (values[0].Name) {
         setcurrentUsername(values[0].Name)
@@ -33,16 +36,16 @@ const Header = ({ title }) => {
         setcurrentUser(nameParts);
       }
     }
-    else if (newOne && !values) {
-      const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
-      setcurrentUsername(values[0].Name)
-      setcurrentUser(nameParts);
-    }
-    else {
-      const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
-      setcurrentUsername(values[0].Name)
-      setcurrentUser(nameParts);
-    }
+    // else if (newOne && !values) {
+    //   const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
+    //   setcurrentUsername(values[0].Name)
+    //   setcurrentUser(nameParts);
+    // }
+    // else {
+    //   const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
+    //   setcurrentUsername(values[0].Name)
+    //   setcurrentUser(nameParts);
+    // }
     // if(!newOne &&  !values ){
     //   setCurrentLogin()
     // }

@@ -464,7 +464,7 @@ const Profile = () => {
           <div className={`tab ${activeTab === "qualification" ? "active" : ""}`} onClick={() => handleTabChange("qualification")}>
             Qualification Info & Profile Image
           </div>
-          <div className={`tab ${activeTab === "gallery" ? "active gallery_icon" : "gallery_icon"}`} onClick={() => handleTabChange("gallery")}>
+          <div className={`tab ${activeTab === "gallery" ? "active" : ""}`} onClick={() => handleTabChange("gallery")}>
           
             <div >
             Gallery

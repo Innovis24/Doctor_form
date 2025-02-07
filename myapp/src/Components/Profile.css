@@ -354,10 +354,7 @@ padding: 17px;
 .img_mrg_btm{
   margin-bottom: 15px;
 }
-.gallery_icon{
-  display: flex;
-    justify-content: space-between;
-}
+
 .add_icon{
   font-size: 30px;
   color: #00b4b6;

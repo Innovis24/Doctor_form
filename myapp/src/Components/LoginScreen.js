@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./LoginScreen.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faEyeSlash, faEye} from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import doctorIllustration from '../assets/image/img-1.jpg';
@@ -12,6 +14,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const [Array, setArray] = useState([]);
   const [regList, setregList] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
   const [currentuser, setcurrentuser] = useState([]);
   const navigate = useNavigate();
   
@@ -161,7 +164,9 @@ const LoginScreen = () => {
                 <label htmlFor="password" className="form-label">
                   Password
                 </label>
-                <input
+                <div style={{ display: "flex", alignItems: "center" }}>
+
+                {/* <input
                   type="password"
                   id="password"
                   name="password"
@@ -169,7 +174,26 @@ const LoginScreen = () => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                />
+                /> */}
+                 <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    className="form-input"
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                   
+                  />
+                   <FontAwesomeIcon
+                    icon={showPassword ? faEyeSlash : faEye}
+                    style={{
+                      cursor: "pointer",
+                      color: "#666",
+                      marginLeft: "-10%",
+
+                    }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                  </div>
               </div>
 
               <div className="form-footer">

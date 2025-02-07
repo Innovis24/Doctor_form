@@ -871,9 +871,7 @@ input::placeholder {
 
 
 
-/* Input Fields */
-
-input, select {
+.input_hover_style {
 
   width: 100%;
 
@@ -890,10 +888,9 @@ input, select {
 }
 
 
-
 /* Focus Effect */
 
-input:focus, select:focus {
+.input_hover_style:focus {
 
   border-color: #007bff;
 
