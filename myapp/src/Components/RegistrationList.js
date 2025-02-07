@@ -45,6 +45,7 @@ const RegistrationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const location = useLocation();
+  const [activeTab, setActiveTab] = useState('personal'); // Initial active tab
   const [rowsPerPage, setrowsPerPage] = useState(10);
   const [totalRecord, setTotalRecord] = useState(0);
   const maxVisiblePages = 5;
@@ -206,9 +207,12 @@ const RegistrationList = () => {
       return
     }
     
-    
+    if(field === 'Gender'){
+      applyFiltersGender({ ...searchFilters, [field]: value.trim() });
+      return
+    }
     // Check if Enter is pressed
-    // if (e.key !== "Enter") {
+    // if (e.key === "Enter") {
       applyFilters({ ...searchFilters, [field]: value.trim() });
     // }
   };
@@ -224,6 +228,21 @@ const RegistrationList = () => {
   
     setRegistrations(filteredData);
   };
+
+  const applyFiltersGender = (filters) => {
+
+    const filteredData = wholearray.filter((record) =>
+      Object.keys(filters).every((key) =>
+        filters[key] === "" || 
+        (record[key] && record[key].toString().toLowerCase() === (filters[key].toLowerCase()))
+      )
+    );
+  
+    setRegistrations(filteredData);
+  };
+
+
+
   const clear = () => {
     setSearchQuery('')
     fetchRegistrations();
@@ -233,8 +252,6 @@ const RegistrationList = () => {
   const handleRegisterClick = () => {
     navigate("/registration_form"); // Redirect to registration form
   };
-
-  const [activeTab, setActiveTab] = useState('personal'); // Initial active tab
 
 
   const closeDetails = () => {
@@ -407,7 +424,7 @@ const RegistrationList = () => {
                   type="text"
                   value={searchFilters.Gender}
                   onChange={(e) => handleSearchChange(e, "Gender")}
-                  onKeyDown={(e) =>  applyFilters(searchFilters)}
+                  onKeyDown={(e) =>  applyFiltersGender(searchFilters)}
                   placeholder="Search Gender"
                 />
                 {/* <select value={searchFilters.Gender} onChange={(e) => handleSearchChange(e, "Gender")}>

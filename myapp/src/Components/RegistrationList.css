@@ -682,7 +682,7 @@ input::placeholder {
   bottom: 0;
   background-color: white;
   padding: 10px;
-  z-index: 1000;
+  z-index: 998;
 }
 .pagination_style_reg {
   padding: 5px 10px;
