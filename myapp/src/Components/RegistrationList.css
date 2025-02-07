@@ -197,9 +197,8 @@ input::placeholder {
   display: flex;
   justify-content: flex-end; 
   align-items: center;     
-  /* margin-top: 3%;         */
+  flex-direction: row;
   padding: 10px;          
-
 }  
 
 /* Responsive styling */
@@ -209,6 +208,7 @@ input::placeholder {
     overflow-x: auto;
     display: block;
   }
+ 
 }
 
 /* Modal animation */
@@ -548,7 +548,7 @@ input::placeholder {
 /* ResponsiveTable.css */
 .table-container {
   width: 100%;
-  max-height:  477px;
+  max-height: 505px;
   overflow-x: auto;
 }
 .text-wrap {
@@ -677,7 +677,13 @@ input::placeholder {
   padding: 12px;
   gap: 10px;
 }
-
+.sticky_position{
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  padding: 10px;
+  z-index: 1000;
+}
 .pagination_style_reg {
   padding: 5px 10px;
   background-color: #00b4b6;
@@ -735,6 +741,19 @@ input::placeholder {
 
   .total_record {
     font-size: 12px;
+  }
+  .controls{
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;     
+    flex-direction: column;
+    padding: 10px;          
+    gap: 16px;
+  }  
+  .ITEM_MRG{
+    margin-right: 10px;
+    display: flex;
+        align-items: center;
   }
 }
 
@@ -882,4 +901,56 @@ input:focus, select:focus {
 
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 
+}
+.items-per-page-container {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Spacing between label and dropdown */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333; /* Text color */
+}
+
+.items-label {
+  font-weight: bold;
+}
+
+.items-dropdown {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.itemPerpage {
+  padding: 10px;
+  margin-right: 10px;
+  width: 75px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+.itemPerpage:focus {
+  border-color: #00b4b6;
+  box-shadow: 0 0 5px rgba(0, 180, 182, 0.6);
+}
+.display_item{
+  display: flex;
+}
+.ITEM_MRG{
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+.itm_wt{
+  display: flex;
+  justify-content: center;
+}
+.search_icon_style{
+  display: flex;
+    align-items: center;
 }

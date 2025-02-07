@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from "react-router-dom";
+import { REG_API_URL,USER_API_URL } from "../utlis/common";
 import { faTrash, faPencil, faPlus, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 const UserMaster = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,8 +42,7 @@ const UserMaster = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
-  const apiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
-  const regapiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
+  
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -56,7 +56,7 @@ const UserMaster = () => {
 
   const fetchUserList = async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(USER_API_URL);
       setArray(response.data);
     } catch (error) {
       toast.error("Failed to fetch registrations!");
@@ -65,7 +65,7 @@ const UserMaster = () => {
   //for bind value in Dropdown
   const fetchuserNameList = async () => {
     try {
-      const response = await axios.get(regapiUrl);
+      const response = await axios.get(REG_API_URL);
       if (response.data.code === 400) {
         setusernameOption([]);
         setuserList([])
@@ -94,7 +94,7 @@ const UserMaster = () => {
   const handleDelete = async () => {
 
     try {
-      const response = await axios.delete(apiUrl, {
+      const response = await axios.delete(USER_API_URL, {
         data: { id: Number(CurrentDeleteID) }, // Send the Sno for deletion
       });
 
@@ -176,7 +176,7 @@ const UserMaster = () => {
         userRole: userrole,
         status: userStatusValue.label
       };
-      const response = await axios.post(apiUrl, FormData, {
+      const response = await axios.post(USER_API_URL, FormData, {
         headers: { "Content-Type": "application/json" },
       });
       if (response.data.code === 200) {
@@ -203,7 +203,7 @@ const UserMaster = () => {
         userRole: userrole,
         status: userStatusValue.label
       };
-      const response = await axios.put(apiUrl, FormData, {
+      const response = await axios.put(USER_API_URL, FormData, {
         headers: { "Content-Type": "application/json" },
       });
       if (response.data.code === 200) {

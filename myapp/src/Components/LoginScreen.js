@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import doctorIllustration from '../assets/image/img-1.jpg';
-
+import { REG_API_URL,USER_API_URL } from "../utlis/common";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -14,8 +14,8 @@ const LoginScreen = () => {
   const [regList, setregList] = useState([]);
   const [currentuser, setcurrentuser] = useState([]);
   const navigate = useNavigate();
-  const apiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
-  const apiurl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
+  
+  
   useEffect(() => {
     getuserListapi();
     fetchRegistrations();
@@ -23,7 +23,7 @@ const LoginScreen = () => {
 
   const getuserListapi = () => {
     axios
-      .get(apiUrl)
+      .get(USER_API_URL)
       .then((response) => {
         setArray(response.data);
         setcurrentuser(response.data)
@@ -105,7 +105,7 @@ const LoginScreen = () => {
   };
   const fetchRegistrations = async () => {
     try {
-      const response = await axios.get(apiurl);
+      const response = await axios.get(REG_API_URL);
       if (response.data.code === 400) {
         setregList([]);
       }

@@ -4,12 +4,13 @@ import axios from "axios";
 import "./ForgetPassword.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { USER_API_URL } from "../utlis/common";
 const ForgetPassword = () => {
   const [username, setusername] = useState();
   const [password, setpassword] = useState();
   const [Arrayval, setArrayVal] = useState([]);
   const navigate = useNavigate();
-  const apiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
+ 
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -18,7 +19,7 @@ const ForgetPassword = () => {
 
   const fetchuserNameList = async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(USER_API_URL);
       setArrayVal(response.data);
     } catch (error) {
       toast.error("Failed to fetch registrations!");
@@ -54,7 +55,7 @@ const ForgetPassword = () => {
       userRole: cuurentvalue.UserRole,
       status: 'Active'
     };
-    const response = await axios.put(apiUrl, FormData, {
+    const response = await axios.put(USER_API_URL, FormData, {
       headers: { "Content-Type": "application/json" },
     });
     if (response.data.code === 200) {

@@ -9,8 +9,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
+import { REG_API_URL,API_URL } from "../utlis/common";
 
-const apiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
 
 const Profile = () => {
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ const Profile = () => {
   const fetchData = useCallback(async (ID) => {
     setLoading(true)
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(REG_API_URL);
       setarray(response.data)
       if (currentID !== "") {
         setLoading(false)
@@ -291,7 +291,7 @@ const Profile = () => {
       formData.append(`galleryImages[${index}]`, file);
    });
     // console.log(formData)
-    const response = await axios.post(apiUrl, formData, {
+    const response = await axios.post(REG_API_URL, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     if (response.data.code === 200) {
@@ -356,7 +356,7 @@ const Profile = () => {
   const handleImgDelete = async (imgDet)=>{
    
     try {
-      const response = await axios.delete((apiUrl + '?action=deleteImage'), {
+      const response = await axios.delete((REG_API_URL + '?action=deleteImage'), {
         data: { Sno: Number(CurrentSno), imageName: imgDet }, // Send the Sno for deletion
       });
 
@@ -364,7 +364,7 @@ const Profile = () => {
         setLoading(false);
         toast.success("Record deleted successfully!");
   
-        const response = await axios.get(apiUrl);
+        const response = await axios.get(REG_API_URL);
        
 
         const filterValNew = response.data.filter((record) =>
@@ -442,7 +442,7 @@ const Profile = () => {
           <div className="profile-header">
             <img
               className="profile-image"
-              src={`https://doctors.innovis24.com/Doctor_search/${userData.image_path}`}
+              src={`${API_URL}/${userData.image_path}`}
               alt="Profile not loading"
             />
             <div className="edit_icon_pad">
@@ -452,7 +452,6 @@ const Profile = () => {
           </div>
 
         </div>
-
 
         {/* Profile Tabs */}
         <div className="tabs">
@@ -927,7 +926,7 @@ const Profile = () => {
           <div>
               <img
             key={index}
-            src={`https://doctors.innovis24.com/Doctor_search/${imgPath}`}
+            src={`${API_URL}/${imgPath}`}
             alt="Gallery Item"
             width="150"
             height="150"

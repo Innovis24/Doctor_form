@@ -16,6 +16,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Header from './Header';
 import { ClipLoader } from 'react-spinners';
+import { REG_API_URL,API_URL } from "../utlis/common";
 import {
   faIdCard,
   faCalendarAlt,
@@ -30,7 +31,7 @@ import {
   faCalendarCheck
 } from "@fortawesome/free-solid-svg-icons";
 
-const apiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
+
 
 const RegistrationList = () => {
   const [loading, setLoading] = useState(true);
@@ -44,12 +45,9 @@ const RegistrationList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate(); // Use useNavigate for navigation
   const location = useLocation();
-  const rowsPerPage =6; // Adjust as needed
+  const [rowsPerPage, setrowsPerPage] = useState(10);
   const [totalRecord, setTotalRecord] = useState(0);
-  // Calculate the indices for slicing
-  const startIndex = (currentPage - 1) * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const currentRows = registrations.slice(startIndex, endIndex);
+  const maxVisiblePages = 5;
   const [searchFilters, setSearchFilters] = useState({
     Name: "",
     Gender: "",
@@ -73,11 +71,15 @@ const RegistrationList = () => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
+    zIndex: 9999,
   };
- 
-  // Calculate total pages
-  const totalPages = Math.ceil(registrations.length / rowsPerPage);
+   // Calculate the indices for slicing
+   const startIndex = (currentPage - 1) * rowsPerPage;
+   const endIndex = startIndex + rowsPerPage;
+   const currentRows = registrations.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(registrations.length / rowsPerPage);
+   const startRecord = registrations.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0;
+  const endRecord = Math.min(startRecord + rowsPerPage - 1, registrations.length);
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     const newOne = localStorage.getItem('newUser');
@@ -99,7 +101,7 @@ const RegistrationList = () => {
   const fetchRegistrations = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(REG_API_URL);
       if (response.data.code === 400) {
         setLoading(false);
         setRegistrations([]);
@@ -123,40 +125,73 @@ const RegistrationList = () => {
   };
 
   const sethandleSearch = (e) => {
-    let searchValue = e.target.value
-    setSearchQuery(searchValue.trim())
-    handleSearch()
-    if(searchValue === ""){
+    setLoading(true);
+    let value = e.target.value.trim()
+     setSearchQuery(value)
+    if(e.target.value === ""){
+      setLoading(false);
       setRegistrations(wholearray)
+      return
     }
+    
+    handleSearch(value);
+    
   }
 
-  const handleSearch = (e) => {
-    console.log(param1)
+  const handleSearch = (selectedValue) => {
+    setLoading(true);
+    // console.log(param1)
   
-    if(param1 === 'searchDoctor'){
+    // if(param1 === 'searchDoctor'){
+    //   const filteredRegistrations = registrations.filter((record) =>
+    //     record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //   record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) 
+    //   );
+    //   setRegistrations(filteredRegistrations)
+    // }
+    // else{
       const filteredRegistrations = registrations.filter((record) =>
-        record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) 
-      );
-      setRegistrations(filteredRegistrations)
-    }
-    else{
-      const filteredRegistrations = registrations.filter((record) =>
-        record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.RegistrationNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.Qualification.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.Stateofmedicine.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.Yearofregistration.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.Uprnnumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.Fathername.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        record.Gender.toLowerCase().includes(searchQuery.toLowerCase())
+        record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.RegistrationNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Qualification.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Stateofmedicine.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Yearofregistration.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Uprnnumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Fathername.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Gender.toLowerCase().includes(selectedValue.toLowerCase()) ||
+        record.Phonenumber.toLowerCase().includes(selectedValue.toLowerCase())
   
       );
+      setLoading(false);
       setRegistrations(filteredRegistrations)
-    }
+    // }
    
+  };
+  
+  const getPageNumbers = () => {
+    let pages = [];
+    if (totalPages <= maxVisiblePages) {
+      // If total pages are within limit, show all
+      pages = [...Array(totalPages)].map((_, i) => i + 1);
+    } else {
+      // Always show first and last page
+      pages = [1];
+
+      if (currentPage > 3) pages.push("...");
+
+      const startPage = Math.max(2, currentPage - 1);
+      const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) pages.push("...");
+
+      pages.push(totalPages);
+    }
+    return pages;
   };
   const handleSearchChange = (e, field) => {
     const { value } = e.target;
@@ -172,11 +207,9 @@ const RegistrationList = () => {
     }
     
     
-
-
     // Check if Enter is pressed
     // if (e.key !== "Enter") {
-      applyFilters({ ...searchFilters, [field]: value });
+      applyFilters({ ...searchFilters, [field]: value.trim() });
     // }
   };
   
@@ -227,7 +260,7 @@ const RegistrationList = () => {
   const handleYesDelete = async () => {
     setLoading(true);
     try {
-      const response = await axios.delete((apiUrl + '?action=deleteuser'), {
+      const response = await axios.delete((REG_API_URL + '?action=deleteuser'), {
         data: { Sno: Number(currentDeleteSno), image_path: currentImagepath }, // Send the Sno for deletion
       });
 
@@ -289,21 +322,50 @@ const RegistrationList = () => {
     </button> */}
         </div>
         <div className="controls">
-          {/* Search Bar */}
-          <input
+        <div className="itm_wt">
+                <b className="ITEM_MRG">Show</b>
+              <select
+                className="itemPerpage"
+                value={rowsPerPage}
+                onChange={(e) => {
+                  setrowsPerPage(Number(e.target.value));
+                  applyFilters(searchQuery, Number(e.target.value));
+                }}
+              >
+                <option value={2}>2</option>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+
+              </select>
+              <b className="ITEM_MRG">entries</b>
+              </div>
+              <div className="display_item">
+              <input
             type="text"
             className="search-bar"
             placeholder="Search"
-            value={searchQuery} onChange={(e) => sethandleSearch(e)}
-            onKeyDown={(e) => {
-              // if (e.key === 'Enter') {
-                handleSearch(); // Trigger search on Enter key press
-              // }
-            }}
+            value={searchQuery} 
+            onChange={(e) => sethandleSearch(e)}
+            onKeyDown={(e) =>  applyFilters(searchFilters)}
+            // onChange={(e) => setSearchQuery(e)}
+            // onKeyDown={(e) => {
+            //   if (e.key === 'Enter') {
+            //     handleSearch(); // Trigger search on Enter key press
+            //   }
+            // }}
           />
+          <div className="search_icon_style">
           <SearchIcon className="search-icon" onClick={() => handleSearch()} />
 
           <CloseIcon className="clear-icon" onClick={() => clear()} />
+          </div>
+        
+              </div>
+          {/* Search Bar */}
+         
         </div>
 
         {/* Register Button */}
@@ -330,7 +392,7 @@ const RegistrationList = () => {
                 <th>Action</th>
               </tr>
               <tr>
-              <td></td>
+                <td></td>
               <td>
                 <input
                   type="text"
@@ -421,7 +483,7 @@ const RegistrationList = () => {
             </tr>
             </thead>
             <tbody>
-              {currentRows.length > 0 ? (
+              {currentRows && currentRows.length > 0 ? (
                 currentRows.map((record, index) => (
                   <tr key={index}>
                     <td className="text-wrap">{startIndex + index + 1}</td>
@@ -472,7 +534,7 @@ const RegistrationList = () => {
             </tbody>
           </table>
 
-          <div className="table_position">
+          <div className="table_position sticky_position">
                 <button
                   onClick={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
@@ -480,7 +542,7 @@ const RegistrationList = () => {
                 >
                   Previous
                 </button>
-                <div className="pagination_buttons">
+                {/* <div className="pagination_buttons">
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index}
@@ -490,6 +552,21 @@ const RegistrationList = () => {
                       {index + 1}
                     </button>
                   ))}
+                </div> */}
+                 <div className="pagination_buttons">
+                  {getPageNumbers().map((page, index) =>
+                    page === "..." ? (
+                      <span key={index} className="ellipsis">...</span>
+                    ) : (
+                      <button
+                        key={index}
+                        onClick={() => goToPage(page)}
+                        className={`pagination_button ${currentPage === page ? "active" : ""}`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
                 </div>
                 <button
                   onClick={() => goToPage(currentPage + 1)}
@@ -499,8 +576,11 @@ const RegistrationList = () => {
                   Next
                 </button>
                 <div className="total_record totalrecord_style ">
-                  <span>TOTAL RECORD:</span> {totalRecord}
+                  {/* <span>TOTAL RECORD:</span>  */}
+                  {/* <span>Showing {startRecord}-{endRecord} of {totalRecord} pages</span> */}
+                  <span>Showing {startRecord} to {endRecord} of {totalRecord} entries</span>
                 </div>
+             
               </div>
 
 
@@ -557,7 +637,7 @@ const RegistrationList = () => {
                     <img
                       style={{ height: '50%', width: '50%%', objectFit: 'cover' }}
                       className="profile-image"
-                      src={`https://doctors.innovis24.com/Doctor_search/${selectedRecord.image_path}`}
+                      src={`${API_URL}/${selectedRecord.image_path}`}
                       alt={selectedRecord.Name}
                     />
                   </div>
@@ -659,7 +739,7 @@ const RegistrationList = () => {
                           <div >
                               <img
                             key={index}
-                            src={`https://doctors.innovis24.com/Doctor_search/${imgPath}`}
+                            src={`${API_URL}/${imgPath}`}
                             alt="gallery item"
                             width="150"
                             height="150"

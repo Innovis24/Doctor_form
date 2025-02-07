@@ -15,8 +15,8 @@ import { Button } from "@mui/material";
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-const apiUrl = "https://doctors.innovis24.com/Doctor_search/Registrationform.php";
-const userapiUrl = "https://doctors.innovis24.com/Doctor_search/Usermaster.php";
+import { REG_API_URL,USER_API_URL } from "../utlis/common";
+
 const RegistrationForm = () => {
   // const [formData, setFormData] = useState({
   //   name: "",
@@ -128,7 +128,7 @@ const RegistrationForm = () => {
 
   const fetchRegistrations = async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(REG_API_URL);
       if (response.data.code === 400) {
         setArray([]);
       }
@@ -142,7 +142,7 @@ const RegistrationForm = () => {
   };
   const getUserDetails = async () => {
     try {
-      const response = await axios.get(userapiUrl);
+      const response = await axios.get(USER_API_URL);
       setArrayVal(response.data);
 
     } catch (error) {
@@ -152,7 +152,7 @@ const RegistrationForm = () => {
 
   const SetCurrentval = async () => {
     try {
-      const response = await axios.get(userapiUrl);
+      const response = await axios.get(USER_API_URL);
       if (response.data.length > 0) {
 
         const newuserDetails = response.data.filter((val) => val.RegNumber === UserID)
@@ -386,7 +386,7 @@ const RegistrationForm = () => {
         galleryArray.forEach((file, index) => {
           formData.append(`galleryImages[${index}]`, file);
         });
-        const response = await axios.post(apiUrl + '?action=create', formData, {
+        const response = await axios.post(REG_API_URL + '?action=create', formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
@@ -496,7 +496,7 @@ const RegistrationForm = () => {
           formData.append('image_name', image.name);
         }
 
-        const response = await axios.post(apiUrl, formData, {
+        const response = await axios.post(REG_API_URL, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         if (response.data.code === 200) {
@@ -578,7 +578,7 @@ const RegistrationForm = () => {
       userRole: "Doctor",
       status: "Active"
     };
-    const response = await axios.post(userapiUrl, FormData, {
+    const response = await axios.post(USER_API_URL, FormData, {
       headers: { "Content-Type": "application/json" },
     });
     if (response.data.code === 200) {
