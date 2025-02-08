@@ -12,7 +12,7 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
  
   useEffect(() => {
-    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
+    // const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
     fetchuserNameList();
   }, [navigate]);
@@ -128,7 +128,7 @@ const ForgetPassword = () => {
             onBlur={() => checkUsernameAvailability(username)}
           />
 
-          <div className="ft_wt_mrg_btm">Password<span className="asterisk">*</span></div>
+          <div className="ft_wt_mrg_btm">New password<span className="asterisk">*</span></div>
           <input
             type="text"
             placeholder="Enter password"

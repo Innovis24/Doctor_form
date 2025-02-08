@@ -142,7 +142,8 @@ const LoginScreen = () => {
         {/* Login Form Section */}
         <div className="login-form-container login-form">
           <div className="login-form-wrapper">
-            <h1 className="login-title"> Login</h1>
+          <h1 className="login-title">Doctor Management</h1>
+            <div className="login_font_style"> Login</div>
             <form onSubmit={loginFn}>
               <div className="form-group">
                 <div htmlFor="username" className="form-label">

@@ -426,7 +426,7 @@ input::placeholder {
   display: flex;
   align-items: center; /* Align text and icons properly */
   margin: 10px 0; /* Add spacing between items */
-  font-size: 14px; /* Fixed size for text */
+  font-size: 16px; /* Fixed size for text */
 }
 
 .personal-info-item p {
@@ -436,7 +436,7 @@ input::placeholder {
 /* Prevent text from scaling */
 .personal-info-item strong,
 .personal-info-item p {
-  font-size: inherit; /* Inherit size from the parent to avoid scaling */
+  font-size: 16px; /* Inherit size from the parent to avoid scaling */
 }
 
 /* Responsive Adjustments */
@@ -447,7 +447,7 @@ input::placeholder {
   }
 
   .personal-info-item {
-    font-size: 12px; /* Smaller text for mobile */
+    font-size: 16px; /* Smaller text for mobile */
   }
 }
 
@@ -652,7 +652,7 @@ input::placeholder {
 }
 .totalrecord_style{
   margin-left: 12px;
-  font-family: cursive;
+  font-family: 'Roboto', sans-serif ;
   font-size: 13px;
   font-weight: 700;
 }
@@ -903,7 +903,7 @@ input::placeholder {
   display: flex;
   align-items: center;
   gap: 8px; /* Spacing between label and dropdown */
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   color: #333; /* Text color */
 }
@@ -950,4 +950,10 @@ input::placeholder {
 .search_icon_style{
   display: flex;
     align-items: center;
+}
+.header_alignemnt_all{
+  display: flex;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 27px;
 }

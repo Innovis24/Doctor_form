@@ -261,18 +261,6 @@ const RegistrationForm = () => {
       toast.error("Enter a valid 10-digit phone number.");
     }
   }
-  const handleYearChange = (e) => {
-    const inputYear = e.target.value;
-    setregYear(inputYear);
-
-    const currentYear = new Date().getFullYear();
-
-     if (inputYear < 1900 || inputYear > currentYear) {
-      toast.error(`Year must be between 1900 and ${currentYear}.`);
-    } else {
-      toast.error(""); // Clear error if valid
-    }
-  };
 
   const checkEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -951,7 +939,7 @@ const RegistrationForm = () => {
                 Submit
               </button>
               <button className="cancel_btn_form" onClick={handlecancel}>
-                Cancel
+                Clear
               </button>
             </div>
 

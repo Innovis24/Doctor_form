@@ -57,10 +57,16 @@ body {
 }
 
 .login-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.login_font_style{
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .form-group {

@@ -73,6 +73,7 @@ const Profile = () => {
         );
         if (filterValNew.length > 0) {
           setUserData(filterValNew[0]);
+          // setcurrentfilename(filterValNew[0].image_name);
           setActiveTab("personal")
         }
         else {
@@ -87,6 +88,7 @@ const Profile = () => {
         );
         if (filterValOld.length > 0) {
           setUserData(filterValOld[0]);
+          setcurrentfilename(filterValOld[0].image_name);
           setActiveTab("personal")
         }
         else {
@@ -102,7 +104,11 @@ const Profile = () => {
     }
   }, [currentID]);
 
-
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return "N/A"; // Return "N/A" if DOB is empty
+    const [year, month, day] = dateString.split("-");
+    return `${day}-${month}-${year}`; // Convert to "dd-mm-yyyy"
+  };
 
   useEffect(() => {
     const newOne = localStorage.getItem('newUser');
@@ -187,9 +193,7 @@ const Profile = () => {
       // fileInputRef.current.value = null; // Reset the file input field
     }
   };
-  const handleEdit = (value)=>{
-
-  }
+ 
   const SubmitFn = async () => {
 
     if (!name ||
@@ -494,7 +498,7 @@ const Profile = () => {
                   <div className="content_display">
                     <strong>Name:</strong> 
                     <div className="Profile_txt_wrap txt_transform">
-                      {userData.Name}
+                     &nbsp; {userData.Name}
                     </div>
                   </div>
                 }
@@ -515,7 +519,7 @@ const Profile = () => {
                   <div className="content_display">
                     <strong>Father Name:</strong> 
                     <div className="Profile_txt_wrap">
-                      {userData.Fathername}
+                    &nbsp; {userData.Fathername}
                     </div>
                   </div>
                 }
@@ -539,7 +543,7 @@ const Profile = () => {
                    <div className="content_display">
                     <strong>Date of Birth:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.DOB}
+                    &nbsp;{userData.DOB ? formatDateForDisplay(userData.DOB) : "N/A"}
                     </div>
                    
                   </div>
@@ -561,7 +565,7 @@ const Profile = () => {
                   <div className="txt_trans content_display">
                     <strong>Gender:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.Gender}
+                    &nbsp;{userData.Gender}
                     </div>
                   </div>
                 }
@@ -583,7 +587,7 @@ const Profile = () => {
                     <div className="content_display">
                     <strong>Email:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.Email}
+                    &nbsp;{userData.Email}
                     </div>
                   </div>
                 }
@@ -601,7 +605,7 @@ const Profile = () => {
                    <div className="content_display">
                     <strong>Phone:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.Phonenumber}
+                    &nbsp; {userData.Phonenumber}
                     </div>
                   </div>
                 }
@@ -619,7 +623,7 @@ const Profile = () => {
                   <div className="content_display">
                     <strong>City:</strong>
                     <div className="Profile_txt_wrap">
-                    {userData.City}
+                    &nbsp; {userData.City}
                     </div>
                   </div>
                 }
@@ -634,7 +638,7 @@ const Profile = () => {
                  <div className="content_display">
                     <strong>State:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.State}
+                    &nbsp; {userData.State}
                     </div>
                   </div>
                 }
@@ -650,7 +654,7 @@ const Profile = () => {
                     <div className="content_display">
                     <strong>Address:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.Address}
+                    &nbsp; {userData.Address}
                     </div>
                   </div>
                 }
@@ -797,7 +801,7 @@ const Profile = () => {
                    <div className="content_display">
                     <strong>Qualification:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.Qualification}
+                    &nbsp;{userData.Qualification}
                     </div>
                   </div>
                 }
@@ -831,7 +835,7 @@ const Profile = () => {
                   <div className="content_display">
                     <strong>Year of Qualification:</strong> 
                     <div className="Profile_txt_wrap">
-                    {userData.Yearofqualification}
+                    &nbsp; {userData.Yearofqualification}
                     </div>
                   </div>
                 }
@@ -846,7 +850,7 @@ const Profile = () => {
                   <div className="img_input" >
                   
 
-                    <input type="file" id="file"  // Attach the ref to the file input
+                    <input type="file" id="file"  
                     disabled={!editItem}
                       onChange={handleFileChange} accept="image/*" style={{
                         display: "none", // Hides the default file input
@@ -866,17 +870,18 @@ const Profile = () => {
                             cursor: editItem ? "pointer" : "not-allowed",
                             border: "1px solid grey",
                             textTransform: "math-auto",
-                            width: "120px", // Fixed width
-                            // overflow: "hidden", // Hides overflow text
-                            // whiteSpace: "nowrap", // Prevents text wrapping
-                            // textOverflow: "ellipsis",
+                            width: "120px",
                           }}
                           onClick={() => document.getElementById("file").click()}
                         >
                           <span> Choose File</span>
                         </button>
-                        {(currentfilename !== "" && image !== "" && currentfilename !== undefined && image !== undefined) &&
-                          <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
+                        {(currentfilename !== "" && currentfilename !== undefined && editItem) &&
+                          <FontAwesomeIcon style={{
+                            marginRight: "8px",
+                            pointerEvents: !editItem ? "none" : "auto",
+                            opacity: !editItem ? 0.5 : 1,
+                          }} className="view-button" title='Delete' icon={faTrash}  onClick={() => handleDelete()} />}
                       </div>
 
                       <span className="filenamestyle">{currentfilename}</span>

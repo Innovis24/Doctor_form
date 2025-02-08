@@ -98,7 +98,11 @@ const RegistrationList = () => {
   };
 
   const param1 = getQueryParam('param1');
-
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return "N/A"; // Return "N/A" if DOB is empty
+    const [year, month, day] = dateString.split("-");
+    return `${day}-${month}-${year}`; // Convert to "dd-mm-yyyy"
+  };
   const fetchRegistrations = async () => {
     setLoading(true);
     try {
@@ -338,7 +342,9 @@ const RegistrationList = () => {
     <FontAwesomeIcon icon={faPlus} /> Register
     </button> */}
         </div>
+        {/* <div>Doctor list</div> */}
         <div className="controls">
+
         <div className="itm_wt">
                 <b className="ITEM_MRG">Show</b>
               <select
@@ -619,7 +625,7 @@ const RegistrationList = () => {
             <div className="modal-content">
 
               <div className="pop_up_cancelicon">
-              <div className="profile_style">Profile Details</div>  
+              <div className="profile_style">Profile Details - {selectedRecord.Name}</div>  
               <div> 
                 <CloseIcon className="clear-icon cancel_btn_style" onClick={closeDetails} /></div>
               </div>
@@ -680,7 +686,7 @@ const RegistrationList = () => {
                   </div>
                   <div className="personal-info-item">
                     <FontAwesomeIcon icon={faBirthdayCake} />
-                    <div className="disply_flex"><strong className="font_size_popup">Date of Birth:</strong> <div className="popup_wrap">{selectedRecord.DOB}</div></div>
+                    <div className="disply_flex"><strong className="font_size_popup">Date of Birth:</strong> <div className="popup_wrap">{selectedRecord.DOB? formatDateForDisplay(selectedRecord.DOB) : "N/A"}</div></div>
                   </div>
                   <div className="personal-info-item">
                     <FontAwesomeIcon icon={faTransgenderAlt} />
@@ -734,7 +740,7 @@ const RegistrationList = () => {
                   </div>
                   <div className="registration-info-item">
                     <FontAwesomeIcon icon={faMap} />
-                    <div className="disply_flex"><strong className="font_size_popup">State of Medicine:</strong><div className="state_council"> {selectedRecord.Stateofmedicine}</div></div>
+                    <div className="disply_flex"><strong className="font_size_popup">State of Medicine:</strong><div className="state_council popup_wrap"> {selectedRecord.Stateofmedicine}</div></div>
                   </div>
                 </div>
               </div>
