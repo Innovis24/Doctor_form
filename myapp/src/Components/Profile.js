@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt,faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt,faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck,faMap } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
@@ -709,7 +709,7 @@ const Profile = () => {
 
             <div className="algin_tab">
               <div className="registration-info-item1 tab_input_width">
-                <FontAwesomeIcon icon={faIdCard} className="icon_style_profile" />
+                <FontAwesomeIcon icon={faBriefcase} className="icon_style_profile" />
                 {editItem === true &&
                   //  <div>
                   <select className="pro_GENDER" onChange={(e) => setemploymentType(e.target.value)} value={employmentType}>
@@ -753,7 +753,7 @@ const Profile = () => {
 
             <div className="algin_tab">
               <div className="registration-info-item1 tab_input_width">
-                <FontAwesomeIcon icon={faBriefcase} className="icon_style_profile" />
+                <FontAwesomeIcon icon={faMap} className="icon_style_profile" />
                 {editItem === true &&
                   <input type="text" placeholder="State of Medicine" className="txt_transform pro_input" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
                 }

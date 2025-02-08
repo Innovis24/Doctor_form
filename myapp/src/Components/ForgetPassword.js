@@ -139,7 +139,7 @@ const ForgetPassword = () => {
         </div>
         <div>
           <button onClick={handleSave} className="btn_submitclr_for icon_mrg_rt">Reset</button>
-          <button onClick={closePopup} className="btn_cancelClr_for icon_mrg_rt">Cancel</button>
+          <button onClick={closePopup} className="btn_cancelClr_for icon_mrg_rt">Clear</button>
           <button onClick={backPopup} className="btn_submitclr_for">Back</button>
         </div>
 

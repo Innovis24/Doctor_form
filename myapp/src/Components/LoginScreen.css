@@ -187,3 +187,13 @@ body {
   .acc_mrg_btm{
     margin-bottom: 5px;
   }
+  .button_login_color{
+    border: none;
+    background: none;
+    color: #00b4b6;
+    font-size: 14px; /* Reduced font size */
+  }
+  .button_login_color:hover {
+    color: #069a9c; /* Change text color */
+    text-decoration: underline; /* Add underline */
+  }

@@ -142,8 +142,9 @@ const LoginScreen = () => {
         {/* Login Form Section */}
         <div className="login-form-container login-form">
           <div className="login-form-wrapper">
-          <h1 className="login-title">Doctor Management</h1>
-            <div className="login_font_style"> Login</div>
+          {/* <h1 className="login-title">Doctor Management</h1>
+            <div className="login_font_style"> Login</div> */}
+            <h1 className="login-title">Login</h1>
             <form onSubmit={loginFn}>
               <div className="form-group">
                 <div htmlFor="username" className="form-label">
@@ -200,9 +201,10 @@ const LoginScreen = () => {
               <div className="form-footer">
                 <div
                   className="forget_pwd"
-                  onClick={forgetPassword}
                 >
+                  <button className="button_login_color"  onClick={forgetPassword}>
                   Forget password
+                  </button>
                 </div>
               </div>
               <div className="logjustify">
@@ -214,9 +216,11 @@ const LoginScreen = () => {
                 <p className="acc_mrg_btm">Don't have an account?</p>
                 <div
                   className="signuplg"
-                  onClick={handleRegisterClick}
                 >
+                  <button className="button_login_color"  onClick={handleRegisterClick}>
                   Sign up
+                  </button>
+                
                 </div>
               </div>
             </form>

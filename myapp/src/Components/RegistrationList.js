@@ -352,10 +352,8 @@ const RegistrationList = () => {
                 value={rowsPerPage}
                 onChange={(e) => {
                   setrowsPerPage(Number(e.target.value));
-                  applyFilters(searchQuery, Number(e.target.value));
                 }}
               >
-                <option value={2}>2</option>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
                 <option value={20}>20</option>
