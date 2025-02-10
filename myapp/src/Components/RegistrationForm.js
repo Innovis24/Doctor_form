@@ -58,6 +58,7 @@ const RegistrationForm = () => {
   const [city, setcity] = useState();
   const [state, setstate] = useState();
   const [currentfilename, setcurrentfilename] = useState();
+  const [shownextStep, setshownextStep] = useState(true);
   const [CurrentSno, setSno] = useState();
   const [imagePath, setimagePath] = useState();
   const [pwdUsernamePopup, setpwdUsernamePopup] = useState(false);
@@ -190,6 +191,16 @@ const RegistrationForm = () => {
     setcurrentfilename('')
     setImage('')
   }
+
+  const nextPage=(e)=>{
+    e.preventDefault();
+    setshownextStep(false)
+  }
+  const back =(e)=>{
+    e.preventDefault();
+    setshownextStep(true)
+  }
+
   function capitalizeFirstLetter(string) {
     return string.replace(/^\w/, c => c.toUpperCase());
   }
@@ -209,7 +220,8 @@ const RegistrationForm = () => {
     setregNumber(event.target.value);
 
   }
-  const handlecancel = () => {
+  const handlecancel = (e) => {
+    e.preventDefault();
     setname('');
     setfatherName('');
     setphonenumber('');
@@ -627,6 +639,8 @@ const RegistrationForm = () => {
           </div>
 
           <form >
+            {shownextStep ? (
+              <div>
             {/* Name and Father/Spouse Name */}
             <div className="grid-cols-2">
               <div className="input-group">
@@ -733,11 +747,8 @@ const RegistrationForm = () => {
               </div>
             </div>
 
-
-
-
             {/* Qualification and Specialization */}
-            <div className="grid-cols-2">
+            {/* <div className="grid-cols-2">
               <div className="input-group">
                 <FontAwesomeIcon icon={faGraduationCap} />
                 <span className="asterisk">*</span>
@@ -750,11 +761,11 @@ const RegistrationForm = () => {
                 <span className="material-icons"></span>
                 <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
               </div>
-            </div>
+            </div> */}
 
             {/* RegistrationNumber & Year of Registration */}
 
-            <div className="grid-cols-2">
+            {/* <div className="grid-cols-2">
               <div className="input-group">
                 <FontAwesomeIcon icon={faIdCard} />
                 <span className="asterisk">*</span>
@@ -767,7 +778,7 @@ const RegistrationForm = () => {
                 <span className="asterisk">*</span>
                 <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
               </div>
-            </div>
+            </div> */}
 
             {/* Employment Type and UPRN Number */}
             <div className="grid-cols-2">
@@ -932,18 +943,67 @@ const RegistrationForm = () => {
                 }
               </div>
             </div>
+            </div>
+
+) : <div>
+          {/* Qualification and Specialization */}
+            {/* <div className="grid-cols-2">
+              <div className="input-group">
+                <FontAwesomeIcon icon={faGraduationCap} />
+                <span className="asterisk">*</span>
+                <span className="material-icons"></span>
+                <input type="text" placeholder="Qualification" className="txt_transform" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
+              </div>
+              <div className="input-group">
+                <FontAwesomeIcon icon={faStethoscope} />
+                <span className="asterisk">*</span>
+                <span className="material-icons"></span>
+                <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
+              </div>
+            </div> */}
+
+            {/* RegistrationNumber & Year of Registration */}
+
+            <div className="grid-cols-2">
+              <div className="input-group">
+                <FontAwesomeIcon icon={faIdCard} />
+                <span className="asterisk">*</span>
+                <input type="text" placeholder="Registration Number"
+                  onChange={(e) => checkregnumber(e)}
+                  value={regNumber} maxLength={50} />
+              </div>
+              <div className="input-group">
+                <FontAwesomeIcon icon={faCalendarAlt} />
+                <span className="asterisk">*</span>
+                <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
+              </div>
+            </div>
+</div> }
             {/* Submit Button */}
+            {shownextStep ? (
             <div className="submit-button-container grid-cols-3">
 
-              <button type="submit" className="submit-button mrg_right_submit" onClick={handleSubmit}>
+              <button type="button"  className="submit-button mrg_right_submit" onClick={nextPage}>
+                Next & Submit
+              </button>
+              <button className="clear_btn_form" onClick={handlecancel}>
+                Clear
+              </button>
+            </div>
+
+              ) : 
+              <div className="submit-button-container grid-cols-3">
+              <button type="submit" className="submit-button mrg_right_submit" onClick={back}>
+                Back
+              </button>
+              <button type="submit" className="submit_clr mrg_right_submit" onClick={handleSubmit}>
                 Submit
               </button>
               <button className="cancel_btn_form" onClick={handlecancel}>
                 Clear
               </button>
-            </div>
-
-
+              </div>
+                }
           </form>
         </div>
       )}

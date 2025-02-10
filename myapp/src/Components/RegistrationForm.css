@@ -99,19 +99,21 @@ body {
   .cancel_btn_form{
     display: block;
     width: auto;
-    background: white;
-    color: #00b4b6;
+    background: #00b4b6;
+    color: white;
     font-weight: 600;
     font-size: 16px;
     text-align: center;
     padding: 12px 30px 12px 30px;
     border-radius: 8px;
-    border: 2px solid #00b4b6;
+    border: none;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 20px;
   }
-
+  .cancel_btn_form:hover {
+    background: #008f92;
+  }
   
 
 
@@ -343,3 +345,39 @@ textarea::placeholder {
      border: 1px solid #ddd ;
      margin-top:20px;
   }
+  .display_btn{
+    display: flex;
+       justify-content: end;
+    float: right;
+}
+
+.submit_clr {
+  display: block;
+  width: auto; 
+  background: white;
+  color: #00b4b6;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  padding: 12px 30px 12px 30px;
+  border-radius: 8px;
+  border: 2px solid #00b4b6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px; /* Added margin to ensure separation */
+}
+.clear_btn_form{
+  display: block;
+  width: auto;
+  background: white;
+  color: #00b4b6;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  padding: 12px 30px 12px 30px;
+  border-radius: 8px;
+  border: 1px solid #00b4b6;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
