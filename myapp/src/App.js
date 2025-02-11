@@ -6,7 +6,8 @@ import LoginScreen from "./Components/LoginScreen";
 import UserMaster from "./Components/UserMaster";
 import Profile from "./Components/Profile";
 import ForgetPassword from "./Components/ForgetPassword"
-import PreventBackNavigation from "./Components/PreventBackNavigation"
+import PreventBackNavigation from "./Components/PreventBackNavigation";
+import HospitalDetails from "./Components/HospitalDetails";
 const App = () => {
   return (
     <>
@@ -17,6 +18,7 @@ const App = () => {
        <Route path="/forget_password" element={<ForgetPassword />} />
       <Route path="/registration_list" element={<RegistrationList />} />
       <Route path="/user_master" element={<UserMaster />} />
+      <Route path="/hospital_details" element={<HospitalDetails />} />
       <Route path="/registration_form" element={<RegistrationForm />} />
     </Routes>
     </>
