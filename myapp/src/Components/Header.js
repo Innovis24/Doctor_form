@@ -1,10 +1,11 @@
 import "./Header.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSignOut, faUserMd, faUserPlus ,faUser ,faSearch,faHospital } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faUserMd, faUserPlus ,faUser ,faSearch,faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+
 const Header = ({ title }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const searchParams = new URLSearchParams(window.location.pathname);
@@ -107,7 +108,7 @@ const Header = ({ title }) => {
                   <FontAwesomeIcon className="list_icon" icon={faUserPlus} /> USER MASTER
                 </a>
                 <a href="/hospital_details" className="active">
-                  <FontAwesomeIcon className="list_icon" icon={faHospital} /> WORK DETAILS
+                  <FontAwesomeIcon className="list_icon" icon={faBriefcase} /> WORK DETAILS
                 </a>
               </li>
 
@@ -155,9 +156,9 @@ const Header = ({ title }) => {
                 </a>
 
                 <a href="/hospital_details" className="active">
-                  <FontAwesomeIcon className="list_icon" icon={faHospital} /> WORK DETAILS
+                  <FontAwesomeIcon className="list_icon" icon={faBriefcase} /> WORK DETAILS
                 </a>
-
+                
 
                 {/* <a href="/registration_list?param1=searchDoctor" className="active">
                   <FontAwesomeIcon className="list_icon" icon={faSearch} /> SEARCH DOCTOR

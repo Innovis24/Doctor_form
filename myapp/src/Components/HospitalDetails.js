@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from './Header';
 import "./HospitalDetails.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faAddressCard, faCircleXmark, faPencil, faTrash, faEye ,faCity,faStethoscope} from "@fortawesome/free-solid-svg-icons";
+import { faHospital, faAddressCard, faCircleXmark, faPencil, faTrash, faEye ,faCity,faStethoscope,faMapMarkerAlt,faStarOfLife} from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HOS_API_URL } from "../utlis/common";
@@ -61,6 +61,9 @@ function HospitalDetails() {
 
     const OpenPopup = (item) => {
         setviewPopup(true)
+        sethospitalname(item.HospitalName);
+        setcity(item.City);
+        setaddress(item.Address);
         const items = item.HospitalDetails.split(',');
         setviewhospitalDetails(items);
     }
@@ -178,7 +181,7 @@ function HospitalDetails() {
                             </div>
 
                             <div className="input-group">
-                                <FontAwesomeIcon icon={faUser} />
+                                <FontAwesomeIcon icon={faHospital} />
                                 <span className="asterisk">*</span>
                                 <input
                                     type="text" className="txt_transform"
@@ -283,18 +286,51 @@ function HospitalDetails() {
                 {viewPopup && (
                     <div className="modal1">
                     <div className="modal1-content">
-
-                    <div className="pop_up_cancelicon">
-                    <div className="profile_style">Hospital Details</div>  
+                    {/* heading */}
+                    <div className="pop_up_cancelicon1">
+                    <div className="profile_style">Work Details</div>  
                     <div> 
                     <FontAwesomeIcon icon={faCircleXmark} className="model_icon_clr" onClick={closeEditPopup} />
-                        </div>
-                        </div>
-                    <ul className="tooltip-list">
-                        {viewhospitalDetails.map((item, index) => (
-                        <li key={index}>{item}</li>
-                        ))}
-                    </ul>
+                    </div>
+                    </div>
+
+                    <div>
+                                    <div className="grid-cols-1">
+                                      <div className="input-group">
+                                        <FontAwesomeIcon  className='icon_mrg' icon={faHospital} />
+                                        <input type="text" 
+                                          readOnly className="txt_transform"
+                                          value={hospitalname} />
+                                      </div>
+                                      <div className="input-group">
+                                        <FontAwesomeIcon className='icon_mrg' icon={faCity} />
+                                        <input type="text" readOnly className="txt_transform" value={city}  />
+                                      </div>
+                                    </div>
+                                    <div className="grid-cols-1">
+                                      <div className="input-group">
+                                        <FontAwesomeIcon icon={faAddressCard} className='icon_mrg' />
+                                        <textarea type="text" readOnly className="txt_transform"
+                                          value={address}  />
+                                      </div>
+                                      <div className="speicality_style">
+                                       <div>
+                                            <FontAwesomeIcon icon={faStethoscope} className="icon_mrg" />
+                                            <b >Specialties:</b>
+                                        </div>
+                                      <div className="speciality_style">
+                                        <ul className="tooltip-list txt_transform">
+                                            {viewhospitalDetails.map((item, index) => (
+                                            <li key={index}>{item}</li>
+                                            ))}
+                                        </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                       
+                    </div>
+
+                   
                    
                    
                     
