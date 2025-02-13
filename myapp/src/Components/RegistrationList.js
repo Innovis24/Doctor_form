@@ -37,7 +37,8 @@ const RegistrationList = () => {
   const [loading, setLoading] = useState(true);
   const [registrations, setRegistrations] = useState([]);
   const [wholearray, setwholearray] = useState([]);
-  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [selectedRecord, setSelectedRecord] = useState([]);
+  const [getPGarray, setgetPGarray] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const [currentDeleteSno, setCurrentDeleteSno] = useState(''); // State for search input
@@ -126,6 +127,8 @@ const RegistrationList = () => {
 
   const handleView = (record) => {
     setSelectedRecord(record);
+    const PGarray = !record.Postgraduation ? [] : JSON.parse(record.Postgraduation)
+    setgetPGarray(PGarray)
     setShowDetails(true);
   };
 
@@ -260,7 +263,6 @@ const RegistrationList = () => {
 
   const closeDetails = () => {
     setShowDetails(false);
-    setSelectedRecord(null); // This line can be kept if you want to reset the selected record
   };
 
   const handleEdit = (record) => {
@@ -757,6 +759,41 @@ const RegistrationList = () => {
                   <div className="qualification-info-item">
                     <FontAwesomeIcon icon={faCalendarCheck} />
                     <div className="disply_flex"><strong className="font_size_popup">Year of Qualification:</strong><div className="popup_wrap"> {selectedRecord.Yearofqualification}</div></div>
+                  </div>
+                </div>
+                <div className="pg_item">
+                  <div>
+                  <div className="mrg_btom16"><b>Postgraduate Qualifications</b></div>
+                  <div className="pg_scroll_style">
+
+                  <table className="qualification-table table MRG_TOP7">
+                                <thead>
+                                  <tr>
+                                    <th className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>Qualification</th>
+                                    <th className="table_colum_wrap">University Name</th>
+                                    <th className="table_colum_wrap">Specialization</th>
+                                    <th className="table_colum_wrap">Year</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {getPGarray && getPGarray.length > 0 ? (
+                                    getPGarray.map((item, index) => (
+                                      <tr key={index}>
+                                            <td className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>{item.Qualification}</td>
+                                            <td className="table_colum_wrap">{item.Universityname}</td>
+                                            <td className="table_colum_wrap">{item.specializationname}</td>
+                                            <td className="table_colum_wrap">{item.year}</td>
+                                            
+                                      </tr>
+                                    ))
+                                  ) : (
+                                    <tr>
+                                      <td colSpan="4">No qualifications added !</td>
+                                    </tr>
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
                   </div>
                 </div>
               </div>

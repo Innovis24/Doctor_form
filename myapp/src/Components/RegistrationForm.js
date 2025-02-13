@@ -6,38 +6,38 @@ import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser, faCalendar, faTransgenderAlt, faPhone, faEnvelope, faAddressCard,
-  faCity, faMapMarkerAlt, faGraduationCap,
-  faStethoscope, faIdCard, faCalendarAlt, faBriefcase, faBarcode, faUniversity, faMap,
-  faCalendarCheck
+  faCity, faMapMarkerAlt, faGraduationCap, faStethoscope, faIdCard,
+  faCalendarAlt, faBriefcase, faBarcode, faUniversity, faMap,
+  faPlus, faTrash, faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { REG_API_URL,USER_API_URL } from "../utlis/common";
 
 const RegistrationForm = () => {
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   fatherName: "",
-  //   dob: "",
-  //   gender: "",
-  //   phone: "",
-  //   email: "",
-  //   address: "",
-  //   qualification: "",
-  //   city:"",
-  //   state:"",
-  //   specialization: "",
-  //   regNumber: "",
-  //   regYear: "",
-  //   employmentType: "",
-  //   uprn: "",
-  //   university: "",
-  //   stateOfMedicine: "",
-  //   yearOfQualification: "",
-  // });
+  const [formData, setFormData] = useState({
+    name: "",
+    fatherName: "",
+    dob: "",
+    gender: "",
+    phone: "",
+    email: "",
+    address: "",
+    qualification: "",
+    city:"",
+    state:"",
+    specialization: "",
+    regNumber: "",
+    regYear: "",
+    employmentType: "",
+    uprn: "",
+    university: "",
+    stateOfMedicine: "",
+    yearOfQualification: "",
+    Postgraduation:"",
+  });
   const [name, setname] = useState();
   const [fatherName, setfatherName] = useState();
   const [newuser, setnewuser] = useState();
@@ -57,6 +57,8 @@ const RegistrationForm = () => {
   const [yearOfQualification, setyearOfQualification] = useState();
   const [city, setcity] = useState();
   const [state, setstate] = useState();
+  const [Qualification, setQualification] = useState(""); // Single input field
+  const [qualifications, setQualifications] = useState([]); // Stores table data
   const [currentfilename, setcurrentfilename] = useState();
   const [shownextStep, setshownextStep] = useState(true);
   const [CurrentSno, setSno] = useState();
@@ -70,6 +72,9 @@ const RegistrationForm = () => {
   const data = location.state;
   const today = new Date().toISOString().split("T")[0];
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [Universityname, setUniversityname] = useState("");
+  const [specializationname, setSpecializationname] = useState("");
+  const [year, setYear] = useState("");
   const navigate = useNavigate(); // Use useNavigate for navigation
 
   //username popup-start
@@ -83,18 +88,18 @@ const RegistrationForm = () => {
 
   //username popup-end
 
-  useEffect(() => {
+  useEffect(() => { 
     const newOne = localStorage.getItem('newUser');
     setnewuser(newOne)
-
+  
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     if ((values === '' || values === null || values === undefined) && (!newOne)) {
-
+    
       navigate("/");
       return;
     }
-
-
+  
+  
     fetchRegistrations()
     getUserDetails()
 
@@ -124,6 +129,7 @@ const RegistrationForm = () => {
       setyearOfQualification(data.Yearofqualification);
       setimagePath(data.image_path);
       setimageName(data.image_name);
+      setQualifications(data.Postgraduation);
     }
   }, [data, navigate]);
 
@@ -194,7 +200,26 @@ const RegistrationForm = () => {
 
   const nextPage=(e)=>{
     e.preventDefault();
-    setshownextStep(false)
+    if (!name ||
+      !fatherName ||
+      !dob ||
+      !gender ||
+      !phonenumber ||
+      !email ||
+      !address ||
+      !employmentType ||
+      !uprn ||
+      !image ||
+      image.length === 0 || // For checking empty image array
+      !city ||
+      !state) {
+      toast.error("Please fill all fields!", { position: "top-center" });
+      return;
+    
+      }
+      else{
+        setshownextStep(false)
+      }
   }
   const back =(e)=>{
     e.preventDefault();
@@ -283,37 +308,21 @@ const RegistrationForm = () => {
       toast.error("Enter a valid email address.");
     }
   }
+
+ //Submit
+
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-
-    if (!name ||
-      !fatherName ||
-      !dob ||
-      !gender ||
-      !phonenumber ||
-      !email ||
-      !address ||
-      !qualification ||
-      !specialization ||
-      !regNumber ||
-      !regYear ||
-      !employmentType ||
-      !uprn ||
-      !university ||
-      !stateOfMedicine ||
-      !yearOfQualification ||
-      !image ||
-      image.length === 0 || // For checking empty image array
-      !city ||
-      !state) {
-      toast.error("Please fill all fields!", { position: "top-center" });
+    if ([name, fatherName, dob, gender, phonenumber, email, address, qualification, specialization,
+      regNumber, regYear, employmentType, uprn, university, stateOfMedicine, yearOfQualification, image, city, state].some(field => !field) ||
+      qualifications.length === 0) {
+      toast.error("Please fill all required fields!");
       return;
     }
-
-
-
+    
+    console.log(qualifications)
 
 
 
@@ -383,9 +392,22 @@ const RegistrationForm = () => {
         formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
         formData.append('yearOfQualification', yearOfQualification);
         formData.append('images', image)
+        
+        formData.append('postgraduate',JSON.stringify(qualifications))
+         // Append qualifications array
+       
+  // qualifications.forEach((item, index) => {
+  //   formData.append(`qualifications[${index}][postgraduate]`, item.Qualification);
+  //   formData.append(`qualifications[${index}][Universityname]`, item.Universityname);
+  //   formData.append(`qualifications[${index}][specializationname]`, item.specializationname);
+  //   formData.append(`qualifications[${index}][year]`, item.year);
+  // });
+  // formData.append(`qualifications[${index}][qualification]`, item.Qualification);
+      
         galleryArray.forEach((file, index) => {
           formData.append(`galleryImages[${index}]`, file);
         });
+
         const response = await axios.post(REG_API_URL + '?action=create', formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -416,7 +438,11 @@ const RegistrationForm = () => {
           setstateOfMedicine('');
           setyearOfQualification('');
           setIsPopupOpen(true);
-          setgalleryArray([])
+          setgalleryArray([]);
+          setQualifications([]); // Clear the qualifications array
+          setUniversityname([]);
+          setSpecializationname([]);
+          setYear([]);
 
         } else {
           toast.error("Failed to submit the form!", { position: "top-center" });
@@ -522,6 +548,7 @@ const RegistrationForm = () => {
           setuniversity('');
           setstateOfMedicine('');
           setyearOfQualification('');
+          setQualifications('')
 
         } else {
           toast.error("Failed to update the form!", { position: "top-center" });
@@ -591,12 +618,38 @@ const RegistrationForm = () => {
 
     }
     else {
-      toast.error("Failed to submit the form!", { position: "top-center" });
+      toast.error("+", { position: "top-center" });
     }
   }
+   // Handle Postgraduate input change
+   const handlepgInputChange = (e) => {
+    setQualification(e.target.value);
+  };
+
+  // Add new entry to the table
+  const addQualification = () => {
+    if ((Qualification.trim() !== "" && Universityname.trim() !== "" && specializationname.trim() !== "" && year.trim() !== "")) {
+      setQualifications((prevQualifications) => [
+        ...prevQualifications,
+        { id: prevQualifications.length ,Qualification, Universityname, specializationname, year }
+      ]);
+     
+    }
+    setQualification("");
+    setUniversityname("");
+    setSpecializationname("");
+    setYear("");
+  };
+
+  // Remove entry from table
+  const removeQualification = (e, index) => {
+    e.preventDefault();
+    setQualifications(qualifications.filter((_, i) => i !== index));
+  };
+
 
   return (
-    <div className="form-container">
+    <div className="form-container bg_container">
       {/* ToastContainer for rendering notifications */}
       <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
@@ -746,40 +799,6 @@ const RegistrationForm = () => {
                 <input type="text" placeholder="State" className="txt_transform" onChange={(e) => setstate(e.target.value)} value={state} maxLength={100} />
               </div>
             </div>
-
-            {/* Qualification and Specialization */}
-            {/* <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faGraduationCap} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="text" placeholder="Qualification" className="txt_transform" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faStethoscope} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
-              </div>
-            </div> */}
-
-            {/* RegistrationNumber & Year of Registration */}
-
-            {/* <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faIdCard} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="Registration Number"
-                  onChange={(e) => checkregnumber(e)}
-                  value={regNumber} maxLength={50} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faCalendarAlt} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
-              </div>
-            </div> */}
-
             {/* Employment Type and UPRN Number */}
             <div className="grid-cols-2">
               <div className="input-group">
@@ -801,26 +820,7 @@ const RegistrationForm = () => {
                 <input type="text" placeholder="UPRN Number" onChange={(e) => checkUPRN(e)} value={uprn} maxLength={50} />
               </div>
             </div>
-
-            {/* University Name */}
-            <div className="input-group">
-              <FontAwesomeIcon icon={faUniversity} />
-              <span className="asterisk">*</span>
-              <input type="text" placeholder="University Name" className="txt_transform" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
-
-            {/* State of medicine & Year of Qualification */}
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faMap} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="State of Medicine" className="txt_transform" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faCalendarCheck} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  />
-              </div>
-            </div>
+          
             <div>
               <div className="prfile_font">Upload image for your profile<span className="asterisk">*</span></div>
 
@@ -946,8 +946,7 @@ const RegistrationForm = () => {
             </div>
 
 ) : <div>
-          {/* Qualification and Specialization */}
-            {/* <div className="grid-cols-2">
+  <div className="grid-cols-2">
               <div className="input-group">
                 <FontAwesomeIcon icon={faGraduationCap} />
                 <span className="asterisk">*</span>
@@ -960,8 +959,7 @@ const RegistrationForm = () => {
                 <span className="material-icons"></span>
                 <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
               </div>
-            </div> */}
-
+            </div>
             {/* RegistrationNumber & Year of Registration */}
 
             <div className="grid-cols-2">
@@ -978,6 +976,117 @@ const RegistrationForm = () => {
                 <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
               </div>
             </div>
+            
+            {/* University Name */}
+            <div className="input-group">
+              <FontAwesomeIcon icon={faUniversity} />
+              <span className="asterisk">*</span>
+              <input type="text" placeholder="University Name" className="txt_transform" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
+  {/* State of medicine & Year of Qualification */}
+     <div className="grid-cols-2">
+              <div className="input-group">
+                <FontAwesomeIcon icon={faMap} />
+                <span className="asterisk">*</span>
+                <input type="text" placeholder="State of Medicine" className="txt_transform" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
+              </div>
+              <div className="input-group">
+                <FontAwesomeIcon icon={faCalendarCheck} />
+                <span className="asterisk">*</span>
+                <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  />
+              </div>
+            </div>
+            {/*POST GRA */}
+            <div className="max-w-lg mx-auto p-4 bg-white shadow rounded-lg">
+              <p>Post Graduation</p>
+            <div className="flex items-center space-x-2 mb-4">
+            <div className="input-group flex items-center space-x-2 mb-4">
+            <FontAwesomeIcon icon={faGraduationCap} />
+        <input
+          type="text"
+          placeholder="Postgraduate"
+          className="border p-2 rounded w-full outline-none"
+          value={Qualification}
+          onChange={handlepgInputChange}
+        />
+       </div>
+     
+       <div className="input-group flex items-center space-x-2 mb-4">
+       <FontAwesomeIcon icon={faUniversity} />
+        <input
+          type="text"
+          placeholder="University Name"
+          className="border p-2 rounded w-full outline-none"
+          value={Universityname}
+          onChange={(e) => setUniversityname(e.target.value)}
+        />
+      </div>
+      
+      </div>
+      <div className="flex items-center space-x-2 mb-4">
+      <div className="input-group flex items-center space-x-2 mb-4">
+      <FontAwesomeIcon icon={faStethoscope} />
+        <input
+          type="text"
+          placeholder="Specialization"
+          className="border p-2 rounded w-full outline-none"
+          value={specializationname}
+          onChange={(e) => setSpecializationname(e.target.value)}
+        />
+        </div>
+        <div className="input-group flex items-center space-x-2 mb-4">
+        <FontAwesomeIcon icon={faCalendarCheck} />
+        <input
+          type="text"
+          placeholder="Year of Qualification"
+          className="border p-2 rounded w-full outline-none"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        />
+        </div>
+        <button
+          onClick={addQualification}
+          type="button"
+          className="plusbtn"
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
+      </div>
+   
+
+      {/* Table */}
+      {qualifications.length > 0 && (
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border p-2">Postgraduate</th>
+              <th className="border p-2">University</th>
+              <th className="border p-2">Specialization</th>
+              <th className="border p-2">Year</th>
+              <th className="border p-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {qualifications.map((item, index) => (
+              <tr key={index} className="border">
+                <td className="border p-2">{item.Qualification}</td>
+                <td className="border p-2">{item.Universityname}</td>
+                <td className="border p-2">{item.specializationname}</td>
+                <td className="border p-2">{item.year}</td>
+                <td className="border p-2 text-center">
+                  <button
+                    onClick={(e) => removeQualification(e, index)}
+                    className="pgdeletebtn"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+
 </div> }
             {/* Submit Button */}
             {shownextStep ? (
@@ -1031,7 +1140,7 @@ const RegistrationForm = () => {
                 onChange={(e) => setpassword(e.target.value)}
               />
             </div>
-
+            
             <button onClick={handleSave} className="btn_submitclr">Submit</button>
             <button onClick={closePopup} className="btn_cancelClr">Clear</button>
           </div>

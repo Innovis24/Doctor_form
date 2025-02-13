@@ -957,3 +957,18 @@ input::placeholder {
   font-weight: 700;
   font-size: 27px;
 }
+.pg_item
+{
+  display: flex;
+  align-items: center;
+}
+.mrg_btom16
+{
+  margin-bottom: 16px;
+}
+.pg_scroll_style{
+  overflow: scroll;
+  height: 273px;
+  scrollbar-width: thin;
+  max-height: 300px;
+}

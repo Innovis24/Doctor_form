@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt,faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck,faMap } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt,faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck,faMap ,faPlus} from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
@@ -43,10 +43,23 @@ const Profile = () => {
   const [currentfilename, setcurrentfilename] = useState();
   const [imagePath, setimagePath] = useState();
   const [imageName, setimageName] = useState();
-   const [galleryArray, setgalleryArray] = useState([]);
+  const [galleryArray, setgalleryArray] = useState([]);
   const [image, setImage] = useState();
   const [Array, setarray] = useState({});
   const [newImsge, setnewImsge] = useState([]);
+  const [Qualification, setQualification] = useState();
+  const [Specializationname, setSpecializationname] = useState([]);
+  const [Universityname, setUniversityname] = useState([]);
+  const [Year, setYear] = useState([]);
+  
+
+  const [pgQualification, setpgQualification] = useState();
+  const [pgSpecializationname, setpgSpecializationname] = useState();
+  const [pgUniversityname, setpgUniversityname] = useState();
+  const [pgYear, setpgYear] = useState();
+  const [pgArray, setpgArray] = useState([]);
+  const [currentpgID, setcurrentpgID] = useState();
+
   const location = useLocation();
   const data = location.state;
   const overlayStyle = {
@@ -61,6 +74,8 @@ const Profile = () => {
     alignItems: 'center',
     zIndex: 1000,
   };
+
+
   const fetchData = useCallback(async (ID) => {
     setLoading(true)
     try {
@@ -73,6 +88,7 @@ const Profile = () => {
         );
         if (filterValNew.length > 0) {
           setUserData(filterValNew[0]);
+          setpgArray(JSON.parse(filterValNew[0].Postgraduation))
           // setcurrentfilename(filterValNew[0].image_name);
           setActiveTab("personal")
         }
@@ -88,6 +104,7 @@ const Profile = () => {
         );
         if (filterValOld.length > 0) {
           setUserData(filterValOld[0]);
+          setpgArray(JSON.parse(filterValOld[0].Postgraduation))
           setcurrentfilename(filterValOld[0].image_name);
           setActiveTab("personal")
         }
@@ -151,6 +168,85 @@ const Profile = () => {
       setgalleryArray([...galleryArray, ...selectedFilesapi]); // Append selected files to the array
     }
   };
+  const clearPG=()=>{
+    setpgQualification("");
+    setpgSpecializationname("");
+    setpgUniversityname("");
+    setpgYear("");
+  }
+    const handlepgInputChange = (e) => {
+      const { name, value } = e.target;
+    
+      if (name === "pgQualification") setpgQualification(value);
+      else if (name === "pgUniversityname") setpgUniversityname(value);
+      else if (name === "pgYear") setpgYear(value);
+      else if (name === "pgSpecializationname") setpgSpecializationname(value);
+    };
+    
+
+  const addQualification = () => {
+    setLoading(true)
+    if ((pgQualification.trim() !== "" && pgSpecializationname.trim() !== "" && pgUniversityname.trim() !== "" && pgYear.trim() !== "")) {
+      if(currentpgID === "" && currentpgID === undefined && currentpgID === null){
+        
+        setTimeout(() => {
+          setpgArray((prevQualifications) => [
+            ...prevQualifications,
+            { id: prevQualifications.length ,Qualification: pgQualification,      
+              Universityname: pgUniversityname,    
+              specializationname: pgSpecializationname, 
+              year: pgYear     }
+          ]);
+        }, 300);
+        setLoading(false)
+      
+      } 
+      else{
+        const curArray=pgArray.filter((item)=>item.id === currentpgID)
+        if(curArray.length > 0){
+          setTimeout(() => {
+            setpgArray((prevQualifications) => {
+              return prevQualifications.map((qualification) =>
+                qualification.id === currentpgID
+                  ? {
+                      ...qualification, // Keep the existing properties of the qualification
+                      ...{
+                        Qualification: pgQualification,      
+                        Universityname: pgUniversityname,    
+                        specializationname: pgSpecializationname, 
+                        year: pgYear                         
+                      } // Update with the new data
+                    }
+                  : qualification // Leave other qualifications unchanged
+              );
+            });
+          }, 300);
+          setLoading(false)
+      
+        }
+
+      }
+    }
+    setpgQualification("");
+    setpgSpecializationname("");
+    setpgUniversityname("");
+    setpgYear("");
+  };
+
+  const editPGDeatils = (records) => {
+    setcurrentpgID(records.id)
+    setpgQualification(records.Qualification);
+    setpgSpecializationname(records.specializationname);
+    setpgUniversityname(records.Universityname);
+    setpgYear(records.year);
+  };
+
+  const deletePGdetails = (items)=>{
+    setLoading(true)
+    const delVal =  pgArray.filter((itsm)=> itsm.id !==items.id )
+    setpgArray(delVal)
+    setLoading(false)
+  }
 
   function capitalizeFirstLetter(string) {
     return string.replace(/^\w/, c => c.toUpperCase());
@@ -180,7 +276,11 @@ const Profile = () => {
     setyearOfQualification(data.Yearofqualification);
     setimagePath(data.image_path);
     setimageName(data.image_name);
-
+    setQualification(data.Qualification);
+    setUniversityname(data.Universityname);
+    setSpecializationname(data.specializationname);
+    setYear(data.year);
+    setpgArray(JSON.parse(data.Postgraduation))
   }
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -285,6 +385,7 @@ const Profile = () => {
     formData.append('yearOfQualification', yearOfQualification);
     formData.append('images', image)
     formData.append('image_path', imagePath);
+    formData.append('postgraduate',JSON.stringify(pgArray))
     if (imageName === image) {
       formData.append('image_name', imageName);
     }
@@ -310,6 +411,14 @@ const Profile = () => {
     } else {
       toast.error("Failed to update the form!", { position: "top-center" });
     }
+  }
+  const close = ()=>{
+    seteditItem(false)
+    setpgSpecializationname("")
+    setpgQualification("")
+    setpgUniversityname("")
+    setpgYear("")
+    
   }
   const checkPhonenumber = (phonenum) => {
     const phoneRegex = /^[0-9]{10}$/;
@@ -767,80 +876,7 @@ const Profile = () => {
                 }
 
               </div>
-              <div className="registration-info-item1 tab_input_width txt_transform">
-                <FontAwesomeIcon icon={faUniversity} className="icon_style_profile" />
-                {editItem === true &&
-                  <input type="text" placeholder="University Name" className="txt_transform pro_input" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} />
-                }
-                {editItem === false &&
-                   <div className="content_display">
-                    <strong>University:</strong> 
-                    <div className="Profile_txt_wrap">
-                    {userData.Universityname}
-                    </div>
-                  </div>
-                }
-
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* Qualification Info */}
-        {activeTab === "qualification" && (
-          <div className="tab-content active">
-
-            <div className="algin_tab">
-              <div className="qualification-info-item1 tab_input_width">
-                <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
-                {editItem === true &&
-                  <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
-                }
-                {editItem === false &&
-                   <div className="content_display">
-                    <strong>Qualification:</strong> 
-                    <div className="Profile_txt_wrap">
-                    &nbsp;{userData.Qualification}
-                    </div>
-                  </div>
-                }
-
-              </div>
-              <div className="registration-info-item1 tab_input_width txt_transform">
-                <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
-                {editItem === true &&
-                  <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
-                }
-                {editItem === false &&
-                   <div className="content_display">
-                    <strong>Specialization:</strong> 
-                    <div className="Profile_txt_wrap">
-                    {userData.Specialization}
-                    </div>
-                  </div>
-
-                }
-
-              </div>
-            </div>
-
-            <div className="algin_tab">
-              <div className="qualification-info-item1 tab_input_width">
-                <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
-                {editItem === true &&
-                  <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
-                }
-                {editItem === false &&
-                  <div className="content_display">
-                    <strong>Year of Qualification:</strong> 
-                    <div className="Profile_txt_wrap">
-                    &nbsp; {userData.Yearofqualification}
-                    </div>
-                  </div>
-                }
-
-              </div>
+              
             </div>
             <div className="algin_tab">
               <div className="qualification-info-item1 tab_input_width">
@@ -892,7 +928,152 @@ const Profile = () => {
                 </div>
 
               </div>
+            </div> 
+          </div>
+        )}
+
+        {/* Qualification Info */}
+        {activeTab === "qualification" && (
+          <div className="tab-content active">
+
+               <div className="algin_tab">
+                          <div className="qualification-info-item1 tab_input_width">
+                 
+                            <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
+                            {editItem === true &&
+                              <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
+                            }
+                            {editItem === false &&
+                               <div className="content_display">
+                                <strong>Qualification:</strong> 
+                                <div className="Profile_txt_wrap">
+                                &nbsp;{userData.Qualification}
+                                </div>
+                              </div>
+                            }
+            
+                          </div>
+                         
+                       
+                          <div className="qualification-info-item1 tab_input_width">
+                            <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
+                            {editItem === true &&
+                              <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
+                            }
+                            {editItem === false &&
+                              <div className="content_display">
+                                <strong>Year of Qualification:</strong> 
+                                <div className="Profile_txt_wrap">
+                                &nbsp; {userData.Yearofqualification}
+                                </div>
+                              </div>
+                            }
+            
+                          </div>
+                        </div>
+            
+                        <div className="algin_tab">
+                        <div className="registration-info-item1 tab_input_width txt_transform">
+                            <FontAwesomeIcon icon={faUniversity} className="icon_style_profile" />
+                            {editItem === true &&
+                              <input type="text" placeholder="University Name" className="txt_transform pro_input" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} />
+                            }
+                            {editItem === false &&
+                               <div className="content_display">
+                                <strong>University:</strong> 
+                                <div className="Profile_txt_wrap">
+                                {userData.Universityname}
+                                </div>
+                              </div>
+                            }
+            
+                          </div>
+                          <div className="registration-info-item1 tab_input_width txt_transform">
+                            <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
+                            {editItem === true &&
+                              <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
+                            }
+                            {editItem === false &&
+                               <div className="content_display">
+                                <strong>Specialization:</strong> 
+                                <div className="Profile_txt_wrap">
+                                {userData.Specialization}
+                                </div>
+                              </div>
+            
+                            }
+            
+                          </div>
+                        </div>
+
+         
+            <div className="algin_tab">
+            <div className="registration-info-item1 tab_input_width txt_transform flex_pg">
+            <div className="mrg_right69"><b>Postgraduate Qualifications</b></div>
+            <div className="pg_scroll_style">
+            <table className="qualification-table table MRG_TOP7">
+              <thead>
+                <tr>
+                  <th className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>Qualification</th>
+                  <th className="table_colum_wrap">University Name</th>
+                  <th className="table_colum_wrap">Specialization</th>
+                  <th className="table_colum_wrap">Year</th>
+                  <th className="table_colum_wrap" >Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pgArray.length > 0 ? (
+                  pgArray.map((item, index) => (
+                    <tr key={index}>
+                          <td className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>{item.Qualification}</td>
+                          <td className="table_colum_wrap">{item.Universityname}</td>
+                          <td className="table_colum_wrap">{item.specializationname}</td>
+                          <td className="table_colum_wrap">{item.year}</td>
+                          <th className="table_colum_wrap" style={{color:'#00b4b6',backgroundColor:'white'}}>
+                          {editItem === true ? (
+                            <div>
+                                <FontAwesomeIcon icon={faPencil} className="cursor" style={{marginRight: "16px"}}
+                              onClick={() => editPGDeatils(item)} />
+                             <FontAwesomeIcon icon={faTrash} className="cursor" onClick={() => deletePGdetails(item)}   />
+                            </div>
+                          ) : 
+                          <div>
+                             <FontAwesomeIcon icon={faPencil} disabled  style={{marginRight: "16px"}}
+                             />
+                             <FontAwesomeIcon icon={faTrash} disabled />
+                          </div>}
+                          </th>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5">No qualifications added.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
             </div>
+           
+            </div>
+            {editItem === true &&
+            <div className="registration-info-item1 tab_input_width txt_transform">
+              <div>
+              <input type="text" name="pgQualification" placeholder="Postgraduate" className="pro_input mrng_btm_ip" onChange={handlepgInputChange} value={pgQualification} maxLength={100} />
+              <input type="text" name="pgUniversityname"  placeholder="University Name" className="pro_input" onChange={handlepgInputChange}   value={pgUniversityname} maxLength={100} />
+              </div>
+              <div>
+              <input type="text" name="pgYear" placeholder="Year of Qualification" className="pro_input mrng_btm_ip"  onChange={handlepgInputChange} value={pgYear} maxLength={100} />
+              <input type="text" name="pgSpecializationname" placeholder="Specialization" className="pro_input"  onChange={handlepgInputChange} value={pgSpecializationname} maxLength={100} />
+              </div>
+              <div>
+                  <FontAwesomeIcon className="add_icon_style cursor" icon={faPlus}  onClick={addQualification}  />
+                  <div className="clear_progile_pg cursor" onClick={clearPG} >clear</div>
+              </div>
+        
+            </div>
+              }
+            </div>
+             
           </div>
         )}
         {/* gallery */}
@@ -973,7 +1154,7 @@ const Profile = () => {
             <button className="submit-button-Profile" onClick={SubmitFn}>Submit</button>
           }
           {editItem === true &&
-            <button className="close-button-Profile" onClick={() => seteditItem(false)}>Close</button>
+            <button className="close-button-Profile" onClick={close}>Close</button>
           }
         </div>
 
