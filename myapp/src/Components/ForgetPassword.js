@@ -10,7 +10,7 @@ const ForgetPassword = () => {
   const [password, setpassword] = useState();
   const [Arrayval, setArrayVal] = useState([]);
   const navigate = useNavigate();
- 
+
   useEffect(() => {
     // const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 

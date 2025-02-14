@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from './Header';
 import "./HospitalDetails.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHospital, faAddressCard, faCircleXmark, faPencil, faTrash, faEye ,faCity,faStethoscope,faMapMarkerAlt,faStarOfLife} from "@fortawesome/free-solid-svg-icons";
+import { faHospital, faAddressCard, faCircleXmark, faPencil, faTrash, faEye, faCity, faStethoscope, faMapMarkerAlt, faStarOfLife } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HOS_API_URL } from "../utlis/common";
@@ -27,7 +27,7 @@ function HospitalDetails() {
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
     const currentRows = Arrayval.slice(startIndex, endIndex);
-
+    const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
     useEffect(() => {
         const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -75,6 +75,12 @@ function HospitalDetails() {
             toast.error("Failed to fetch registrations!");
         }
     };
+    const goToPage = (page) => {
+        if (page > 0 && page <= totalPages) {
+          setCurrentPage(page);
+        }
+      };
+    
     const clearfn = (event) => {
         event.preventDefault();
         sethospitalname("");
@@ -153,7 +159,7 @@ function HospitalDetails() {
             toast.error("Failed to delete record. Please try again.");
         }
     }
-    const closeEditPopup = () =>{
+    const closeEditPopup = () => {
         setviewPopup(false)
     }
     return (
@@ -235,107 +241,124 @@ function HospitalDetails() {
                     </form>
                 )}
                 {!newHostpital && (
-                    <div className="table_pad_style">
+                    <div className="table_pad_style over_table">
 
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Hospital Name</th>
-                                <th>City</th>
-                                <th>Address</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRows.length > 0 ? (
-                                currentRows.map((record, index) => (
-                                    <tr key={index}>
-                                        <td className="text-wrap">{startIndex + index + 1}</td>
-                                        <td className="text-wrap txt_trans">
-                                            <div>
-                                                {record.HospitalName}
-                                            </div>
-                                        </td>
-                                        <td className="text-wrap txt_trans">{record.City}</td>
-                                        <td className="text-wrap txt_trans">{record.Address}</td>
-                                        <td>
-
-                                            <div className="alignmentbtn">
-
-                                                <FontAwesomeIcon className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)} />
-                                                <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => openEdit(record)} />
-                                                <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} />
-
-
-
-                                            </div>
-
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
+                        <table className="table">
+                            <thead>
                                 <tr>
-                                    <td colSpan="5" className="txt_align"><b>No records found!</b></td>
+                                    <th>S.No</th>
+                                    <th>Hospital Name</th>
+                                    <th>City</th>
+                                    <th>Address</th>
+                                    <th>Action</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {currentRows.length > 0 ? (
+              currentRows.map((record, index) => (
+                                        <tr key={index}>
+                                            <td className="text-wrap">{startIndex + index + 1}</td>
+                                            <td className="text-wrap txt_trans">
+                                                <div>
+                                                    {record.HospitalName}
+                                                </div>
+                                            </td>
+                                            <td className="text-wrap txt_trans">{record.City}</td>
+                                            <td className="text-wrap txt_trans">{record.Address}</td>
+                                            <td>
+
+                                                <div className="alignmentbtn">
+
+                                                    <FontAwesomeIcon className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)} />
+                                                    <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => openEdit(record)} />
+                                                    <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} />
+
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="5" className="txt_align"><b>No records found!</b></td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                        <div className="table_postiion">
+                            <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style">
+                                Previous
+                            </button>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                key={index}
+                                onClick={() => goToPage(index + 1)}
+                                style={{
+                                    margin: "0 5px",
+                                    backgroundColor: currentPage === index + 1 ? "#00b4b6" : "#fff",
+                                    color: currentPage === index + 1 ? "#fff" : "#000",
+                                    border: "1px solid #00b4b6",
+                                    borderRadius: "5px"
+                                }}
+                                >
+                                {index + 1}
+                                </button>
+                            ))}
+                            <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style">
+                                Next
+                            </button>
+                            </div>
                     </div>
                 )}
                 {viewPopup && (
                     <div className="modal1">
-                    <div className="modal1-content">
-                    {/* heading */}
-                    <div className="pop_up_cancelicon1">
-                    <div className="profile_style">Work Details</div>  
-                    <div> 
-                    <FontAwesomeIcon icon={faCircleXmark} className="model_icon_clr" onClick={closeEditPopup} />
-                    </div>
-                    </div>
+                        <div className="modal1-content">
+                            {/* heading */}
+                            <div className="pop_up_cancelicon1">
+                                <div className="profile_style">Work Details</div>
+                                <div>
+                                    <FontAwesomeIcon icon={faCircleXmark} className="model_icon_clr" onClick={closeEditPopup} />
+                                </div>
+                            </div>
 
-                    <div>
-                                    <div className="grid-cols-1">
-                                      <div className="input-group">
-                                        <FontAwesomeIcon  className='icon_mrg' icon={faHospital} />
-                                        <input type="text" 
-                                          readOnly className="txt_transform"
-                                          value={hospitalname} />
-                                      </div>
-                                      <div className="input-group">
-                                        <FontAwesomeIcon className='icon_mrg' icon={faCity} />
-                                        <input type="text" readOnly className="txt_transform" value={city}  />
-                                      </div>
+                            <div>
+                                <div className="grid-cols-1">
+                                    <div className="input-group">
+                                        <FontAwesomeIcon className='icon_mrg' icon={faHospital} />
+                                        <input type="text"
+                                            readOnly className="txt_transform"
+                                            value={hospitalname} />
                                     </div>
-                                    <div className="grid-cols-1">
-                                      <div className="input-group">
+                                    <div className="input-group">
+                                        <FontAwesomeIcon className='icon_mrg' icon={faCity} />
+                                        <input type="text" readOnly className="txt_transform" value={city} />
+                                    </div>
+                                </div>
+                                <div className="grid-cols-1">
+                                    <div className="input-group">
                                         <FontAwesomeIcon icon={faAddressCard} className='icon_mrg' />
                                         <textarea type="text" readOnly className="txt_transform"
-                                          value={address}  />
-                                      </div>
-                                      <div className="speicality_style">
-                                       <div>
+                                            value={address} />
+                                    </div>
+                                    <div className="speicality_style">
+                                        <div>
                                             <FontAwesomeIcon icon={faStethoscope} className="icon_mrg" />
                                             <b >Specialties:</b>
                                         </div>
-                                      <div className="speciality_style">
-                                        <ul className="tooltip-list txt_transform">
-                                            {viewhospitalDetails.map((item, index) => (
-                                            <li key={index}>{item}</li>
-                                            ))}
-                                        </ul>
+                                        <div className="speciality_style">
+                                            <ul className="tooltip-list txt_transform">
+                                                {viewhospitalDetails.map((item, index) => (
+                                                    <li key={index}>{item}</li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                      </div>
                                     </div>
-                       
-                    </div>
+                                </div>
 
-                   
-                   
-                   
-                    
+                            </div>
+
+                        </div>
                     </div>
-                </div>
                 )}
             </div>
 

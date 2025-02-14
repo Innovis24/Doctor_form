@@ -14,7 +14,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { REG_API_URL,USER_API_URL } from "../utlis/common";
+import { REG_API_URL, USER_API_URL } from "../utlis/common";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -26,8 +26,8 @@ const RegistrationForm = () => {
     email: "",
     address: "",
     qualification: "",
-    city:"",
-    state:"",
+    city: "",
+    state: "",
     specialization: "",
     regNumber: "",
     regYear: "",
@@ -36,7 +36,7 @@ const RegistrationForm = () => {
     university: "",
     stateOfMedicine: "",
     yearOfQualification: "",
-    Postgraduation:"",
+    Postgraduation: "",
   });
   const [name, setname] = useState();
   const [fatherName, setfatherName] = useState();
@@ -88,18 +88,18 @@ const RegistrationForm = () => {
 
   //username popup-end
 
-  useEffect(() => { 
+  useEffect(() => {
     const newOne = localStorage.getItem('newUser');
     setnewuser(newOne)
-  
+
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
     if ((values === '' || values === null || values === undefined) && (!newOne)) {
-    
+
       navigate("/");
       return;
     }
-  
-  
+
+
     fetchRegistrations()
     getUserDetails()
 
@@ -176,10 +176,6 @@ const RegistrationForm = () => {
     if (file) {
       setImage(file);
       setcurrentfilename(file.name)
-      // Process file upload here (e.g., send it to the server)
-
-      // Clear the input field after file selection
-      // fileInputRef.current.value = null; // Reset the file input field
     }
   };
   const handleFileGalleryChange = (event) => {
@@ -198,7 +194,7 @@ const RegistrationForm = () => {
     setImage('')
   }
 
-  const nextPage=(e)=>{
+  const nextPage = (e) => {
     e.preventDefault();
     if (!name ||
       !fatherName ||
@@ -215,13 +211,13 @@ const RegistrationForm = () => {
       !state) {
       toast.error("Please fill all fields!", { position: "top-center" });
       return;
-    
-      }
-      else{
-        setshownextStep(false)
-      }
+
+    }
+    else {
+      setshownextStep(false)
+    }
   }
-  const back =(e)=>{
+  const back = (e) => {
     e.preventDefault();
     setshownextStep(true)
   }
@@ -267,6 +263,11 @@ const RegistrationForm = () => {
     setuniversity('');
     setstateOfMedicine('');
     setyearOfQualification('');
+    setQualifications([]);
+    setQualification("");
+    setUniversityname("");
+    setSpecializationname("");
+    setYear("");
   }
   const openCreateuser = () => {
     setIsPopupOpen(false)
@@ -309,7 +310,7 @@ const RegistrationForm = () => {
     }
   }
 
- //Submit
+  //Submit
 
   const handleSubmit = async (e) => {
 
@@ -321,10 +322,8 @@ const RegistrationForm = () => {
       toast.error("Please fill all required fields!");
       return;
     }
-    
+
     console.log(qualifications)
-
-
 
     try {
       //insert new record
@@ -392,18 +391,9 @@ const RegistrationForm = () => {
         formData.append('stateOfMedicine', capitalizeFirstLetter(stateOfMedicine));
         formData.append('yearOfQualification', yearOfQualification);
         formData.append('images', image)
-        
-        formData.append('postgraduate',JSON.stringify(qualifications))
-         // Append qualifications array
-       
-  // qualifications.forEach((item, index) => {
-  //   formData.append(`qualifications[${index}][postgraduate]`, item.Qualification);
-  //   formData.append(`qualifications[${index}][Universityname]`, item.Universityname);
-  //   formData.append(`qualifications[${index}][specializationname]`, item.specializationname);
-  //   formData.append(`qualifications[${index}][year]`, item.year);
-  // });
-  // formData.append(`qualifications[${index}][qualification]`, item.Qualification);
-      
+
+        formData.append('postgraduate', JSON.stringify(qualifications))
+
         galleryArray.forEach((file, index) => {
           formData.append(`galleryImages[${index}]`, file);
         });
@@ -580,7 +570,7 @@ const RegistrationForm = () => {
     }
 
   };
- 
+
   const handleInputChange = (event) => {
     const newUsername = event.target.value;
     setusername(newUsername);
@@ -621,8 +611,8 @@ const RegistrationForm = () => {
       toast.error("+", { position: "top-center" });
     }
   }
-   // Handle Postgraduate input change
-   const handlepgInputChange = (e) => {
+  // Handle Postgraduate input change
+  const handlepgInputChange = (e) => {
     setQualification(e.target.value);
   };
 
@@ -631,9 +621,9 @@ const RegistrationForm = () => {
     if ((Qualification.trim() !== "" && Universityname.trim() !== "" && specializationname.trim() !== "" && year.trim() !== "")) {
       setQualifications((prevQualifications) => [
         ...prevQualifications,
-        { id: prevQualifications.length ,Qualification, Universityname, specializationname, year }
+        { id: prevQualifications.length, Qualification, Universityname, specializationname, year }
       ]);
-     
+
     }
     setQualification("");
     setUniversityname("");
@@ -690,402 +680,407 @@ const RegistrationForm = () => {
             </button>
 
           </div>
-
+       
           <form >
             {shownextStep ? (
               <div>
-            {/* Name and Father/Spouse Name */}
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faUser} />
-                <span className="asterisk">*</span>
-                <input
-                  type="text" className="txt_transform"
-                  placeholder="Name"
-                  onChange={(e) => setname(e.target.value)} value={name}
-                  maxLength={100}
-                />
-              </div>
-              {/* {errors.name && <span className="error">{errors.name}</span>} */}
-              <div className="input-group">
-                <FontAwesomeIcon icon={faUser} />
-                <span className="asterisk">*</span>
-                <input
-                  type="text" className="txt_transform"
-                  placeholder="Father / Spouse Name"
-                  onChange={(e) => setfatherName(e.target.value)} value={fatherName}
-                  maxLength={100}
-                />
-              </div>
-            </div>
+                {/* Name and Father/Spouse Name */}
+                <div className="grid-cols-2">
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faUser} />
+                    <span className="asterisk">*</span>
+                    <input
+                      type="text" className="txt_transform"
+                      placeholder="Name"
+                      onChange={(e) => setname(e.target.value)} value={name}
+                      maxLength={100}
+                    />
+                  </div>
+                  {/* {errors.name && <span className="error">{errors.name}</span>} */}
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faUser} />
+                    <span className="asterisk">*</span>
+                    <input
+                      type="text" className="txt_transform"
+                      placeholder="Father / Spouse Name"
+                      onChange={(e) => setfatherName(e.target.value)} value={fatherName}
+                      maxLength={100}
+                    />
+                  </div>
+                </div>
 
-            {/* {errors.name && <span className="error">{errors.name}</span>} */}
+                {/* {errors.name && <span className="error">{errors.name}</span>} */}
 
-            {/* Date of Birth and Gender */}
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faCalendar} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input
-                  type="date"
-                  max={today}
-                  placeholder="DateOfBirth"
-                  onChange={(e) => setdob(e.target.value)}
-                  value={dob}
-                />
+                {/* Date of Birth and Gender */}
+                <div className="grid-cols-2">
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faCalendar} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+                    <input
+                      type="date"
+                      max={today}
+                      placeholder="DateOfBirth"
+                      onChange={(e) => setdob(e.target.value)}
+                      value={dob}
+                    />
 
-              </div>
-
-              <div className="input-group">
-                <FontAwesomeIcon icon={faTransgenderAlt} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-
-                <select onChange={(e) => setgender(e.target.value)} value={gender}>
-                  <option value="Select">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-
-                </select>
-              </div>
-            </div>
-            {/* {errors.name && <span className="error">{errors.name}</span>} */}
-
-            {/* Phone Number and Email */}
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faPhone} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="number" placeholder="Phone Number"
-                  onChange={(e) => setphonenumber(e.target.value)}
-                  onBlur={() => checkPhonenumber(phonenumber)}
-                  value={phonenumber} maxLength={15} />
-              </div>
-              {/* {errors.name && <span className="error">{errors.name}</span>} */}
-              <div className="input-group">
-                <FontAwesomeIcon icon={faEnvelope} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)}
-                  onBlur={() => checkEmail(email)}
-                  value={email} maxLength={50} />
-              </div>
-              {/* {errors.name && <span className="error">{errors.name}</span>} */}
-            </div>
-
-            {/* Address */}
-            <div className="input-group">
-              <FontAwesomeIcon icon={faAddressCard} />
-              <span className="asterisk">*</span>
-              <span className="material-icons"></span>
-              <textarea placeholder="Address" rows="2" className="txt_transform" onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
-            </div>
-
-            {/* State and City */}
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faCity} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="text" placeholder="City" className="txt_transform" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faMapMarkerAlt} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="text" placeholder="State" className="txt_transform" onChange={(e) => setstate(e.target.value)} value={state} maxLength={100} />
-              </div>
-            </div>
-            {/* Employment Type and UPRN Number */}
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faBriefcase} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <select onChange={(e) => setemploymentType(e.target.value)} value={employmentType}>
-                  <option value="Select">Select EmploymentType</option>
-                  <option value="Self-Employed">Self-Employed</option>
-                  <option value="Hospital-Employee">Hospital-Employee</option>
-                  <option value="Clinic Affiliation">Clinic Affiliation</option>
-                  <option value="other">Other</option>
-
-                </select>
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faBarcode} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="UPRN Number" onChange={(e) => checkUPRN(e)} value={uprn} maxLength={50} />
-              </div>
-            </div>
-          
-            <div>
-              <div className="prfile_font">Upload image for your profile<span className="asterisk">*</span></div>
-
-              <div className="img_style">
-                <div className="img_input" >
-
-                  <input type="file" id="file"  // Attach the ref to the file input
-                    onChange={handleFileChange} accept="image/*" style={{
-                      display: "none", // Hides the default file input
-                    }} />
-                  <div className="display_fileupload">
-                    <div className="display_flex">
-                      <Button
-                        htmlFor="file"
-                        style={{
-                          display: "inline-block",
-                          backgroundColor: "white",
-                          color: "black",
-                          padding: "4Px",
-                          borderRadius: "5px",
-                          cursor: "pointer",
-                          fontSize: "11px",
-                          border: "1px solid grey",
-                          textTransform: "math-auto",
-                          width: "120px", // Fixed width
-                          // overflow: "hidden", // Hides overflow text
-                          // whiteSpace: "nowrap", // Prevents text wrapping
-                          // textOverflow: "ellipsis",
-                        }}
-                        onClick={() => document.getElementById("file").click()}
-                      >
-                        <span> Choose File</span>
-                      </Button>
-                      {(currentfilename !== "" && image !== "" && currentfilename !== undefined && image !== undefined) &&
-                        <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
-                    </div>
-
-                    <span className="filenamestyle">{currentfilename}</span>
                   </div>
 
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faTransgenderAlt} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+
+                    <select onChange={(e) => setgender(e.target.value)} value={gender}>
+                      <option value="Select">Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+
+                    </select>
+                  </div>
+                </div>
+                {/* {errors.name && <span className="error">{errors.name}</span>} */}
+
+                {/* Phone Number and Email */}
+                <div className="grid-cols-2">
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faPhone} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+                    <input type="number" placeholder="Phone Number"
+                      onChange={(e) => setphonenumber(e.target.value)}
+                      onBlur={() => checkPhonenumber(phonenumber)}
+                      value={phonenumber} maxLength={15} />
+                  </div>
+                  {/* {errors.name && <span className="error">{errors.name}</span>} */}
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faEnvelope} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+                    <input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)}
+                      onBlur={() => checkEmail(email)}
+                      value={email} maxLength={50} />
+                  </div>
+                  {/* {errors.name && <span className="error">{errors.name}</span>} */}
                 </div>
 
-              </div>
-            </div>
-            <div >
-              <div className="pading_top_reg">
-
-                <div className="prfile_font">Upload image for your gallery
-                  {/* <span className="asterisk">*</span> */}
+                {/* Address */}
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faAddressCard} />
+                  <span className="asterisk">*</span>
+                  <span className="material-icons"></span>
+                  <textarea placeholder="Address" rows="2" className="txt_transform" onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
                 </div>
 
-                <div className="img_style">
-                  <div className="img_input" >
+                {/* State and City */}
+                <div className="grid-cols-2">
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faCity} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+                    <input type="text" placeholder="City" className="txt_transform" onChange={(e) => setcity(e.target.value)} value={city} maxLength={100} />
+                  </div>
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+                    <input type="text" placeholder="State" className="txt_transform" onChange={(e) => setstate(e.target.value)} value={state} maxLength={100} />
+                  </div>
+                </div>
+                {/* Employment Type and UPRN Number */}
+                <div className="grid-cols-2">
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faBriefcase} />
+                    <span className="asterisk">*</span>
+                    <span className="material-icons"></span>
+                    <select onChange={(e) => setemploymentType(e.target.value)} value={employmentType}>
+                      <option value="Select">Select EmploymentType</option>
+                      <option value="Self-Employed">Self-Employed</option>
+                      <option value="Hospital-Employee">Hospital-Employee</option>
+                      <option value="Clinic Affiliation">Clinic Affiliation</option>
+                      <option value="other">Other</option>
 
-                    <input type="file" id="file1"  // Attach the ref to the file input
-                      multiple
-                      onChange={handleFileGalleryChange} accept="image/*" style={{
-                        display: "none", // Hides the default file input
-                      }} />
-                    <div className="display_fileupload">
-                      <div className="display_flex">
-                        <Button
-                          htmlFor="file1"
-                          style={{
-                            display: "inline-block",
-                            backgroundColor: "white",
-                            color: "black",
-                            padding: "4Px",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            fontSize: "11px",
-                            border: "1px solid grey",
-                            textTransform: "math-auto",
-                            width: "120px", // Fixed width
-                            // overflow: "hidden", // Hides overflow text
-                            // whiteSpace: "nowrap", // Prevents text wrapping
-                            // textOverflow: "ellipsis",
-                          }}
-                          onClick={() => document.getElementById("file1").click()}
-                        >
-                          <span> Choose File</span>
-                        </Button>
+                    </select>
+                  </div>
+                  <div className="input-group">
+                    <FontAwesomeIcon icon={faBarcode} />
+                    <span className="asterisk">*</span>
+                    <input type="text" placeholder="UPRN Number" onChange={(e) => checkUPRN(e)} value={uprn} maxLength={50} />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="prfile_font">Upload image for your profile<span className="asterisk">*</span></div>
+
+                  <div className="img_style">
+                    <div className="img_input" >
+
+                      <input type="file" id="file"  // Attach the ref to the file input
+                        onChange={handleFileChange} accept="image/*" style={{
+                          display: "none", // Hides the default file input
+                        }} />
+                      <div className="display_fileupload">
+                        <div className="display_flex">
+                          <Button
+                            htmlFor="file"
+                            style={{
+                              display: "inline-block",
+                              backgroundColor: "white",
+                              color: "black",
+                              padding: "4Px",
+                              borderRadius: "5px",
+                              cursor: "pointer",
+                              fontSize: "11px",
+                              border: "1px solid grey",
+                              textTransform: "math-auto",
+                              width: "120px", // Fixed width
+                              // overflow: "hidden", // Hides overflow text
+                              // whiteSpace: "nowrap", // Prevents text wrapping
+                              // textOverflow: "ellipsis",
+                            }}
+                            onClick={() => document.getElementById("file").click()}
+                          >
+                            <span> Choose File</span>
+                          </Button>
+                          {(currentfilename !== "" && image !== "" && currentfilename !== undefined && image !== undefined) &&
+                            <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete()} />}
+                        </div>
+
+                        <span className="filenamestyle">{currentfilename}</span>
                       </div>
 
                     </div>
 
                   </div>
+                </div>
+                <div >
+                  <div className="pading_top_reg">
 
+                    <div className="prfile_font">Upload image for your gallery
+                      {/* <span className="asterisk">*</span> */}
+                    </div>
+
+                    <div className="img_style">
+                      <div className="img_input" >
+
+                        <input type="file" id="file1"  // Attach the ref to the file input
+                          multiple
+                          onChange={handleFileGalleryChange} accept="image/*" style={{
+                            display: "none", // Hides the default file input
+                          }} />
+                        <div className="display_fileupload">
+                          <div className="display_flex">
+                            <Button
+                              htmlFor="file1"
+                              style={{
+                                display: "inline-block",
+                                backgroundColor: "white",
+                                color: "black",
+                                padding: "4Px",
+                                borderRadius: "5px",
+                                cursor: "pointer",
+                                fontSize: "11px",
+                                border: "1px solid grey",
+                                textTransform: "math-auto",
+                                width: "120px", // Fixed width
+                                // overflow: "hidden", // Hides overflow text
+                                // whiteSpace: "nowrap", // Prevents text wrapping
+                                // textOverflow: "ellipsis",
+                              }}
+                              onClick={() => document.getElementById("file1").click()}
+                            >
+                              <span> Choose File</span>
+                            </Button>
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+                  </div>
+                  <div>
+                    {galleryArray.length > 0 &&
+                      <div className="table_scroll_galler">
+                        <table className="table marb_0px" style={{ width: "100%", borderCollapse: "collapse" }}>
+                          <thead >
+                            <tr>
+                              <th className="th th-1">S.No</th>
+                              <th className="th th-2">File name</th>
+                              <th className="th th-3">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody class="upload-name-style">
+                          </tbody>
+                          {galleryArray.map((record, index) => (
+                            <tr key={index}>
+                              <td className="text-wrap">{index + 1}</td>
+
+                              <td className="text-wrap txt_trans">{record.name}</td>
+                              <td class="td td-3">
+                                <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDeleteGallery(record)} />
+                              </td>
+                            </tr>
+                          ))}
+
+
+
+                        </table>
+                      </div>
+
+                    }
+                  </div>
                 </div>
               </div>
-              <div>
-                {galleryArray.length > 0 &&
-                  <div className="table_scroll_galler">
-                    <table className="table marb_0px" style={{ width: "100%", borderCollapse: "collapse" }}>
-                      <thead >
-                        <tr>
-                          <th className="th th-1">S.No</th>
-                          <th className="th th-2">File name</th>
-                          <th className="th th-3">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody class="upload-name-style">
-                      </tbody>
-                      {galleryArray.map((record, index) => (
-                        <tr key={index}>
-                          <td className="text-wrap">{index + 1}</td>
 
-                          <td className="text-wrap txt_trans">{record.name}</td>
-                          <td class="td td-3">
-                            <FontAwesomeIcon className="view-button" title='Delete' icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDeleteGallery(record)} />
+            ) : <div>
+              <div className="grid-cols-2">
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faGraduationCap} />
+                  <span className="asterisk">*</span>
+                  <span className="material-icons"></span>
+                  <input type="text" placeholder="Qualification" className="txt_transform" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
+                </div>
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faStethoscope} />
+                  <span className="asterisk">*</span>
+                  <span className="material-icons"></span>
+                  <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
+                </div>
+              </div>
+              {/* RegistrationNumber & Year of Registration */}
+
+              <div className="grid-cols-2">
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faIdCard} />
+                  <span className="asterisk">*</span>
+                  <input type="text" placeholder="Registration Number"
+                    onChange={(e) => checkregnumber(e)}
+                    value={regNumber} maxLength={50} />
+                </div>
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                  <span className="asterisk">*</span>
+                  <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
+                </div>
+              </div>
+
+              {/* University Name */}
+              <div className="input-group">
+                <FontAwesomeIcon icon={faUniversity} />
+                <span className="asterisk">*</span>
+                <input type="text" placeholder="University Name" className="txt_transform" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
+              {/* State of medicine & Year of Qualification */}
+              <div className="grid-cols-2">
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faMap} />
+                  <span className="asterisk">*</span>
+                  <input type="text" placeholder="State of Medicine" className="txt_transform" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
+                </div>
+                <div className="input-group">
+                  <FontAwesomeIcon icon={faCalendarCheck} />
+                  <span className="asterisk">*</span>
+                <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  />
+                </div>
+              </div>
+              {/*POST GRA */}
+              <div className="max-w-lg mx-auto p-4 bg-white shadow rounded-lg">
+                <p>Post Graduation</p>
+                <div className="flex items-center1 space-x-2 mb-4">
+            <div className="input-group flex items-center1 space-x-2 mb-4 width_40">
+                    <FontAwesomeIcon icon={faGraduationCap} />
+                    <input
+                      type="text"
+                      placeholder="Postgraduate"
+                      className="border p-2 rounded w-full outline-none"
+                      value={Qualification}
+                      onChange={handlepgInputChange}
+                    />
+                  </div>
+
+       <div className="input-group flex items-center1 space-x-2 mb-4">
+                    <FontAwesomeIcon icon={faUniversity} />
+                    <input
+                      type="text"
+                      placeholder="University Name"
+                      className="border p-2 rounded w-full outline-none"
+                      value={Universityname}
+                      onChange={(e) => setUniversityname(e.target.value)}
+                    />
+                  </div>
+
+                </div>
+                <div className="flex items-center1 space-x-2 mb-4">
+      <div className="input-group flex items-center1 space-x-2 mb-4">
+                    <FontAwesomeIcon icon={faStethoscope} />
+                    <input
+                      type="text"
+                      placeholder="Specialization"
+                      className="border p-2 rounded w-full outline-none"
+                      value={specializationname}
+                      onChange={(e) => setSpecializationname(e.target.value)}
+                    />
+                  </div>
+        <div className="input-group flex items-center1 space-x-2 mb-4">
+                    <FontAwesomeIcon icon={faCalendarCheck} />
+                    <input
+                      type="text"
+                      placeholder="Year of Qualification"
+                      className="border p-2 rounded w-full outline-none"
+                      value={year}  maxlength={4}
+                      onChange={(e) => setYear(e.target.value)}
+                    />
+                  </div>
+                  <div >
+                  <button
+                    onClick={addQualification}
+                    type="button"
+                    className="plusbtn plusbtn_style"
+                  >
+                    <FontAwesomeIcon icon={faPlus} />
+                  </button>
+                  </div>
+                 
+                </div>
+
+
+                {/* Table */}
+                {qualifications.length > 0 && (
+                  <div className="pgTable_style">
+                      <table className="w-full border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-gray-200">
+                        <th className="border p-2">Postgraduate</th>
+                        <th className="border p-2">University</th>
+                        <th className="border p-2">Specialization</th>
+                        <th className="border p-2">Year</th>
+                        <th className="border p-2">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {qualifications.map((item, index) => (
+                        <tr key={index} className="border">
+                          <td className="border p-2">{item.Qualification}</td>
+                          <td className="border p-2">{item.Universityname}</td>
+                          <td className="border p-2">{item.specializationname}</td>
+                          <td className="border p-2">{item.year}</td>
+                          <td className="border p-2 text-center">
+                            <button
+                              onClick={(e) => removeQualification(e, index)}
+                              className="pgdeletebtn"
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
                           </td>
                         </tr>
                       ))}
-
-
-
-                    </table>
+                    </tbody>
+                  </table>
                   </div>
-
-                }
+                )}
               </div>
-            </div>
-            </div>
-
-) : <div>
-  <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faGraduationCap} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="text" placeholder="Qualification" className="txt_transform" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faStethoscope} />
-                <span className="asterisk">*</span>
-                <span className="material-icons"></span>
-                <input type="text" placeholder="Specialization" className="txt_transform" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
-              </div>
-            </div>
-            {/* RegistrationNumber & Year of Registration */}
-
-            <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faIdCard} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="Registration Number"
-                  onChange={(e) => checkregnumber(e)}
-                  value={regNumber} maxLength={50} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faCalendarAlt} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Registration" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={4} />
-              </div>
-            </div>
-            
-            {/* University Name */}
-            <div className="input-group">
-              <FontAwesomeIcon icon={faUniversity} />
-              <span className="asterisk">*</span>
-              <input type="text" placeholder="University Name" className="txt_transform" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} /></div>
-  {/* State of medicine & Year of Qualification */}
-     <div className="grid-cols-2">
-              <div className="input-group">
-                <FontAwesomeIcon icon={faMap} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="State of Medicine" className="txt_transform" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
-              </div>
-              <div className="input-group">
-                <FontAwesomeIcon icon={faCalendarCheck} />
-                <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  />
-              </div>
-            </div>
-            {/*POST GRA */}
-            <div className="max-w-lg mx-auto p-4 bg-white shadow rounded-lg">
-              <p>Post Graduation</p>
-            <div className="flex items-center space-x-2 mb-4">
-            <div className="input-group flex items-center space-x-2 mb-4">
-            <FontAwesomeIcon icon={faGraduationCap} />
-        <input
-          type="text"
-          placeholder="Postgraduate"
-          className="border p-2 rounded w-full outline-none"
-          value={Qualification}
-          onChange={handlepgInputChange}
-        />
-       </div>
-     
-       <div className="input-group flex items-center space-x-2 mb-4">
-       <FontAwesomeIcon icon={faUniversity} />
-        <input
-          type="text"
-          placeholder="University Name"
-          className="border p-2 rounded w-full outline-none"
-          value={Universityname}
-          onChange={(e) => setUniversityname(e.target.value)}
-        />
-      </div>
-      
-      </div>
-      <div className="flex items-center space-x-2 mb-4">
-      <div className="input-group flex items-center space-x-2 mb-4">
-      <FontAwesomeIcon icon={faStethoscope} />
-        <input
-          type="text"
-          placeholder="Specialization"
-          className="border p-2 rounded w-full outline-none"
-          value={specializationname}
-          onChange={(e) => setSpecializationname(e.target.value)}
-        />
-        </div>
-        <div className="input-group flex items-center space-x-2 mb-4">
-        <FontAwesomeIcon icon={faCalendarCheck} />
-        <input
-          type="text"
-          placeholder="Year of Qualification"
-          className="border p-2 rounded w-full outline-none"
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-        />
-        </div>
-        <button
-          onClick={addQualification}
-          type="button"
-          className="plusbtn"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-      </div>
-   
-
-      {/* Table */}
-      {qualifications.length > 0 && (
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">Postgraduate</th>
-              <th className="border p-2">University</th>
-              <th className="border p-2">Specialization</th>
-              <th className="border p-2">Year</th>
-              <th className="border p-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {qualifications.map((item, index) => (
-              <tr key={index} className="border">
-                <td className="border p-2">{item.Qualification}</td>
-                <td className="border p-2">{item.Universityname}</td>
-                <td className="border p-2">{item.specializationname}</td>
-                <td className="border p-2">{item.year}</td>
-                <td className="border p-2 text-center">
-                  <button
-                    onClick={(e) => removeQualification(e, index)}
-                    className="pgdeletebtn"
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
 
 </div> }
             {/* Submit Button */}
@@ -1093,26 +1088,26 @@ const RegistrationForm = () => {
             <div className="submit-button-container grid-cols-3">
 
               <button type="button"  className="submit-button mrg_right_submit" onClick={nextPage}>
-                Next & Submit
-              </button>
-              <button className="clear_btn_form" onClick={handlecancel}>
-                Clear
-              </button>
-            </div>
-
-              ) : 
-              <div className="submit-button-container grid-cols-3">
-              <button type="submit" className="submit-button mrg_right_submit" onClick={back}>
-                Back
-              </button>
-              <button type="submit" className="submit_clr mrg_right_submit" onClick={handleSubmit}>
-                Submit
-              </button>
-              <button className="cancel_btn_form" onClick={handlecancel}>
-                Clear
-              </button>
+                  Next & Submit
+                </button>
+                <button className="clear_btn_form" onClick={handlecancel}>
+                  Clear
+                </button>
               </div>
-                }
+
+            ) :
+              <div className="submit-button-container grid-cols-3 flex_dir">
+                <button type="submit" className="submit-button " onClick={back}>
+                  Back
+                </button>
+                <button type="submit" className="submit_clr " onClick={handleSubmit}>
+                  Submit
+                </button>
+                <button className="cancel_btn_form " onClick={handlecancel}>
+                  Clear
+                </button>
+              </div>
+            }
           </form>
         </div>
       )}
@@ -1140,7 +1135,7 @@ const RegistrationForm = () => {
                 onChange={(e) => setpassword(e.target.value)}
               />
             </div>
-            
+
             <button onClick={handleSave} className="btn_submitclr">Submit</button>
             <button onClick={closePopup} className="btn_cancelClr">Clear</button>
           </div>

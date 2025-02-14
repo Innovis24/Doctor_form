@@ -6,7 +6,7 @@ body {
     background-color: #f8fafc;
   }
   .bg_container {
-    background-image: url('../assets/image/img_2.jpg'); /* Adjust path */
+    background-image: url('../assets/image/img_5.jpg'); /* Adjust path */
     background-size: cover;  /* Ensures full coverage */
     background-position: center;
     background-repeat: no-repeat;
@@ -142,6 +142,8 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease-in-out;
+    height: 12%;
+    margin-top: 12px;
   }
   
   .register-button:hover {
@@ -161,7 +163,11 @@ body {
     flex-direction: row;
     justify-content: center;
   } 
-
+.flex_dir{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
   @media (max-width: 768px) {
     .grid-cols-2 {
       grid-template-columns: 1fr;
@@ -169,6 +175,18 @@ body {
     .grid-cols-3 {
       grid-template-columns: 1fr;
     } 
+    .flex.items-center1 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1rem;
+      flex-direction: column !important;
+    }
+    .flex_dir{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
   }
   
 /* Style the asterisk for required fields */
@@ -388,4 +406,23 @@ textarea::placeholder {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 20px;
+}
+.flex.items-center1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+  flex-direction: row;
+}
+.pgTable_style
+{
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+.plusbtn_style{
+  padding: 6px;
+  border-radius: 15px;
+  margin-top: -8px;
 }

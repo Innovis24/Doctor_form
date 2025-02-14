@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from "react-router-dom";
-import { REG_API_URL,USER_API_URL } from "../utlis/common";
+import { REG_API_URL, USER_API_URL } from "../utlis/common";
 import { faTrash, faPencil, faPlus, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 const UserMaster = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +42,7 @@ const UserMaster = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
   const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
-  
+
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -70,7 +70,7 @@ const UserMaster = () => {
         setusernameOption([]);
         setuserList([])
 
-      }else{
+      } else {
         const options = response.data.map((user) => ({
           value: user.RegistrationNumber,
           label: user.Name,
@@ -78,7 +78,7 @@ const UserMaster = () => {
         setusernameOption(options);
         setuserList(options)
       }
-     
+
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -131,12 +131,12 @@ const UserMaster = () => {
     let searchValue = e.target.value
     setSearchQuery(searchValue.trim())
     handleSearch()
-    if(searchValue === ""){
+    if (searchValue === "") {
       fetchUserList();
     }
   }
   const handleSearch = () => {
-    if(searchQuery === ""){
+    if (searchQuery === "") {
       fetchUserList();
     }
     const filteredRegistrations = Arrayval.filter((record) =>

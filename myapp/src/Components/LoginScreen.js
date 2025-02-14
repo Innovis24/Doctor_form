@@ -3,11 +3,11 @@ import "./LoginScreen.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faEyeSlash, faEye} from "@fortawesome/free-solid-svg-icons";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import doctorIllustration from '../assets/image/img-1.jpg';
-import { REG_API_URL,USER_API_URL } from "../utlis/common";
+import { REG_API_URL, USER_API_URL } from "../utlis/common";
 
 const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -17,8 +17,8 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [currentuser, setcurrentuser] = useState([]);
   const navigate = useNavigate();
-  
-  
+
+
   useEffect(() => {
     getuserListapi();
     fetchRegistrations();
@@ -52,12 +52,7 @@ const LoginScreen = () => {
       return;
     }
 
-
-
     const filtered = Array.filter((item) => item.UserName === username);
-
-
-
 
     if (filtered && filtered.length > 0) {
 
@@ -142,7 +137,7 @@ const LoginScreen = () => {
         {/* Login Form Section */}
         <div className="login-form-container login-form">
           <div className="login-form-wrapper">
-          {/* <h1 className="login-title">Doctor Management</h1>
+            {/* <h1 className="login-title">Doctor Management</h1>
             <div className="login_font_style"> Login</div> */}
             <h1 className="login-title">Login</h1>
             <form onSubmit={loginFn}>
@@ -168,7 +163,7 @@ const LoginScreen = () => {
                 </label>
                 <div style={{ display: "flex", alignItems: "center" }}>
 
-                {/* <input
+                  {/* <input
                   type="password"
                   id="password"
                   name="password"
@@ -177,15 +172,15 @@ const LoginScreen = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 /> */}
-                 <input
+                  <input
                     type={showPassword ? "text" : "password"}
                     value={password}
                     className="form-input"
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                   
+
                   />
-                   <FontAwesomeIcon
+                  <FontAwesomeIcon
                     icon={showPassword ? faEyeSlash : faEye}
                     style={{
                       cursor: "pointer",
@@ -195,15 +190,15 @@ const LoginScreen = () => {
                     }}
                     onClick={() => setShowPassword(!showPassword)}
                   />
-                  </div>
+                </div>
               </div>
 
               <div className="form-footer">
                 <div
                   className="forget_pwd"
                 >
-                  <button className="button_login_color"  onClick={forgetPassword}>
-                  Forget password
+                  <button className="button_login_color" onClick={forgetPassword}>
+                    Forget password
                   </button>
                 </div>
               </div>
@@ -217,10 +212,10 @@ const LoginScreen = () => {
                 <div
                   className="signuplg"
                 >
-                  <button className="button_login_color"  onClick={handleRegisterClick}>
-                  Sign up
+                  <button className="button_login_color" onClick={handleRegisterClick}>
+                    Sign up
                   </button>
-                
+
                 </div>
               </div>
             </form>

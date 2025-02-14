@@ -1,7 +1,7 @@
 import "./Header.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { faSignOut, faUserMd, faUserPlus ,faUser ,faSearch,faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import { faSignOut, faUserMd, faUserPlus, faUser, faSearch, faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -27,38 +27,23 @@ const Header = ({ title }) => {
     if (!newOne && !values) {
       return
     }
-    if ( values && values[0]) {
+    if (values && values[0]) {
       setCurrentLogin(values[0].UserRole);
       if (values[0].Name) {
         setcurrentUsername(values[0].Name)
-        
-        const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
-       
+
+        const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3) : values[0].Name.charAt(0);
+
         setcurrentUser(nameParts);
       }
     }
-    // else if (newOne && !values) {
-    //   const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
-    //   setcurrentUsername(values[0].Name)
-    //   setcurrentUser(nameParts);
-    // }
-    // else {
-    //   const nameParts = values[0].Name.startsWith("Dr.") ? values[0].Name.charAt(3)  : values[0].Name.charAt(0);
-    //   setcurrentUsername(values[0].Name)
-    //   setcurrentUser(nameParts);
-    // }
-    // if(!newOne &&  !values ){
-    //   setCurrentLogin()
-    // }
-    // else{
-    //   setCurrentLogin(values[0].UserRole)
-    // }
-   
+ 
+
   }, []);
   const OpenPopupcard = () => {
     setIsOpen(true)
   }
-  const OpenUser=()=>{
+  const OpenUser = () => {
     setopenpopup(prevState => !prevState);
   }
   const handleExit = () => {
@@ -68,23 +53,23 @@ const Header = ({ title }) => {
 
   return (
     <div>
-    <Popup open={isOpen} onClose={closeModal} contentStyle={{
-      width: '385px', 
-      padding: '20px', 
-      border: '1px solid #ccc',
-      borderRadius: '8px',
-    }}>
-      <div >
-        <h2 className="fontFam">Are you sure you want to logout?</h2>
-        <div className="popup_btn">
-          <button className="btn_yesclr" onClick={handleExit}>Yes</button>
-          <button className="btn_noClr" onClick={closeModal}>No</button>
-        </div>
+      <Popup open={isOpen} onClose={closeModal} contentStyle={{
+        width: '385px',
+        padding: '20px',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+      }}>
+        <div >
+          <h2 className="fontFam">Are you sure you want to logout?</h2>
+          <div className="popup_btn">
+            <button className="btn_yesclr" onClick={handleExit}>Yes</button>
+            <button className="btn_noClr" onClick={closeModal}>No</button>
+          </div>
 
-      </div>
-    </Popup>
-      
-  
+        </div>
+      </Popup>
+
+
       <div className="header_font">
         {/* Render content only if logged in */}
 
@@ -117,23 +102,23 @@ const Header = ({ title }) => {
           </div>
         )}
         {openpopup === true && (
-                <div className="menu_card ">
-                  <div className="menu-alignment" >
-                    
-                    <div className="userName ">
-                    <FontAwesomeIcon icon={faUser} className="color_logout mrg_rgt"/>
-                    <div className="cls_imagecolor">{currentUsername}</div>
-                    </div>
+          <div className="menu_card ">
+            <div className="menu-alignment" >
 
-                    <div className="logout_btn cursor_logout" onClick={OpenPopupcard}>
-                    <FontAwesomeIcon icon={faSignOut} className="color_logout"/>
-                    <button className="logout_alignment" >
-                      Logout
-                    </button>
-                  </div>
+              <div className="userName ">
+                <FontAwesomeIcon icon={faUser} className="color_logout mrg_rgt" />
+                <div className="cls_imagecolor">{currentUsername}</div>
+              </div>
 
-                  </div>
-                </div>
+              <div className="logout_btn cursor_logout" onClick={OpenPopupcard}>
+                <FontAwesomeIcon icon={faSignOut} className="color_logout" />
+                <button className="logout_alignment" >
+                  Logout
+                </button>
+              </div>
+
+            </div>
+          </div>
         )}
 
         {currentLogin !== "Admin" && !isSidebarOpen && searchParams && (
@@ -158,12 +143,12 @@ const Header = ({ title }) => {
                 <a href="/hospital_details" className="active">
                   <FontAwesomeIcon className="list_icon" icon={faBriefcase} /> WORK DETAILS
                 </a>
-                
+
 
                 {/* <a href="/registration_list?param1=searchDoctor" className="active">
                   <FontAwesomeIcon className="list_icon" icon={faSearch} /> SEARCH DOCTOR
                 </a> */}
-                
+
               </li>
 
             </ul>
@@ -177,12 +162,12 @@ const Header = ({ title }) => {
           {/* Sidebar toggle button on the left */}
 
           {/* {currentLogin === "Admin" && isSidebarOpen && searchParams && ( */}
-            <button
-              className="sidebar-toggle-button-open"
-              onClick={toggleSidebar}
-            >
-              ☰
-            </button>
+          <button
+            className="sidebar-toggle-button-open"
+            onClick={toggleSidebar}
+          >
+            ☰
+          </button>
           {/* )} */}
 
           <div

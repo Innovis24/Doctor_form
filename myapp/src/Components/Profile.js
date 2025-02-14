@@ -2,14 +2,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt,faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck,faMap ,faPlus} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt, faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck, faMap, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ClipLoader } from 'react-spinners';
-import { REG_API_URL,API_URL } from "../utlis/common";
+import { REG_API_URL, API_URL } from "../utlis/common";
 
 
 const Profile = () => {
@@ -51,7 +51,7 @@ const Profile = () => {
   const [Specializationname, setSpecializationname] = useState([]);
   const [Universityname, setUniversityname] = useState([]);
   const [Year, setYear] = useState([]);
-  
+
 
   const [pgQualification, setpgQualification] = useState();
   const [pgSpecializationname, setpgSpecializationname] = useState();
@@ -82,23 +82,22 @@ const Profile = () => {
       const response = await axios.get(REG_API_URL);
       setarray(response.data)
       if (currentID !== "") {
-        setLoading(false)
         const filterValNew = response.data.filter((record) =>
           record.RegistrationNumber === currentID
         );
         if (filterValNew.length > 0) {
           setUserData(filterValNew[0]);
           setpgArray(JSON.parse(filterValNew[0].Postgraduation))
-          // setcurrentfilename(filterValNew[0].image_name);
           setActiveTab("personal")
         }
         else {
           setUserData([]);
         }
+        setLoading(false)
       }
 
       else {
-        setLoading(false)
+       
         const filterValOld = response.data.filter((record) =>
           record.RegistrationNumber === ID
         );
@@ -111,9 +110,8 @@ const Profile = () => {
         else {
           setUserData([]);
         }
+        setLoading(false)
       }
-
-
 
     } catch (error) {
       setLoading(false)
@@ -149,7 +147,7 @@ const Profile = () => {
     setActiveTab(tab); // Update activeTab state correctly
   };
   const handleFileGalleryChange = (event) => {
-   
+
 
     if (!event.target.files || event.target.files.length === 0) {
       console.log("No files selected.");
@@ -159,70 +157,72 @@ const Profile = () => {
     const selectedFiles = [...event.target.files]; // Correct conversion ✅
     const newImageURLs = selectedFiles.map((file) => URL.createObjectURL(file)); // Convert to preview URLs
 
-    setnewImsge((prev) => [...prev, ...newImageURLs]); 
+    setnewImsge((prev) => [...prev, ...newImageURLs]);
 
     console.log('fileupload')
     const selectedFilesapi = event.target.files;
-  
+
     if (selectedFiles) {
       setgalleryArray([...galleryArray, ...selectedFilesapi]); // Append selected files to the array
     }
   };
-  const clearPG=()=>{
+  const clearPG = () => {
     setpgQualification("");
     setpgSpecializationname("");
     setpgUniversityname("");
     setpgYear("");
   }
-    const handlepgInputChange = (e) => {
-      const { name, value } = e.target;
-    
-      if (name === "pgQualification") setpgQualification(value);
-      else if (name === "pgUniversityname") setpgUniversityname(value);
-      else if (name === "pgYear") setpgYear(value);
-      else if (name === "pgSpecializationname") setpgSpecializationname(value);
-    };
-    
+  const handlepgInputChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "pgQualification") setpgQualification(value);
+    else if (name === "pgUniversityname") setpgUniversityname(value);
+    else if (name === "pgYear") setpgYear(value);
+    else if (name === "pgSpecializationname") setpgSpecializationname(value);
+  };
+
 
   const addQualification = () => {
     setLoading(true)
     if ((pgQualification.trim() !== "" && pgSpecializationname.trim() !== "" && pgUniversityname.trim() !== "" && pgYear.trim() !== "")) {
-      if(currentpgID === "" && currentpgID === undefined && currentpgID === null){
-        
+      if (currentpgID === "" && currentpgID === undefined && currentpgID === null) {
+
         setTimeout(() => {
           setpgArray((prevQualifications) => [
             ...prevQualifications,
-            { id: prevQualifications.length ,Qualification: pgQualification,      
-              Universityname: pgUniversityname,    
-              specializationname: pgSpecializationname, 
-              year: pgYear     }
+            {
+              id: prevQualifications.length, Qualification: pgQualification,
+              Universityname: pgUniversityname,
+              specializationname: pgSpecializationname,
+              year: pgYear
+            }
           ]);
         }, 300);
         setLoading(false)
-      
-      } 
-      else{
-        const curArray=pgArray.filter((item)=>item.id === currentpgID)
-        if(curArray.length > 0){
+
+      }
+      else {
+        const curArray = pgArray.filter((item) => item.id === currentpgID)
+        if (curArray.length > 0) {
           setTimeout(() => {
             setpgArray((prevQualifications) => {
               return prevQualifications.map((qualification) =>
                 qualification.id === currentpgID
                   ? {
-                      ...qualification, // Keep the existing properties of the qualification
-                      ...{
-                        Qualification: pgQualification,      
-                        Universityname: pgUniversityname,    
-                        specializationname: pgSpecializationname, 
-                        year: pgYear                         
-                      } // Update with the new data
-                    }
+                    ...qualification, // Keep the existing properties of the qualification
+                    ...{
+                      Qualification: pgQualification,
+                      Universityname: pgUniversityname,
+                      specializationname: pgSpecializationname,
+                      year: pgYear
+                    } // Update with the new data
+                  }
                   : qualification // Leave other qualifications unchanged
               );
             });
           }, 300);
           setLoading(false)
-      
+
         }
 
       }
@@ -241,9 +241,9 @@ const Profile = () => {
     setpgYear(records.year);
   };
 
-  const deletePGdetails = (items)=>{
+  const deletePGdetails = (items) => {
     setLoading(true)
-    const delVal =  pgArray.filter((itsm)=> itsm.id !==items.id )
+    const delVal = pgArray.filter((itsm) => itsm.id !== items.id)
     setpgArray(delVal)
     setLoading(false)
   }
@@ -287,13 +287,9 @@ const Profile = () => {
     if (file) {
       setImage(file);
       setcurrentfilename(file.name)
-      // Process file upload here (e.g., send it to the server)
-
-      // Clear the input field after file selection
-      // fileInputRef.current.value = null; // Reset the file input field
     }
   };
- 
+
   const SubmitFn = async () => {
 
     if (!name ||
@@ -362,7 +358,6 @@ const Profile = () => {
       return
     }
 
-
     let formData = new FormData();
     formData.append('Sno', capitalizeFirstLetter(CurrentSno));
     formData.append('name', capitalizeFirstLetter(name));
@@ -385,7 +380,7 @@ const Profile = () => {
     formData.append('yearOfQualification', yearOfQualification);
     formData.append('images', image)
     formData.append('image_path', imagePath);
-    formData.append('postgraduate',JSON.stringify(pgArray))
+    formData.append('postgraduate', JSON.stringify(pgArray))
     if (imageName === image) {
       formData.append('image_name', imageName);
     }
@@ -394,7 +389,7 @@ const Profile = () => {
     }
     galleryArray.forEach((file, index) => {
       formData.append(`galleryImages[${index}]`, file);
-   });
+    });
     // console.log(formData)
     const response = await axios.post(REG_API_URL, formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -412,13 +407,13 @@ const Profile = () => {
       toast.error("Failed to update the form!", { position: "top-center" });
     }
   }
-  const close = ()=>{
+  const close = () => {
     seteditItem(false)
     setpgSpecializationname("")
     setpgQualification("")
     setpgUniversityname("")
     setpgYear("")
-    
+
   }
   const checkPhonenumber = (phonenum) => {
     const phoneRegex = /^[0-9]{10}$/;
@@ -466,8 +461,8 @@ const Profile = () => {
     setuprn(event.target.value);
 
   }
-  const handleImgDelete = async (imgDet)=>{
-   
+  const handleImgDelete = async (imgDet) => {
+
     try {
       const response = await axios.delete((REG_API_URL + '?action=deleteImage'), {
         data: { Sno: Number(CurrentSno), imageName: imgDet }, // Send the Sno for deletion
@@ -476,24 +471,20 @@ const Profile = () => {
       if (response.status === 200) {
         setLoading(false);
         toast.success("Record deleted successfully!");
-  
+
         const response = await axios.get(REG_API_URL);
-       
+
 
         const filterValNew = response.data.filter((record) =>
-            record.Sno === CurrentSno
-          );
+          record.Sno === CurrentSno
+        );
         if (filterValNew.length > 0) {
-            setUserData(filterValNew[0]);
-            setActiveTab("gallery")
+          setUserData(filterValNew[0]);
+          setActiveTab("gallery")
         }
-          else {
-            setUserData([]);
+        else {
+          setUserData([]);
         }
-
-
-
-
 
         setActiveTab('gallery')
       } else {
@@ -507,30 +498,24 @@ const Profile = () => {
     }
 
   }
-  const newhandleImgDelete = async (ind,imageURL)=>{
-   
-      
-  // let indexToRemove = 1; // Remove the second element
+  const newhandleImgDelete = async (ind, imageURL) => {
 
-  // let updatedBlobs = newImsge.filter((_, index) => index !== indexToRemove);
+    setnewImsge((prevImages) => {
+      const indexToDelete = prevImages.indexOf(imageURL); // Find index of deleted image
 
-  //   setnewImsge(updatedBlobs)
-  setnewImsge((prevImages) => {
-    const indexToDelete = prevImages.indexOf(imageURL); // Find index of deleted image
-    
-    if (indexToDelete === -1) return prevImages; // If not found, return same state
+      if (indexToDelete === -1) return prevImages; // If not found, return same state
 
-    // Remove the image URL
-    const updatedImages = prevImages.filter((_, index) => index !== indexToDelete);
+      // Remove the image URL
+      const updatedImages = prevImages.filter((_, index) => index !== indexToDelete);
 
-    setgalleryArray((prevGallery) => {
-      const updatedGallery = prevGallery.filter((_, index) => index !== indexToDelete);
-      return updatedGallery.length > 0 ? updatedGallery : []; // Ensure empty array when last item is deleted
+      setgalleryArray((prevGallery) => {
+        const updatedGallery = prevGallery.filter((_, index) => index !== indexToDelete);
+        return updatedGallery.length > 0 ? updatedGallery : []; // Ensure empty array when last item is deleted
+      });
+
+      return updatedImages;
     });
 
-    return updatedImages;
-  });
-   
   }
   const handleDelete = () => {
     setcurrentfilename('')
@@ -538,11 +523,11 @@ const Profile = () => {
   }
   return (
     <div>
-         {loading && (
-                <div style={overlayStyle}>
-                  <ClipLoader size={50} color="#fff" />
-                </div>
-              )}
+      {loading && (
+        <div style={overlayStyle}>
+          <ClipLoader size={50} color="#fff" />
+        </div>
+      )}
       <Header title="Profile" />
       <ToastContainer
         autoClose={500} // Auto-close in 20 seconds
@@ -578,11 +563,11 @@ const Profile = () => {
             Qualification Info & Profile Image
           </div>
           <div className={`tab ${activeTab === "gallery" ? "active" : ""}`} onClick={() => handleTabChange("gallery")}>
-          
+
             <div >
-            Gallery
+              Gallery
             </div>
-       
+
           </div>
 
         </div>
@@ -605,9 +590,9 @@ const Profile = () => {
                 }
                 {editItem === false &&
                   <div className="content_display">
-                    <strong>Name:</strong> 
+                    <strong>Name:</strong>
                     <div className="Profile_txt_wrap txt_transform">
-                     &nbsp; {userData.Name}
+                      &nbsp; {userData.Name}
                     </div>
                   </div>
                 }
@@ -626,13 +611,12 @@ const Profile = () => {
                 }
                 {editItem === false &&
                   <div className="content_display">
-                    <strong>Father Name:</strong> 
+                    <strong>Father Name:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp; {userData.Fathername}
+                      &nbsp; {userData.Fathername}
                     </div>
                   </div>
                 }
-
 
               </div>
             </div>
@@ -649,12 +633,12 @@ const Profile = () => {
                   value={dob}
                 />}
                 {editItem === false &&
-                   <div className="content_display">
-                    <strong>Date of Birth:</strong> 
+                  <div className="content_display">
+                    <strong>Date of Birth:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp;{userData.DOB ? formatDateForDisplay(userData.DOB) : "N/A"}
+                      &nbsp;{userData.DOB ? formatDateForDisplay(userData.DOB) : "N/A"}
                     </div>
-                   
+
                   </div>
                 }
 
@@ -672,13 +656,12 @@ const Profile = () => {
                 }
                 {editItem === false &&
                   <div className="txt_trans content_display">
-                    <strong>Gender:</strong> 
+                    <strong>Gender:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp;{userData.Gender}
+                      &nbsp;{userData.Gender}
                     </div>
                   </div>
                 }
-
 
               </div>
             </div>
@@ -693,10 +676,10 @@ const Profile = () => {
                     value={email} maxLength={50} />
                 }
                 {editItem === false &&
-                    <div className="content_display">
-                    <strong>Email:</strong> 
+                  <div className="content_display">
+                    <strong>Email:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp;{userData.Email}
+                      &nbsp;{userData.Email}
                     </div>
                   </div>
                 }
@@ -711,10 +694,10 @@ const Profile = () => {
                     value={phonenumber} maxLength={15} />
                 }
                 {editItem === false &&
-                   <div className="content_display">
-                    <strong>Phone:</strong> 
+                  <div className="content_display">
+                    <strong>Phone:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp; {userData.Phonenumber}
+                      &nbsp; {userData.Phonenumber}
                     </div>
                   </div>
                 }
@@ -732,7 +715,7 @@ const Profile = () => {
                   <div className="content_display">
                     <strong>City:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp; {userData.City}
+                      &nbsp; {userData.City}
                     </div>
                   </div>
                 }
@@ -744,10 +727,10 @@ const Profile = () => {
                   <input type="text" placeholder="State" className="txt_transform pro_input" onChange={(e) => setstate(e.target.value)} value={state} maxLength={100} />
                 }
                 {editItem === false &&
-                 <div className="content_display">
-                    <strong>State:</strong> 
+                  <div className="content_display">
+                    <strong>State:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp; {userData.State}
+                      &nbsp; {userData.State}
                     </div>
                   </div>
                 }
@@ -760,10 +743,10 @@ const Profile = () => {
                   <textarea placeholder="Address" rows="2" className="txt_transform pro_input" onChange={(e) => setaddress(e.target.value)} value={address} maxLength={200}></textarea>
                 }
                 {editItem === false &&
-                    <div className="content_display">
-                    <strong>Address:</strong> 
+                  <div className="content_display">
+                    <strong>Address:</strong>
                     <div className="Profile_txt_wrap">
-                    &nbsp; {userData.Address}
+                      &nbsp; {userData.Address}
                     </div>
                   </div>
                 }
@@ -788,12 +771,12 @@ const Profile = () => {
                     value={regNumber} maxLength={50} />
                 }
                 {editItem === false &&
-                     <div className="content_display"> <strong>Registration No:</strong> 
-                     
-                     <div className="Profile_txt_wrap">
-                     {userData.RegistrationNumber} 
+                  <div className="content_display"> <strong>Registration No:</strong>
+
+                    <div className="Profile_txt_wrap">
+                      {userData.RegistrationNumber}
                     </div>
-                     </div>
+                  </div>
                 }
 
               </div>
@@ -804,18 +787,16 @@ const Profile = () => {
                     className="pro_input" onChange={(e) => setregYear(e.target.value)} value={regYear} maxLength={50} />
                 }
                 {editItem === false &&
-                   <div className="content_display">
-                    <strong>Year of Registration:</strong> 
+                  <div className="content_display">
+                    <strong>Year of Registration:</strong>
                     <div className="Profile_txt_wrap">
-                    {userData.Yearofregistration}
+                      {userData.Yearofregistration}
                     </div>
                   </div>
                 }
 
               </div>
             </div>
-
-
             <div className="algin_tab">
               <div className="registration-info-item1 tab_input_width">
                 <FontAwesomeIcon icon={faBriefcase} className="icon_style_profile" />
@@ -833,11 +814,11 @@ const Profile = () => {
                 }
                 {editItem === false &&
                   <div className="content_display">
-                    <strong>EmploymentType:</strong> 
+                    <strong>EmploymentType:</strong>
                     <div className="Profile_txt_wrap">
-                    {userData.Employmenttype}
+                      {userData.Employmenttype}
                     </div>
-                    </div>
+                  </div>
                 }
 
               </div>
@@ -849,10 +830,10 @@ const Profile = () => {
                     value={uprn} maxLength={50} />
                 }
                 {editItem === false &&
-                 <div className="content_display">
-                    <strong>UPRN Number:</strong> 
+                  <div className="content_display">
+                    <strong>UPRN Number:</strong>
                     <div className="Profile_txt_wrap">
-                    {userData.Uprnnumber}
+                      {userData.Uprnnumber}
                     </div>
                   </div>
                 }
@@ -867,27 +848,27 @@ const Profile = () => {
                   <input type="text" placeholder="State of Medicine" className="txt_transform pro_input" onChange={(e) => setstateOfMedicine(e.target.value)} value={stateOfMedicine} maxLength={100} />
                 }
                 {editItem === false &&
-                   <div className="content_display">
-                    <strong>State of Medicine:</strong> 
+                  <div className="content_display">
+                    <strong>State of Medicine:</strong>
                     <div className="Profile_txt_wrap">
-                    {userData.Stateofmedicine}
+                      {userData.Stateofmedicine}
                     </div>
                   </div>
                 }
 
               </div>
-              
+
             </div>
             <div className="algin_tab">
               <div className="qualification-info-item1 tab_input_width">
-              <div className="prfile_font">Upload image for your profile</div>
+                <div className="prfile_font">Upload image for your profile</div>
                 <div className="img_style_pro">
-                  
-                  <div className="img_input" >
-                  
 
-                    <input type="file" id="file"  
-                    disabled={!editItem}
+                  <div className="img_input" >
+
+
+                    <input type="file" id="file"
+                      disabled={!editItem}
                       onChange={handleFileChange} accept="image/*" style={{
                         display: "none", // Hides the default file input
                       }} />
@@ -917,7 +898,7 @@ const Profile = () => {
                             marginRight: "8px",
                             pointerEvents: !editItem ? "none" : "auto",
                             opacity: !editItem ? 0.5 : 1,
-                          }} className="view-button" title='Delete' icon={faTrash}  onClick={() => handleDelete()} />}
+                          }} className="view-button" title='Delete' icon={faTrash} onClick={() => handleDelete()} />}
                       </div>
 
                       <span className="filenamestyle">{currentfilename}</span>
@@ -928,7 +909,7 @@ const Profile = () => {
                 </div>
 
               </div>
-            </div> 
+            </div>
           </div>
         )}
 
@@ -936,217 +917,213 @@ const Profile = () => {
         {activeTab === "qualification" && (
           <div className="tab-content active">
 
-               <div className="algin_tab">
-                          <div className="qualification-info-item1 tab_input_width">
-                 
-                            <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
-                            {editItem === true &&
-                              <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
-                            }
-                            {editItem === false &&
-                               <div className="content_display">
-                                <strong>Qualification:</strong> 
-                                <div className="Profile_txt_wrap">
-                                &nbsp;{userData.Qualification}
-                                </div>
-                              </div>
-                            }
-            
-                          </div>
-                         
-                       
-                          <div className="qualification-info-item1 tab_input_width">
-                            <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
-                            {editItem === true &&
-                              <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={100} />
-                            }
-                            {editItem === false &&
-                              <div className="content_display">
-                                <strong>Year of Qualification:</strong> 
-                                <div className="Profile_txt_wrap">
-                                &nbsp; {userData.Yearofqualification}
-                                </div>
-                              </div>
-                            }
-            
-                          </div>
-                        </div>
-            
-                        <div className="algin_tab">
-                        <div className="registration-info-item1 tab_input_width txt_transform">
-                            <FontAwesomeIcon icon={faUniversity} className="icon_style_profile" />
-                            {editItem === true &&
-                              <input type="text" placeholder="University Name" className="txt_transform pro_input" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} />
-                            }
-                            {editItem === false &&
-                               <div className="content_display">
-                                <strong>University:</strong> 
-                                <div className="Profile_txt_wrap">
-                                {userData.Universityname}
-                                </div>
-                              </div>
-                            }
-            
-                          </div>
-                          <div className="registration-info-item1 tab_input_width txt_transform">
-                            <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
-                            {editItem === true &&
-                              <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
-                            }
-                            {editItem === false &&
-                               <div className="content_display">
-                                <strong>Specialization:</strong> 
-                                <div className="Profile_txt_wrap">
-                                {userData.Specialization}
-                                </div>
-                              </div>
-            
-                            }
-            
-                          </div>
-                        </div>
-
-         
             <div className="algin_tab">
-            <div className="registration-info-item1 tab_input_width txt_transform flex_pg">
-            <div className="mrg_right69"><b>Postgraduate Qualifications</b></div>
-            <div className="pg_scroll_style">
-            <table className="qualification-table table MRG_TOP7">
-              <thead>
-                <tr>
-                  <th className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>Qualification</th>
-                  <th className="table_colum_wrap">University Name</th>
-                  <th className="table_colum_wrap">Specialization</th>
-                  <th className="table_colum_wrap">Year</th>
-                  <th className="table_colum_wrap" >Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pgArray.length > 0 ? (
-                  pgArray.map((item, index) => (
-                    <tr key={index}>
-                          <td className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>{item.Qualification}</td>
-                          <td className="table_colum_wrap">{item.Universityname}</td>
-                          <td className="table_colum_wrap">{item.specializationname}</td>
-                          <td className="table_colum_wrap">{item.year}</td>
-                          <th className="table_colum_wrap" style={{color:'#00b4b6',backgroundColor:'white'}}>
-                          {editItem === true ? (
-                            <div>
-                                <FontAwesomeIcon icon={faPencil} className="cursor" style={{marginRight: "16px"}}
-                              onClick={() => editPGDeatils(item)} />
-                             <FontAwesomeIcon icon={faTrash} className="cursor" onClick={() => deletePGdetails(item)}   />
-                            </div>
-                          ) : 
-                          <div>
-                             <FontAwesomeIcon icon={faPencil} disabled  style={{marginRight: "16px"}}
-                             />
-                             <FontAwesomeIcon icon={faTrash} disabled />
-                          </div>}
-                          </th>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="5">No qualifications added.</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-            </div>
-           
-            </div>
-            {editItem === true &&
-            <div className="registration-info-item1 tab_input_width txt_transform">
-              <div>
-              <input type="text" name="pgQualification" placeholder="Postgraduate" className="pro_input mrng_btm_ip" onChange={handlepgInputChange} value={pgQualification} maxLength={100} />
-              <input type="text" name="pgUniversityname"  placeholder="University Name" className="pro_input" onChange={handlepgInputChange}   value={pgUniversityname} maxLength={100} />
+              <div className="qualification-info-item1 tab_input_width">
+
+                <FontAwesomeIcon icon={faGraduationCap} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="Qualification" className="txt_transform pro_input" onChange={(e) => setqualification(e.target.value)} value={qualification} maxLength={100} />
+                }
+                {editItem === false &&
+                  <div className="content_display">
+                    <strong>Qualification:</strong>
+                    <div className="Profile_txt_wrap">
+                      &nbsp;{userData.Qualification}
+                    </div>
+                  </div>
+                }
+
               </div>
-              <div>
-              <input type="text" name="pgYear" placeholder="Year of Qualification" className="pro_input mrng_btm_ip"  onChange={handlepgInputChange} value={pgYear} maxLength={100} />
-              <input type="text" name="pgSpecializationname" placeholder="Specialization" className="pro_input"  onChange={handlepgInputChange} value={pgSpecializationname} maxLength={100} />
+
+              <div className="qualification-info-item1 tab_input_width">
+                <FontAwesomeIcon icon={faCalendarCheck} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="Year of Qualification" className="pro_input" onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} maxLength={4} />
+                }
+                {editItem === false &&
+                  <div className="content_display">
+                    <strong>Year of Qualification:</strong>
+                    <div className="Profile_txt_wrap">
+                      &nbsp; {userData.Yearofqualification}
+                    </div>
+                  </div>
+                }
+
               </div>
-              <div>
-                  <FontAwesomeIcon className="add_icon_style cursor" icon={faPlus}  onClick={addQualification}  />
-                  <div className="clear_progile_pg cursor" onClick={clearPG} >clear</div>
-              </div>
-        
             </div>
+
+            <div className="algin_tab">
+              <div className="registration-info-item1 tab_input_width txt_transform">
+                <FontAwesomeIcon icon={faUniversity} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="University Name" className="txt_transform pro_input" onChange={(e) => setuniversity(e.target.value)} value={university} maxLength={100} />
+                }
+                {editItem === false &&
+                  <div className="content_display">
+                    <strong>University:</strong>
+                    <div className="Profile_txt_wrap">
+                      {userData.Universityname}
+                    </div>
+                  </div>
+                }
+
+              </div>
+              <div className="registration-info-item1 tab_input_width txt_transform">
+                <FontAwesomeIcon icon={faStethoscope} className="icon_style_profile" />
+                {editItem === true &&
+                  <input type="text" placeholder="Specialization" className="txt_transform pro_input" onChange={(e) => setspecialization(e.target.value)} value={specialization} maxLength={100} />
+                }
+                {editItem === false &&
+                  <div className="content_display">
+                    <strong>Specialization:</strong>
+                    <div className="Profile_txt_wrap">
+                      {userData.Specialization}
+                    </div>
+                  </div>
+
+                }
+
+              </div>
+            </div>
+
+
+            <div className="algin_tab">
+              <div className="registration-info-item1 tab_input_width txt_transform flex_pg">
+                <div className="mrg_right69"><b>Postgraduate Qualifications</b></div>
+                <div className="pg_scroll_style">
+                  <table className="qualification-table table MRG_TOP7">
+                    <thead>
+                      <tr>
+                        <th className="table_colum_wrap" style={{ width: 'auto', textAlign: 'left' }}>Qualification</th>
+                        <th className="table_colum_wrap">University Name</th>
+                        <th className="table_colum_wrap">Specialization</th>
+                        <th className="table_colum_wrap">Year</th>
+                        <th className="table_colum_wrap" >Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pgArray.length > 0 ? (
+                        pgArray.map((item, index) => (
+                          <tr key={index}>
+                            <td className="table_colum_wrap" style={{ width: 'auto', textAlign: 'left' }}>{item.Qualification}</td>
+                            <td className="table_colum_wrap">{item.Universityname}</td>
+                            <td className="table_colum_wrap">{item.specializationname}</td>
+                            <td className="table_colum_wrap">{item.year}</td>
+                            <th className="table_colum_wrap" style={{ color: '#00b4b6', backgroundColor: 'white' }}>
+                              {editItem === true ? (
+                                <div>
+                                  <FontAwesomeIcon icon={faPencil} className="cursor" style={{ marginRight: "16px" }}
+                                    onClick={() => editPGDeatils(item)} />
+                                  <FontAwesomeIcon icon={faTrash} className="cursor" onClick={() => deletePGdetails(item)} />
+                                </div>
+                              ) :
+                                <div>
+                                  <FontAwesomeIcon icon={faPencil} disabled style={{ marginRight: "16px" }}
+                                  />
+                                  <FontAwesomeIcon icon={faTrash} disabled />
+                                </div>}
+                            </th>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="5">No qualifications added.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+              {editItem === true &&
+                <div className="registration-info-item1 tab_input_width txt_transform">
+                  <div>
+                    <input type="text" name="pgQualification" placeholder="Postgraduate" className="pro_input mrng_btm_ip" onChange={handlepgInputChange} value={pgQualification} maxLength={100} />
+                    <input type="text" name="pgUniversityname" placeholder="University Name" className="pro_input" onChange={handlepgInputChange} value={pgUniversityname} maxLength={100} />
+                  </div>
+                  <div>
+                    <input type="text" name="pgYear" placeholder="Year of Qualification" className="pro_input mrng_btm_ip" onChange={handlepgInputChange} value={pgYear} maxLength={100} />
+                    <input type="text" name="pgSpecializationname" placeholder="Specialization" className="pro_input" onChange={handlepgInputChange} value={pgSpecializationname} maxLength={100} />
+                  </div>
+                  <div>
+                    <FontAwesomeIcon className="add_icon_style cursor" icon={faPlus} onClick={addQualification} />
+                    <div className="clear_progile_pg cursor" onClick={clearPG} >clear</div>
+                  </div>
+
+                </div>
               }
             </div>
-             
+
           </div>
         )}
         {/* gallery */}
         {activeTab === "gallery" && (
           <div className="tab-content active">
-          <div className={!userData.gallery_image_paths ? "img_align  algin_tab" : "algin_tab img_align_rt"} >
-          {editItem === true && (
-            <div>
-                <FontAwesomeIcon icon={faCirclePlus} className="add_icon curserPointer"  onClick={() => document.getElementById("file1").click()}  />
-                <input 
-              type="file" 
-              id="file1" 
-              multiple 
-              onChange={handleFileGalleryChange} 
-              accept="image/*" 
-              style={{
-                display: 'none',  // Hides the file input
-              }}
-            />
+            <div className={!userData.gallery_image_paths ? "img_align  algin_tab" : "algin_tab img_align_rt"} >
+              {editItem === true && (
+                <div>
+                  <FontAwesomeIcon icon={faCirclePlus} className="add_icon curserPointer" onClick={() => document.getElementById("file1").click()} />
+                  <input
+                    type="file"
+                    id="file1"
+                    multiple
+                    onChange={handleFileGalleryChange}
+                    accept="image/*"
+                    style={{
+                      display: 'none',  // Hides the file input
+                    }}
+                  />
+                </div>
+
+              )
+
+              }
+              <div>
+                {!userData.gallery_image_paths && newImsge.length === 0 &&
+                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
+                    <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red", padding: "20px" }}>No images found</div>
+                  </div>}
+              </div>
+
+              <div className="img_wrap img_gap_scroll" >
+                {userData.gallery_image_paths &&
+                  userData.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
+                    <div>
+                      <img
+                        key={index}
+                        src={`${API_URL}/${imgPath}`}
+                        alt="Gallery Item"
+                        width="150"
+                        height="150"
+                        className="img_mrg_btm"
+                        style={{ borderRadius: "8px", objectFit: "cover" }}
+                      />
+                      {editItem === true &&
+                        <FontAwesomeIcon className="view-button img_padding" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleImgDelete(imgPath)} />
+                      }
+                    </div>
+
+
+                  ))}
+                {newImsge.length > 0 &&
+                  newImsge.map((imgUrl, index) => (
+                    <div key={index} style={{ display: "inline-block" }} className="newlt_img">
+                      <img
+                        src={imgUrl}
+                        alt="New gallery item"
+                        width="150"
+                        height="150"
+                        style={{ borderRadius: "8px", objectFit: "cover" }}
+                      />
+                      <FontAwesomeIcon className="view-button img_padding newImg_btom" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => newhandleImgDelete(index, imgUrl)} />
+                    </div>
+
+                  ))}
+              </div>
             </div>
-            
-          )
-        
-          
-          }
-        <div>
-        {!userData.gallery_image_paths && newImsge.length === 0 &&
-         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
-           <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red", padding: "20px" }}>No images found</div>
-          </div>}
-        </div>
-       
-        <div className="img_wrap img_gap_scroll" >
-          {userData.gallery_image_paths &&
-        userData.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
-          <div>
-              <img
-            key={index}
-            src={`${API_URL}/${imgPath}`}
-            alt="Gallery Item"
-            width="150"
-            height="150"
-            className="img_mrg_btm"
-            style={{ borderRadius: "8px", objectFit: "cover" }}
-          />
-           {editItem === true &&
-      <FontAwesomeIcon className="view-button img_padding" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleImgDelete(imgPath)} />
-           }
-          </div>
-        
-          
-        ))}
-        {newImsge.length > 0 &&
-          newImsge.map((imgUrl, index) => (
-            <div key={index} style={{ display: "inline-block" }} className="newlt_img">
-              <img
-                src={imgUrl}
-                alt="New gallery item"
-                width="150"
-                height="150"
-                style={{ borderRadius: "8px", objectFit: "cover" }}
-              />
-                <FontAwesomeIcon className="view-button img_padding newImg_btom" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => newhandleImgDelete(index,imgUrl)} />
-            </div>
-            
-          ))}
-        </div>
-            </div>
-          
+
           </div>
         )}
-
-
 
         {/* Close Button */}
         <div className="cls_btn_style">

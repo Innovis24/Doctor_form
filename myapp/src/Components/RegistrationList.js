@@ -3,12 +3,12 @@ import "./RegistrationList.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate,useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
+import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 // Import Font Awesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope, faTransgenderAlt, faEye,faSearch, faTimes ,faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserTie, faBirthdayCake, faPhoneAlt, faEnvelope, faTransgenderAlt, faEye, faSearch, faTimes, faSpinner } from '@fortawesome/free-solid-svg-icons';
 // import { faPencil ,faTrash} from '@fortawesome/free-solid-svg-icons';
 // import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faCity, faMapMarkerAlt, faAddressCard } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Header from './Header';
 import { ClipLoader } from 'react-spinners';
-import { REG_API_URL,API_URL } from "../utlis/common";
+import { REG_API_URL, API_URL } from "../utlis/common";
 import {
   faIdCard,
   faCalendarAlt,
@@ -75,12 +75,12 @@ const RegistrationList = () => {
     alignItems: 'center',
     zIndex: 9999,
   };
-   // Calculate the indices for slicing
-   const startIndex = (currentPage - 1) * rowsPerPage;
-   const endIndex = startIndex + rowsPerPage;
-   const currentRows = registrations.slice(startIndex, endIndex);
-    const totalPages = Math.ceil(registrations.length / rowsPerPage);
-   const startRecord = registrations.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0;
+  // Calculate the indices for slicing
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = startIndex + rowsPerPage;
+  const currentRows = registrations.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(registrations.length / rowsPerPage);
+  const startRecord = registrations.length > 0 ? (currentPage - 1) * rowsPerPage + 1 : 0;
   const endRecord = Math.min(startRecord + rowsPerPage - 1, registrations.length);
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
@@ -119,7 +119,7 @@ const RegistrationList = () => {
       }
     } catch (error) {
       toast.error("Failed to fetch registrations!");
-    } 
+    }
     // finally {
     //   setLoading(false);  // Stop loader after data is fetched
     // }
@@ -135,21 +135,21 @@ const RegistrationList = () => {
   const sethandleSearch = (e) => {
     setLoading(true);
     let value = e.target.value.trim()
-     setSearchQuery(value)
-    if(e.target.value === ""){
+    setSearchQuery(value)
+    if (e.target.value === "") {
       setLoading(false);
       setRegistrations(wholearray)
       return
     }
-    
+
     handleSearch(value);
-    
+
   }
 
   const handleSearch = (selectedValue) => {
     setLoading(true);
     // console.log(param1)
-  
+
     // if(param1 === 'searchDoctor'){
     //   const filteredRegistrations = registrations.filter((record) =>
     //     record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -158,25 +158,25 @@ const RegistrationList = () => {
     //   setRegistrations(filteredRegistrations)
     // }
     // else{
-      const filteredRegistrations = registrations.filter((record) =>
-        record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.RegistrationNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Qualification.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Stateofmedicine.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Yearofregistration.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Uprnnumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Fathername.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Gender.toLowerCase().includes(selectedValue.toLowerCase()) ||
-        record.Phonenumber.toLowerCase().includes(selectedValue.toLowerCase())
-  
-      );
-      setLoading(false);
-      setRegistrations(filteredRegistrations)
+    const filteredRegistrations = registrations.filter((record) =>
+      record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.RegistrationNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Qualification.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Stateofmedicine.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Yearofregistration.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Uprnnumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Fathername.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Gender.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Phonenumber.toLowerCase().includes(selectedValue.toLowerCase())
+
+    );
+    setLoading(false);
+    setRegistrations(filteredRegistrations)
     // }
-   
+
   };
-  
+
   const getPageNumbers = () => {
     let pages = [];
     if (totalPages <= maxVisiblePages) {
@@ -203,36 +203,36 @@ const RegistrationList = () => {
   };
   const handleSearchChange = (e, field) => {
     const { value } = e.target;
-  
+
     setSearchFilters((prevFilters) => ({
       ...prevFilters,
       [field]: value, // Update only the specific field
     }));
-  
-    if(e.target.value === ""){
+
+    if (e.target.value === "") {
       setRegistrations(wholearray)
       return
     }
-    
-    if(field === 'Gender'){
+
+    if (field === 'Gender') {
       applyFiltersGender({ ...searchFilters, [field]: value.trim() });
       return
     }
     // Check if Enter is pressed
     // if (e.key === "Enter") {
-      applyFilters({ ...searchFilters, [field]: value.trim() });
+    applyFilters({ ...searchFilters, [field]: value.trim() });
     // }
   };
-  
+
   const applyFilters = (filters) => {
 
     const filteredData = wholearray.filter((record) =>
       Object.keys(filters).every((key) =>
-        filters[key] === "" || 
+        filters[key] === "" ||
         (record[key] && record[key].toString().toLowerCase().includes(filters[key].toLowerCase()))
       )
     );
-  
+
     setRegistrations(filteredData);
   };
 
@@ -240,11 +240,11 @@ const RegistrationList = () => {
 
     const filteredData = wholearray.filter((record) =>
       Object.keys(filters).every((key) =>
-        filters[key] === "" || 
+        filters[key] === "" ||
         (record[key] && record[key].toString().toLowerCase() === (filters[key].toLowerCase()))
       )
     );
-  
+
     setRegistrations(filteredData);
   };
 
@@ -311,7 +311,7 @@ const RegistrationList = () => {
 
   return (
     <div>
-    {loading && (
+      {loading && (
         <div style={overlayStyle}>
           <ClipLoader size={50} color="#fff" />
         </div>
@@ -321,7 +321,7 @@ const RegistrationList = () => {
         autoClose={500} // Auto-close in 20 seconds
         toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }} />
-        
+
       <Popup open={isOpen} onClose={closeModal} contentStyle={{
         width: '385px', // Adjust the width to your desired size
         padding: '20px', // Optional: Adjust padding if needed
@@ -347,54 +347,54 @@ const RegistrationList = () => {
         {/* <div>Doctor list</div> */}
         <div className="controls">
 
-        <div className="itm_wt">
-                <b className="ITEM_MRG">Show</b>
-              <select
-                className="itemPerpage"
-                value={rowsPerPage}
-                onChange={(e) => {
-                  setrowsPerPage(Number(e.target.value));
-                }}
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
+          <div className="itm_wt">
+            <b className="ITEM_MRG">Show</b>
+            <select
+              className="itemPerpage"
+              value={rowsPerPage}
+              onChange={(e) => {
+                setrowsPerPage(Number(e.target.value));
+              }}
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
 
-              </select>
-              <b className="ITEM_MRG">entries</b>
-              </div>
-              <div className="display_item">
-              <input
-            type="text"
-            className="search-bar"
-            placeholder="Search"
-            value={searchQuery} 
-            onChange={(e) => sethandleSearch(e)}
-            onKeyDown={(e) =>  applyFilters(searchFilters)}
+            </select>
+            <b className="ITEM_MRG">entries</b>
+          </div>
+          <div className="display_item">
+            <input
+              type="text"
+              className="search-bar"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => sethandleSearch(e)}
+              onKeyDown={(e) => applyFilters(searchFilters)}
             // onChange={(e) => setSearchQuery(e)}
             // onKeyDown={(e) => {
             //   if (e.key === 'Enter') {
             //     handleSearch(); // Trigger search on Enter key press
             //   }
             // }}
-          />
-          <div className="search_icon_style">
-          <SearchIcon className="search-icon" onClick={() => handleSearch()} />
+            />
+            <div className="search_icon_style">
+              <SearchIcon className="search-icon" onClick={() => handleSearch()} />
 
-          <CloseIcon className="clear-icon" onClick={() => clear()} />
+              <CloseIcon className="clear-icon" onClick={() => clear()} />
+            </div>
+
           </div>
-        
-              </div>
           {/* Search Bar */}
-         
+
         </div>
 
         {/* Register Button */}
 
 
-        <div className="table-container">
+        <div className="table-container1">
 
           <table className="table">
             <thead>
@@ -416,103 +416,103 @@ const RegistrationList = () => {
               </tr>
               <tr>
                 <td></td>
-              <td>
-                <input
-                  type="text"
-                  className="input_hover_style"
-                  value={searchFilters.Name}
-                  onChange={(e) => handleSearchChange(e, "Name")}
-                  onKeyDown={(e) => applyFilters(searchFilters)}
-                  placeholder="Search Name"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                   className="input_hover_style"
-                  value={searchFilters.Gender}
-                  onChange={(e) => handleSearchChange(e, "Gender")}
-                  onKeyDown={(e) =>  applyFiltersGender(searchFilters)}
-                  placeholder="Search Gender"
-                />
-                {/* <select value={searchFilters.Gender} onChange={(e) => handleSearchChange(e, "Gender")}>
+                <td>
+                  <input
+                    type="text"
+                    className="input_hover_style"
+                    value={searchFilters.Name}
+                    onChange={(e) => handleSearchChange(e, "Name")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search Name"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="input_hover_style"
+                    value={searchFilters.Gender}
+                    onChange={(e) => handleSearchChange(e, "Gender")}
+                    onKeyDown={(e) => applyFiltersGender(searchFilters)}
+                    placeholder="Search Gender"
+                  />
+                  {/* <select value={searchFilters.Gender} onChange={(e) => handleSearchChange(e, "Gender")}>
                   <option value="">All</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select> */}
-              </td>
-              <td>
-                <input
-                  type="text"
-                   className="input_hover_style"
-                  value={searchFilters.Fathername}
-                  onChange={(e) => handleSearchChange(e, "Fathername")}
-                  onKeyDown={(e) =>  applyFilters(searchFilters)}
-                  placeholder="Search Father/Spouse"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                   className="input_hover_style"
-                  value={searchFilters.Phonenumber}
-                  onChange={(e) => handleSearchChange(e, "Phonenumber")}
-                  onKeyDown={(e) => applyFilters(searchFilters)}
-                  placeholder="Search Phone"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={searchFilters.Qualification}
-                   className="input_hover_style"
-                  onChange={(e) => handleSearchChange(e, "Qualification")}
-                  onKeyDown={(e) => applyFilters(searchFilters)}
-                  placeholder="Search Qualification"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={searchFilters.Uprnnumber}
-                   className="input_hover_style"
-                  onChange={(e) => handleSearchChange(e, "Uprnnumber")}
-                  onKeyDown={(e) =>  applyFilters(searchFilters)}
-                  placeholder="Search UPRN"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={searchFilters.Yearofregistration}
-                   className="input_hover_style"
-                  onChange={(e) => handleSearchChange(e, "Yearofregistration")}
-                  onKeyDown={(e) =>  applyFilters(searchFilters)}
-                  placeholder="Search Year"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={searchFilters.Stateofmedicine}
-                   className="input_hover_style"
-                  onChange={(e) => handleSearchChange(e, "Stateofmedicine")}
-                  onKeyDown={(e) =>  applyFilters(searchFilters)}
-                  placeholder="Search State"
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={searchFilters.City}
-                   className="input_hover_style"
-                  onChange={(e) => handleSearchChange(e, "City")}
-                  onKeyDown={(e) => applyFilters(searchFilters)}
-                  placeholder="Search City"
-                />
-              </td>
-              <td></td>
-            </tr>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="input_hover_style"
+                    value={searchFilters.Fathername}
+                    onChange={(e) => handleSearchChange(e, "Fathername")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search Father/Spouse"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    className="input_hover_style"
+                    value={searchFilters.Phonenumber}
+                    onChange={(e) => handleSearchChange(e, "Phonenumber")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search Phone"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={searchFilters.Qualification}
+                    className="input_hover_style"
+                    onChange={(e) => handleSearchChange(e, "Qualification")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search Qualification"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={searchFilters.Uprnnumber}
+                    className="input_hover_style"
+                    onChange={(e) => handleSearchChange(e, "Uprnnumber")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search UPRN"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={searchFilters.Yearofregistration}
+                    className="input_hover_style"
+                    onChange={(e) => handleSearchChange(e, "Yearofregistration")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search Year"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={searchFilters.Stateofmedicine}
+                    className="input_hover_style"
+                    onChange={(e) => handleSearchChange(e, "Stateofmedicine")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search State"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={searchFilters.City}
+                    className="input_hover_style"
+                    onChange={(e) => handleSearchChange(e, "City")}
+                    onKeyDown={(e) => applyFilters(searchFilters)}
+                    placeholder="Search City"
+                  />
+                </td>
+                <td></td>
+              </tr>
             </thead>
             <tbody>
               {currentRows && currentRows.length > 0 ? (
@@ -567,14 +567,14 @@ const RegistrationList = () => {
           </table>
 
           <div className="table_position sticky_position">
-                <button
-                  onClick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="pagination_style_reg"
-                >
-                  Previous
-                </button>
-                {/* <div className="pagination_buttons">
+            <button
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="pagination_style_reg"
+            >
+              Previous
+            </button>
+            {/* <div className="pagination_buttons">
                   {[...Array(totalPages)].map((_, index) => (
                     <button
                       key={index}
@@ -585,35 +585,35 @@ const RegistrationList = () => {
                     </button>
                   ))}
                 </div> */}
-                 <div className="pagination_buttons">
-                  {getPageNumbers().map((page, index) =>
-                    page === "..." ? (
-                      <span key={index} className="ellipsis">...</span>
-                    ) : (
-                      <button
-                        key={index}
-                        onClick={() => goToPage(page)}
-                        className={`pagination_button ${currentPage === page ? "active" : ""}`}
-                      >
-                        {page}
-                      </button>
-                    )
-                  )}
-                </div>
-                <button
-                  onClick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="pagination_style_reg"
-                >
-                  Next
-                </button>
-                <div className="total_record totalrecord_style ">
-                  {/* <span>TOTAL RECORD:</span>  */}
-                  {/* <span>Showing {startRecord}-{endRecord} of {totalRecord} pages</span> */}
-                  <span>Showing {startRecord} to {endRecord} of {totalRecord} entries</span>
-                </div>
-             
-              </div>
+            <div className="pagination_buttons">
+              {getPageNumbers().map((page, index) =>
+                page === "..." ? (
+                  <span key={index} className="ellipsis">...</span>
+                ) : (
+                  <button
+                    key={index}
+                    onClick={() => goToPage(page)}
+                    className={`pagination_button ${currentPage === page ? "active" : ""}`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="pagination_style_reg"
+            >
+              Next
+            </button>
+            <div className="total_record totalrecord_style ">
+              {/* <span>TOTAL RECORD:</span>  */}
+              {/* <span>Showing {startRecord}-{endRecord} of {totalRecord} pages</span> */}
+              <span>Showing {startRecord} to {endRecord} of {totalRecord} entries</span>
+            </div>
+
+          </div>
 
 
 
@@ -625,12 +625,12 @@ const RegistrationList = () => {
             <div className="modal-content">
 
               <div className="pop_up_cancelicon">
-              <div className="profile_style">Profile Details - {selectedRecord.Name}</div>  
-              <div> 
-                <CloseIcon className="clear-icon cancel_btn_style" onClick={closeDetails} /></div>
+                <div className="profile_style">Profile Details - {selectedRecord.Name}</div>
+                <div>
+                  <CloseIcon className="clear-icon cancel_btn_style" onClick={closeDetails} /></div>
               </div>
-            
-              
+
+
               {/* Tabs */}
               <div className="tabs">
                 <div
@@ -656,7 +656,7 @@ const RegistrationList = () => {
                   className={`tab ${activeTab === 'gallery' ? 'active' : ''}`}
                   onClick={() => setActiveTab('gallery')}
                 >
-                 Gallery
+                  Gallery
                 </div>
               </div>
 
@@ -686,7 +686,7 @@ const RegistrationList = () => {
                   </div>
                   <div className="personal-info-item">
                     <FontAwesomeIcon icon={faBirthdayCake} />
-                    <div className="disply_flex"><strong className="font_size_popup">Date of Birth:</strong> <div className="popup_wrap">{selectedRecord.DOB? formatDateForDisplay(selectedRecord.DOB) : "N/A"}</div></div>
+                    <div className="disply_flex"><strong className="font_size_popup">Date of Birth:</strong> <div className="popup_wrap">{selectedRecord.DOB ? formatDateForDisplay(selectedRecord.DOB) : "N/A"}</div></div>
                   </div>
                   <div className="personal-info-item">
                     <FontAwesomeIcon icon={faTransgenderAlt} />
@@ -763,67 +763,67 @@ const RegistrationList = () => {
                 </div>
                 <div className="pg_item">
                   <div>
-                  <div className="mrg_btom16"><b>Postgraduate Qualifications</b></div>
-                  <div className="pg_scroll_style">
+                    <div className="mrg_btom16"><b>Postgraduate Qualifications</b></div>
+                    <div className="pg_scroll_style">
 
-                  <table className="qualification-table table MRG_TOP7">
-                                <thead>
-                                  <tr>
-                                    <th className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>Qualification</th>
-                                    <th className="table_colum_wrap">University Name</th>
-                                    <th className="table_colum_wrap">Specialization</th>
-                                    <th className="table_colum_wrap">Year</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {getPGarray && getPGarray.length > 0 ? (
-                                    getPGarray.map((item, index) => (
-                                      <tr key={index}>
-                                            <td className="table_colum_wrap" style={{ width: 'auto',textAlign:'left'}}>{item.Qualification}</td>
-                                            <td className="table_colum_wrap">{item.Universityname}</td>
-                                            <td className="table_colum_wrap">{item.specializationname}</td>
-                                            <td className="table_colum_wrap">{item.year}</td>
-                                            
-                                      </tr>
-                                    ))
-                                  ) : (
-                                    <tr>
-                                      <td colSpan="4">No qualifications added !</td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </table>
-                            </div>
+                      <table className="qualification-table table MRG_TOP7">
+                        <thead>
+                          <tr>
+                            <th className="table_colum_wrap" style={{ width: 'auto', textAlign: 'left' }}>Qualification</th>
+                            <th className="table_colum_wrap">University Name</th>
+                            <th className="table_colum_wrap">Specialization</th>
+                            <th className="table_colum_wrap">Year</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {getPGarray && getPGarray.length > 0 ? (
+                            getPGarray.map((item, index) => (
+                              <tr key={index}>
+                                <td className="table_colum_wrap" style={{ width: 'auto', textAlign: 'left' }}>{item.Qualification}</td>
+                                <td className="table_colum_wrap">{item.Universityname}</td>
+                                <td className="table_colum_wrap">{item.specializationname}</td>
+                                <td className="table_colum_wrap">{item.year}</td>
+
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="4">No qualifications added !</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className={`tab-content ${activeTab === 'gallery' ? 'active' : ''}`}>
                 <div className={selectedRecord.gallery_image_paths ? "img_flex image-container" : ""}>
-              
-                 {selectedRecord.gallery_image_paths &&
-                        selectedRecord.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
-                          <div >
-                              <img
-                            key={index}
-                            src={`${API_URL}/${imgPath}`}
-                            alt="gallery item"
-                            width="150"
-                            height="150"
-                            className="img_mrg_btm"
-                            style={{ borderRadius: "8px", objectFit: "cover" }}
-                          />
-                          </div>
-                        
-                          
-                        ))}
 
-              {!selectedRecord.gallery_image_paths && (
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
-                  <div  style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red"}}>No images found</div>
-                 </div>
-              )}
+                  {selectedRecord.gallery_image_paths &&
+                    selectedRecord.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
+                      <div >
+                        <img
+                          key={index}
+                          src={`${API_URL}/${imgPath}`}
+                          alt="gallery item"
+                          width="150"
+                          height="150"
+                          className="img_mrg_btm"
+                          style={{ borderRadius: "8px", objectFit: "cover" }}
+                        />
                       </div>
+
+
+                    ))}
+
+                  {!selectedRecord.gallery_image_paths && (
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", textAlign: "center" }}>
+                      <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "16px", color: "red" }}>No images found</div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Close Button */}

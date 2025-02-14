@@ -201,15 +201,6 @@ input::placeholder {
   padding: 10px;          
 }  
 
-/* Responsive styling */
-@media (max-width: 768px) {
-  .table {
-    width: 100%;
-    overflow-x: auto;
-    display: block;
-  }
- 
-}
 
 /* Modal animation */
 @keyframes fadeIn {
@@ -346,13 +337,6 @@ input::placeholder {
   color: #333; /* Text color */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .personal-info {
-    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
-  }
-}
-
 
 /* Icon and Text Style */
 .personal-info-item p {
@@ -449,6 +433,7 @@ input::placeholder {
   .personal-info-item {
     font-size: 16px; /* Smaller text for mobile */
   }
+ 
 }
 
 
@@ -488,17 +473,6 @@ input::placeholder {
   color: #333; /* Text color */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .personal-info,
-  .registration-info {
-    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
-  }
-  .personal-info-item,
-  .registration-info-item {
-    gap: 10px; /* Adjust gap for smaller screens */
-  }
-}
 
 /* Qualification Info Container */
 .qualification-info {
@@ -533,22 +507,12 @@ input::placeholder {
   color: #333; /* Text color */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .qualification-info {
-    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
-  }
-  .qualification-info-item {
-    gap: 10px; /* Adjust gap for smaller screens */
-  }
-}
-
 
 /* table */
 /* ResponsiveTable.css */
-.table-container {
+.table-container1 {
   width: 100%;
-  max-height: 505px;
+  max-height: 572px;
   overflow-x: auto;
 }
 .text-wrap {
@@ -567,11 +531,7 @@ input::placeholder {
     font-weight: 600;
     margin-bottom: 10px;
 }
-@media (max-width: 768px) {
-.modal-content {
-  max-height: 100% !important;
-}
-}
+
 
 .disply_flex{
   display: flex;
@@ -755,6 +715,32 @@ input::placeholder {
     display: flex;
         align-items: center;
   }
+  .qualification-info {
+    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
+  }
+  .qualification-info-item {
+    gap: 10px; /* Adjust gap for smaller screens */
+  }
+  .modal-content {
+    max-height: 100% !important;
+  }
+  .personal-info,
+  .registration-info {
+    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
+  }
+  .personal-info-item,
+  .registration-info-item {
+    gap: 10px; /* Adjust gap for smaller screens */
+  }
+  
+  .personal-info {
+    grid-template-columns: 1fr; /* Switch to single column for smaller screens */
+  }
+  .table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
 }
 
 @media (max-width: 480px) {
@@ -859,17 +845,6 @@ input::placeholder {
 
 }
 
-/* Search Row Styling */
-
-/* tr:nth-child(2) td {
-
-  background-color: #f9f9f9;
-
-  padding: 5px;
-
-} */
-
-
 
 .input_hover_style {
 
@@ -971,4 +946,45 @@ input::placeholder {
   height: 273px;
   scrollbar-width: thin;
   max-height: 300px;
+}
+/* Extra Small Devices (Phones) */
+@media (max-width: 576px) {
+  .table-container1 {
+    width: 100%;
+    max-height: 415px !important;
+    overflow-x: auto;
+}
+}
+
+/* Small Devices (Tablets) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .table-container1 {
+    width: 100%;
+    max-height: 530px !important;
+    overflow-x: auto;
+}
+}
+
+/* Medium Devices (Laptops) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .table-container1 {
+    width: 100%;
+    overflow-x: auto;
+}
+}
+
+/* Large Devices (Desktops) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .table-container1 {
+    width: 100%;
+    overflow-x: auto;
+}
+}
+
+/* Extra Large Devices (Big Screens) */
+@media (min-width: 1201px) {
+  .table-container1 {
+    width: 100%;
+    overflow-x: auto;
+}
 }

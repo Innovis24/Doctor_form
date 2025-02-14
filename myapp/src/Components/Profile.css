@@ -7,7 +7,7 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   scrollbar-width: thin; /* For modern browsers */
-  height: 90vh; /* Limit height of profile container */
+  height: 88vh; /* Limit height of profile container */
   overflow-y: auto; /* Enable vertical scrolling */
 
 }
@@ -410,16 +410,9 @@ input[type="text"]:focus {
   border-radius: 6px;
   transition: background 0.3s ease;
   cursor: pointer;
-}
-
-.plusbtn {
-  opacity: 0.8;
-}
-
-/* Add Button */
-.plusbtn {
   background: #00b4b6;
   color: white;
+  opacity: 0.8;
 }
 
 
