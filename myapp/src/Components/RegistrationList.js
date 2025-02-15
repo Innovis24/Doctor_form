@@ -48,7 +48,7 @@ const RegistrationList = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('personal'); // Initial active tab
   const [rowsPerPage, setrowsPerPage] = useState(10);
-  const [totalRecord, setTotalRecord] = useState(0);
+  const [Totalvalue, setTotalvalue] = useState(0);
   const maxVisiblePages = 5;
   const [searchFilters, setSearchFilters] = useState({
     Name: "",
@@ -76,6 +76,7 @@ const RegistrationList = () => {
     zIndex: 9999,
   };
   // Calculate the indices for slicing
+  const totalRecord = registrations.length;
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentRows = registrations.slice(startIndex, endIndex);
@@ -115,7 +116,7 @@ const RegistrationList = () => {
         setLoading(false);
         setRegistrations(response.data);
         setwholearray(response.data)
-        setTotalRecord(response.data.length)
+        setTotalvalue(response.data.length)
       }
     } catch (error) {
       toast.error("Failed to fetch registrations!");
@@ -625,7 +626,7 @@ const RegistrationList = () => {
             <div className="total_record totalrecord_style ">
               {/* <span>TOTAL RECORD:</span>  */}
               {/* <span>Showing {startRecord}-{endRecord} of {totalRecord} pages</span> */}
-              <span>Showing {startRecord} to {endRecord} of {totalRecord} entries</span>
+              <span>Showing {startRecord} to {endRecord} of {totalRecord} entries (Total: {Totalvalue})</span>
             </div>
 
           </div>

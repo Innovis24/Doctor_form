@@ -36,6 +36,7 @@ const UserMaster = () => {
   const [username, setusername] = useState();
   const [password, setpassword] = useState();
   const [userrole, setuserrole] = useState();
+  const [wholeArray, setwholeArray] = useState([]);
   const [sno, setsno] = useState();
 
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
@@ -57,6 +58,7 @@ const UserMaster = () => {
   const fetchUserList = async () => {
     try {
       const response = await axios.get(USER_API_URL);
+      setwholeArray(response.data)
       setArray(response.data);
     } catch (error) {
       toast.error("Failed to fetch registrations!");
@@ -130,24 +132,26 @@ const UserMaster = () => {
   const sethandleSearch = (e) => {
     let searchValue = e.target.value
     setSearchQuery(searchValue.trim())
-    handleSearch()
+    handleSearch(searchValue.trim())
     if (searchValue === "") {
       fetchUserList();
     }
   }
-  const handleSearch = () => {
-    if (searchQuery === "") {
+  const handleSearch = (item) => {
+    if (item === "") {
       fetchUserList();
+      return
     }
-    const filteredRegistrations = Arrayval.filter((record) =>
-      record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.UserName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.UserRole.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      record.Status.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredRegistrations = wholeArray.filter((record) =>
+      record.Name.toLowerCase().includes(item.toLowerCase()) ||
+      record.RegNumber.toLowerCase().includes(item.toLowerCase()) ||
+      record.UserName.toLowerCase().includes(item.toLowerCase()) ||
+      record.UserRole.toLowerCase().includes(item.toLowerCase()) ||
+      record.Status.toLowerCase().includes(item.toLowerCase())
 
     );
     setArray(filteredRegistrations)
+    setCurrentPage(1);
   }
   const clear = () => {
     setSearchQuery('')
@@ -296,13 +300,14 @@ const UserMaster = () => {
             className="search-bar"
             placeholder="Search"
             value={searchQuery} onChange={(e) => sethandleSearch(e)}
+            
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleSearch(); // Trigger search on Enter key press
+                handleSearch(searchQuery); // Trigger search on Enter key press
               }
             }}
           />
-          <FontAwesomeIcon className="view-button icon_style" icon={faSearch} style={{ marginRight: "8px" }} onClick={() => handleSearch()} />
+          <FontAwesomeIcon className="view-button icon_style" icon={faSearch} style={{ marginRight: "8px" }} onClick={() => handleSearch(searchQuery)} />
           <FontAwesomeIcon className="view-button cancelStyle" icon={faTimes} style={{ marginRight: "8px" }} onClick={() => clear()} />
 
           {/* <SearchIcon className="search-icon" onClick={() => ()} />
