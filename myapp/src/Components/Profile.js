@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Header";
 import "../App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPhoneAlt, faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck, faMap, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneAlt, faCirclePlus, faTrash, faPencil, faEnvelope, faBarcode, faTransgenderAlt, faCity, faMapMarkerAlt, faBirthdayCake, faIdCard, faCalendarAlt, faBriefcase, faUniversity, faGraduationCap, faStethoscope, faCalendarCheck, faMap, faPlus, faL } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css';  // Import the CSS file
 import { useNavigate, useLocation } from "react-router-dom"; // Use useNavigate for React Router v6+
 import axios from "axios";
@@ -184,20 +184,28 @@ const Profile = () => {
 
   const addQualification = () => {
     setLoading(true)
+    if (![pgQualification, pgSpecializationname, pgUniversityname, pgYear].every(value => value !== null && value !== undefined && value !== "")) {
+      setLoading(false)
+        toast.error("Please fill all fields!", { position: "top-center" });
+      return;
+    }
+    
     if ((pgQualification.trim() !== "" && pgSpecializationname.trim() !== "" && pgUniversityname.trim() !== "" && pgYear.trim() !== "")) {
-      if (currentpgID === "" && currentpgID === undefined && currentpgID === null) {
+      if (currentpgID === "" || currentpgID === undefined || currentpgID === null) {
 
         setTimeout(() => {
           setpgArray((prevQualifications) => [
             ...prevQualifications,
             {
-              id: prevQualifications.length, Qualification: pgQualification,
+              id: prevQualifications.length +1 , Qualification: pgQualification,
               Universityname: pgUniversityname,
               specializationname: pgSpecializationname,
               year: pgYear
             }
           ]);
         }, 300);
+        console.log(pgArray)
+        
         setLoading(false)
 
       }
@@ -231,6 +239,7 @@ const Profile = () => {
     setpgSpecializationname("");
     setpgUniversityname("");
     setpgYear("");
+    setcurrentpgID("")
   };
 
   const editPGDeatils = (records) => {

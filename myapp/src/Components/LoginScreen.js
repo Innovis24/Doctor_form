@@ -153,6 +153,7 @@ const LoginScreen = () => {
                   placeholder="Enter your username"
                   value={username}
                   autoComplete="off"
+                  tabIndex={1}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
@@ -176,6 +177,7 @@ const LoginScreen = () => {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     className="form-input"
+                    tabIndex={2}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
 
@@ -197,13 +199,13 @@ const LoginScreen = () => {
                 <div
                   className="forget_pwd"
                 >
-                  <button className="button_login_color" onClick={forgetPassword}>
+                  <button className="button_login_color fp_focus" tabIndex={4} onClick={forgetPassword}>
                     Forget password
                   </button>
                 </div>
               </div>
               <div className="logjustify">
-                <button className="loginBtn" >
+                <button className="loginBtn login_btn_focus" tabIndex={3} >
                   Login
                 </button>
               </div>
@@ -212,7 +214,7 @@ const LoginScreen = () => {
                 <div
                   className="signuplg"
                 >
-                  <button className="button_login_color" onClick={handleRegisterClick}>
+                  <button className="button_login_color fp_focus" onClick={handleRegisterClick}>
                     Sign up
                   </button>
 

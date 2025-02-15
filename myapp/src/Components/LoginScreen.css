@@ -197,3 +197,12 @@ body {
     color: #069a9c; /* Change text color */
     text-decoration: underline; /* Add underline */
   }
+  .fp_focus:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  .login_btn_focus:focus {
+    outline: #069a9c;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  }
+  
