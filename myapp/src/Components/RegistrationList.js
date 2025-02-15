@@ -159,7 +159,7 @@ const RegistrationList = () => {
     //   setRegistrations(filteredRegistrations)
     // }
     // else{
-    const filteredRegistrations = registrations.filter((record) =>
+    const filteredRegistrations = wholearray.filter((record) =>
       record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
       record.RegistrationNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
       record.Qualification.toLowerCase().includes(selectedValue.toLowerCase()) ||
@@ -174,6 +174,7 @@ const RegistrationList = () => {
     );
     setLoading(false);
     setRegistrations(filteredRegistrations)
+    setCurrentPage(1);
     // }
 
   };
