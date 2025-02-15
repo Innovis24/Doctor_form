@@ -20,6 +20,7 @@ function HospitalDetails() {
     const [popupTitle, setpopupTitle] = useState([]);
     const [CurrentID, setCurrentID] = useState();
     const [viewPopup, setviewPopup] = useState();
+    const [currentRole, setcurrentRole] = useState();
     const navigate = useNavigate();
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +36,8 @@ function HospitalDetails() {
             navigate("/");
             return;
         }
+        const roleVal = values[0].UserRole
+        setcurrentRole(roleVal)
         fetchUserList();
     }, [navigate]);
 
@@ -270,8 +273,13 @@ function HospitalDetails() {
                                                 <div className="alignmentbtn">
 
                                                     <FontAwesomeIcon className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)} />
-                                                    <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => openEdit(record)} />
-                                                    <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} />
+                                                    {currentRole !== 'Admin' && (
+                                                        <div>
+                                                              <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => openEdit(record)} />
+                                                              <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} />
+                                                        </div>
+                                                    )}
+                                                  
 
                                                 </div>
 
