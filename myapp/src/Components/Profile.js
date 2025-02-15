@@ -1007,7 +1007,9 @@ const Profile = () => {
                         <th className="table_colum_wrap">University Name</th>
                         <th className="table_colum_wrap">Specialization</th>
                         <th className="table_colum_wrap">Year</th>
+                        {editItem === true &&
                         <th className="table_colum_wrap" >Action</th>
+                          }
                       </tr>
                     </thead>
                     <tbody>
@@ -1018,20 +1020,16 @@ const Profile = () => {
                             <td className="table_colum_wrap">{item.Universityname}</td>
                             <td className="table_colum_wrap">{item.specializationname}</td>
                             <td className="table_colum_wrap">{item.year}</td>
+                            {editItem === true &&
                             <th className="table_colum_wrap" style={{ color: '#00b4b6', backgroundColor: 'white' }}>
-                              {editItem === true ? (
+                             
                                 <div>
                                   <FontAwesomeIcon icon={faPencil} className="cursor" style={{ marginRight: "16px" }}
                                     onClick={() => editPGDeatils(item)} />
                                   <FontAwesomeIcon icon={faTrash} className="cursor" onClick={() => deletePGdetails(item)} />
                                 </div>
-                              ) :
-                                <div>
-                                  <FontAwesomeIcon icon={faPencil} disabled style={{ marginRight: "16px" }}
-                                  />
-                                  <FontAwesomeIcon icon={faTrash} disabled />
-                                </div>}
                             </th>
+                              }
                           </tr>
                         ))
                       ) : (

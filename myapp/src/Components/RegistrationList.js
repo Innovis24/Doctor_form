@@ -167,7 +167,7 @@ const RegistrationList = () => {
       record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
       record.Uprnnumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
       record.Fathername.toLowerCase().includes(selectedValue.toLowerCase()) ||
-      record.Gender.toLowerCase().includes(selectedValue.toLowerCase()) ||
+      record.Gender.toLowerCase().startsWith(selectedValue.toLowerCase()) ||
       record.Phonenumber.toLowerCase().includes(selectedValue.toLowerCase())
 
     );
@@ -176,7 +176,18 @@ const RegistrationList = () => {
     // }
 
   };
-
+  const clearSearch = ()=>{
+    setSearchFilters({Name: "",
+      Gender: "",
+      Fathername: "",
+      Phonenumber: "",
+      Qualification: "",
+      Uprnnumber: "",
+      Yearofregistration: "",
+      Stateofmedicine: "",
+      City: ""})
+      setRegistrations(wholearray)
+  }
   const getPageNumbers = () => {
     let pages = [];
     if (totalPages <= maxVisiblePages) {
@@ -237,16 +248,18 @@ const RegistrationList = () => {
   };
 
   const applyFiltersGender = (filters) => {
-
     const filteredData = wholearray.filter((record) =>
-      Object.keys(filters).every((key) =>
-        filters[key] === "" ||
-        (record[key] && record[key].toString().toLowerCase() === (filters[key].toLowerCase()))
-      )
+      Object.keys(filters).every((key) => {
+        const recordValue = record[key] ? String(record[key]).toLowerCase().trim() : "";
+        const filterValue = filters[key] ? filters[key].toLowerCase().trim() : "";
+  
+        return filterValue === "" || recordValue.startsWith(filterValue);
+      })
     );
-
+  
     setRegistrations(filteredData);
   };
+  
 
 
 
@@ -511,7 +524,9 @@ const RegistrationList = () => {
                     placeholder="Search City"
                   />
                 </td>
-                <td></td>
+                <td>
+                  <button className="clear_btn_style" onClick={clearSearch}>Clear</button>
+                </td>
               </tr>
             </thead>
             <tbody>

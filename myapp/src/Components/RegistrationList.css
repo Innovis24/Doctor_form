@@ -862,6 +862,24 @@ input::placeholder {
 
 }
 
+.clear_btn_style {
+
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #00b4b6;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: white;
+  color: #00b4b6;
+  cursor: pointer;
+}
+
+.clear_btn_style:hover {
+
+  background: #00b4b6;
+  color: white;
+}
 
 /* Focus Effect */
 

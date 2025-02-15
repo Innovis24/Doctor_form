@@ -12,8 +12,12 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
+        if (values === '' || values === null || values === undefined) {
+            navigate("/");
+            return;
+        }
     fetchuserNameList();
   }, [navigate]);
 
