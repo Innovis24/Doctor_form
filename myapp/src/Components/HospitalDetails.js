@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from './Header';
 import "./HospitalDetails.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHospital, faAddressCard, faCircleXmark, faPencil, faTrash, faEye, faCity, faStethoscope, faMapMarkerAlt, faStarOfLife } from "@fortawesome/free-solid-svg-icons";
+import { faHospital, faAddressCard, faCircleXmark, faPencil, faTrash, faEye, faCity, faStethoscope } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HOS_API_URL } from "../utlis/common";
