@@ -184,13 +184,13 @@ const LoginScreen = () => {
                 <div
                   className="forget_pwd"
                 >
-                  <button className="button_login_color fp_focus" tabIndex={4} onClick={forgetPassword}>
+                  <button  type="button" className="button_login_color fp_focus" tabIndex={4} onClick={forgetPassword}>
                     Forget password
                   </button>
                 </div>
               </div>
               <div className="logjustify">
-                <button className="loginBtn login_btn_focus" tabIndex={3} >
+                <button type="button" className="loginBtn login_btn_focus" tabIndex={3} >
                   Login
                 </button>
               </div>
