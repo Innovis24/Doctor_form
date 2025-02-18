@@ -8,9 +8,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { HOS_API_URL } from "../utlis/common";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ClipLoader } from 'react-spinners';
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 
 function HospitalDetails() {
     const [newHostpital, setnewHostpital] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [wholearray, setwholearray] = useState([]);
     const [hospitalname, sethospitalname] = useState();
     const [city, setcity] = useState();
     const [address, setaddress] = useState();
@@ -22,7 +27,9 @@ function HospitalDetails() {
     const [viewPopup, setviewPopup] = useState();
     const [currentRole, setcurrentRole] = useState();
     const [currentRegNumber, setcurrentRegNumber] = useState();
+    const [tempArray, settempArray] = useState([]);
     const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState(""); // State for search input
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 5; // Adjust as needed
@@ -31,6 +38,18 @@ function HospitalDetails() {
     const currentRows = Arrayval.length === 0 ? [] : Arrayval.slice(startIndex, endIndex) ;
     const totalPages = Arrayval.length === 0 ? [] : Math.ceil(Arrayval.length / rowsPerPage);
     const totalRecord = Arrayval.length ;
+    const overlayStyle = {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 9999,
+      };
     useEffect(() => {
         const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -75,10 +94,103 @@ function HospitalDetails() {
         const items = item.HospitalDetails.split(',');
         setviewhospitalDetails(items);
     }
+    const sethandleSearch = (e) => {
+      
+        setLoading(true);
+        let value = e.target.value.trim()
+        setSearchQuery(value)
+        if (e.target.value === "") {
+          setLoading(false);
+          if(currentRole === 'Admin'){
+            setArray(wholearray)
+          }else{
+            setArray(tempArray)
+          }
+         
+          return
+        }
+    
+        handleSearch(value);
+    
+      }
+      const handleSearch = (selectedValue) => {
+        setLoading(true);
+        let filteredRegistrations=[];
+        
+     
+        if(!selectedValue){
+            fetchUserList(currentRegNumber,currentRole)
+            return
+        }
+        if(currentRole === 'Admin'){
+            filteredRegistrations = wholearray.filter((record) =>
+                record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.RegNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.HospitalName.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.Address.toLowerCase().includes(selectedValue.toLowerCase()) 
+          
+              );
+        }
+        else{
+
+            const regval =  wholearray.filter((item)=> item.RegNumber === currentRegNumber )
+            settempArray(regval)
+            filteredRegistrations = Arrayval.filter((record) =>
+                record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.RegNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.HospitalName.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
+                record.Address.toLowerCase().includes(selectedValue.toLowerCase()) 
+          
+              );
+
+        }
+
+
+        
+        setLoading(false);
+        setArray(filteredRegistrations)
+        setCurrentPage(1);
+
+    
+      };
+      const searchIcon = ()=>{
+        setLoading(true);
+        let filterReg=[];
+        if(!searchQuery){
+            fetchUserList(currentRegNumber,currentRole)
+            return
+        }
+        if(currentRole === 'Admin'){
+        filterReg = wholearray.filter((record) =>
+          record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          record.HospitalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          record.Address.toLowerCase().includes(searchQuery.toLowerCase()) 
+        );
+        }
+        else{
+            filterReg = Arrayval.filter((record) =>
+                record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.HospitalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.Address.toLowerCase().includes(searchQuery.toLowerCase()) 
+              );
+        }
+        setLoading(false);
+        setArray(filterReg)
+        setCurrentPage(1);
+      }
     const fetchUserList = async (regNo,Role) => {
+        setLoading(true)
         try {
             const response = await axios.get(HOS_API_URL);
             if(response.data.code !== 400){
+                setLoading(false)
+                setwholearray(response.data)
                 if(Role !== 'Admin'){
                    const filvalue = response.data.filter((item)=> item.RegNumber === regNo )
                     setArray(filvalue);
@@ -89,6 +201,7 @@ function HospitalDetails() {
                 
             }
             else{
+                setLoading(false)
                 setArray([]);
             }
            
@@ -109,6 +222,18 @@ function HospitalDetails() {
         setaddress("");
         sethospitalDetails("");
     }
+    const applyFilters = (filters) => {
+
+        const filteredData = Arrayval.filter((record) =>
+          Object.keys(filters).every((key) =>
+            filters[key] === "" ||
+            (record[key] && record[key].toString().toLowerCase().includes(filters[key].toLowerCase()))
+          )
+        );
+    
+        setArray(filteredData);
+      };
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!hospitalname || !city || !address || !hospitalDetails) {
@@ -181,9 +306,15 @@ function HospitalDetails() {
             toast.error("Failed to delete record. Please try again.");
         }
     }
+    const clear = () => {
+        setSearchQuery('')
+        fetchUserList(currentRegNumber,currentRole)
+      }
+    
     const closeEditPopup = () => {
         setviewPopup(false)
     }
+    
     const generatePagination = () => {
         const pages = [];
         const maxPagesToShow = 5; // Adjust how many pages are visible at once
@@ -218,12 +349,36 @@ function HospitalDetails() {
       };
     return (
         <div>
+            {loading && (
+                    <div style={overlayStyle}>
+                      <ClipLoader size={50} color="#fff" />
+                    </div>
+                  )}
             <ToastContainer
                 autoClose={500} // Auto-close in 20 seconds
                 toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
                 progressStyle={{ background: 'white' }}
             />
             <Header title="Work Details" />
+            <div className="list-container1">
+            <div className="controls">
+            <div className="display_item">
+            <input
+              type="text"
+              className="search-bar"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => sethandleSearch(e)}
+              onKeyDown={(e) => handleSearch}
+         
+            />
+            <div className="search_icon_style">
+              <SearchIcon className="search-icon" onClick={searchIcon} />
+
+              <CloseIcon className="clear-icon" onClick={() => clear()} />
+            </div>
+
+            </div>
             <div className="btn_align_hos">
             {currentRole !== 'Admin' && (
                 <button className="register-button" onClick={addNewDetails}>
@@ -231,7 +386,9 @@ function HospitalDetails() {
                 </button>
             )}
 
+            </div>  
             </div>
+
             <div >
                 {newHostpital && (
                     <form className="divCar">
@@ -446,7 +603,7 @@ function HospitalDetails() {
                     </div>
                 )}
             </div>
-
+            </div>
         </div>
     )
 }

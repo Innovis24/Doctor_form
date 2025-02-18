@@ -1,7 +1,8 @@
 .btn_align_hos {
     display: flex;
     justify-content: end; 
-    padding: 26px;
+    margin-top: -10px;
+    margin-left: 16px;
   }
   .divCar{
     display: flex;
