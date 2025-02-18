@@ -190,7 +190,7 @@ const LoginScreen = () => {
                 </div>
               </div>
               <div className="logjustify">
-                <button type="button" className="loginBtn login_btn_focus" tabIndex={3} >
+                <button  className="loginBtn login_btn_focus" tabIndex={3} >
                   Login
                 </button>
               </div>

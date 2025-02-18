@@ -317,8 +317,7 @@ const RegistrationForm = () => {
     e.preventDefault();
 
     if ([name, fatherName, dob, gender, phonenumber, email, address, qualification, specialization,
-      regNumber, regYear, employmentType, uprn, university, stateOfMedicine, yearOfQualification, image, city, state].some(field => !field) ||
-      qualifications.length === 0) {
+      regNumber, regYear, employmentType, uprn, university, stateOfMedicine, yearOfQualification, image, city, state].some(field => !field) ) {
       toast.error("Please fill all required fields!");
       return;
     }
