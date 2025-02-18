@@ -27,6 +27,7 @@ const UserMaster = () => {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentRows = Arrayval.slice(startIndex, endIndex);
+  const totalRecord = Arrayval.length ;
   const navigate = useNavigate();
   //popup
   const [usernameOption, setusernameOption] = useState([]);
@@ -114,6 +115,7 @@ const UserMaster = () => {
       console.error("Error deleting record:", error);
       toast.error("Failed to delete record. Please try again.");
     }
+    setCurrentPage(1);
   }
   const handleEdit = async (record) => {
     setpopupTitle([{ title: 'Edit User', btnNmae: 'Update' }]);
@@ -262,7 +264,38 @@ const UserMaster = () => {
       setCurrentPage(page);
     }
   };
+  const generatePagination = () => {
+    const pages = [];
+    const maxPagesToShow = 5; // Adjust how many pages are visible at once
 
+    if (totalPages <= maxPagesToShow) {
+      // Show all pages if totalPages is small
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1); // Always show first page
+
+      if (currentPage > 3) {
+        pages.push("..."); // Ellipsis before the middle pages
+      }
+
+      let start = Math.max(2, currentPage - 1);
+      let end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push("..."); // Ellipsis after the middle pages
+      }
+
+      pages.push(totalPages); // Always show last page
+    }
+
+    return pages;
+  };
   return (
     <div>
       <Header title="User Master" />
@@ -364,27 +397,41 @@ const UserMaster = () => {
           </tbody>
         </table>
         <div className="table_postiion">
-          <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style">
+        {totalPages > 1 && (
+          <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style_reg">
             Previous
           </button>
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToPage(index + 1)}
-              style={{
-                margin: "0 5px",
-                backgroundColor: currentPage === index + 1 ? "#00b4b6" : "#fff",
-                color: currentPage === index + 1 ? "#fff" : "#000",
-                border: "1px solid #00b4b6",
-                borderRadius: "5px"
-              }}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style">
+        )}
+         {totalPages > 1 && (
+          <div>
+          {generatePagination().map((page, index) =>
+                                page === "..." ? (
+                                    <span key={index} className="pagination-ellipsis">...</span>
+                                ) : (
+                                    <button
+                                    key={index}
+                                    onClick={(event) => goToPage(page, event)}
+                                    className={`pagination-button ${currentPage === page ? "active" : ""}`}
+                                    >
+                                    {page}
+                                    </button>
+                                )
+                                )}
+          </div>
+         )}
+          {totalPages > 1 && (
+          <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style_reg">
             Next
           </button>
+          )}
+           <div className="total_style">
+                                    <div className="total_alignment">
+                                Total records : 
+                                    </div>
+                                    <div>
+                                    {totalRecord}
+                                    </div>
+                                </div>
         </div>
       </div>
       {editPopup &&

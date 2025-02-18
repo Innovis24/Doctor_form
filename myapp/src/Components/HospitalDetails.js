@@ -21,14 +21,16 @@ function HospitalDetails() {
     const [CurrentID, setCurrentID] = useState();
     const [viewPopup, setviewPopup] = useState();
     const [currentRole, setcurrentRole] = useState();
+    const [currentRegNumber, setcurrentRegNumber] = useState();
     const navigate = useNavigate();
     // pagination
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 5; // Adjust as needed
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    const currentRows = Arrayval.slice(startIndex, endIndex);
-    const totalPages = Math.ceil(Arrayval.length / rowsPerPage);
+    const currentRows = Arrayval.length === 0 ? [] : Arrayval.slice(startIndex, endIndex) ;
+    const totalPages = Arrayval.length === 0 ? [] : Math.ceil(Arrayval.length / rowsPerPage);
+    const totalRecord = Arrayval.length ;
     useEffect(() => {
         const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -36,11 +38,14 @@ function HospitalDetails() {
             navigate("/");
             return;
         }
-        const roleVal = values[0].UserRole
+        const roleVal = values[0].UserRole;
         setcurrentRole(roleVal)
-        fetchUserList();
+        setcurrentRegNumber(values[0].RegNumber)
+        fetchUserList(values[0].RegNumber,roleVal);
     }, [navigate]);
 
+    
+      
     const addNewDetails = () => {
         setpopupTitle([{ title: 'Add Work Details', btnNmae: 'Submit' }])
         sethospitalname("");
@@ -70,10 +75,23 @@ function HospitalDetails() {
         const items = item.HospitalDetails.split(',');
         setviewhospitalDetails(items);
     }
-    const fetchUserList = async () => {
+    const fetchUserList = async (regNo,Role) => {
         try {
             const response = await axios.get(HOS_API_URL);
-            setArray(response.data);
+            if(response.data.code !== 400){
+                if(Role !== 'Admin'){
+                   const filvalue = response.data.filter((item)=> item.RegNumber === regNo )
+                    setArray(filvalue);
+                }
+                else{
+                    setArray(response.data);
+                }
+                
+            }
+            else{
+                setArray([]);
+            }
+           
         } catch (error) {
             toast.error("Failed to fetch registrations!");
         }
@@ -102,7 +120,8 @@ function HospitalDetails() {
                 name: hospitalname,
                 city: city,
                 address: address,
-                hosDetails: hospitalDetails
+                hosDetails: hospitalDetails,
+                regnumber:currentRegNumber
             };
             const response = await axios.post(HOS_API_URL, FormData, {
                 headers: { "Content-Type": "application/json" },
@@ -142,7 +161,7 @@ function HospitalDetails() {
                 toast.error("Failed to submit the form!", { position: "top-center" });
             }
         }
-        fetchUserList();
+        fetchUserList(currentRegNumber,currentRole);
     }
     const handleDelete = async (Value) => {
 
@@ -153,7 +172,7 @@ function HospitalDetails() {
 
             if (response.status === 200) {
                 toast.success("Record deleted successfully!");
-                fetchUserList()
+                fetchUserList(currentRegNumber,currentRole)
             } else {
                 toast.error(response.data.error || "Failed to delete record.");
             }
@@ -165,6 +184,38 @@ function HospitalDetails() {
     const closeEditPopup = () => {
         setviewPopup(false)
     }
+    const generatePagination = () => {
+        const pages = [];
+        const maxPagesToShow = 5; // Adjust how many pages are visible at once
+    
+        if (totalPages <= maxPagesToShow) {
+          // Show all pages if totalPages is small
+          for (let i = 1; i <= totalPages; i++) {
+            pages.push(i);
+          }
+        } else {
+          pages.push(1); // Always show first page
+    
+          if (currentPage > 3) {
+            pages.push("..."); // Ellipsis before the middle pages
+          }
+    
+          let start = Math.max(2, currentPage - 1);
+          let end = Math.min(totalPages - 1, currentPage + 1);
+    
+          for (let i = start; i <= end; i++) {
+            pages.push(i);
+          }
+    
+          if (currentPage < totalPages - 2) {
+            pages.push("..."); // Ellipsis after the middle pages
+          }
+    
+          pages.push(totalPages); // Always show last page
+        }
+    
+        return pages;
+      };
     return (
         <div>
             <ToastContainer
@@ -174,9 +225,12 @@ function HospitalDetails() {
             />
             <Header title="Work Details" />
             <div className="btn_align_hos">
+            {currentRole !== 'Admin' && (
                 <button className="register-button" onClick={addNewDetails}>
                     Add Hospital
                 </button>
+            )}
+
             </div>
             <div >
                 {newHostpital && (
@@ -250,17 +304,26 @@ function HospitalDetails() {
                             <thead>
                                 <tr>
                                     <th>S.No</th>
+                                    <th>Doctor Name</th>
                                     <th>Hospital Name</th>
                                     <th>City</th>
                                     <th>Address</th>
-                                    <th>Action</th>
+                                    <th style={{textAlign: 'center'}}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {currentRows.length > 0 ? (
-              currentRows.map((record, index) => (
+                            {currentRows && currentRows.length > 0 ? (
+                                    currentRows.map((record, index) => (
                                         <tr key={index}>
                                             <td className="text-wrap">{startIndex + index + 1}</td>
+                                            <td className="text-wrap txt_trans">
+                                            <div className="font_wt">
+                                                {record.Name}
+                                                <div className="regNumFont">
+                                                #{record.RegNumber}
+                                                </div>
+                                            </div>
+                                            </td>
                                             <td className="text-wrap txt_trans">
                                                 <div>
                                                     {record.HospitalName}
@@ -288,33 +351,47 @@ function HospitalDetails() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="5" className="txt_align"><b>No records found!</b></td>
+                                        <td colSpan="6" className="txt_align"><b>No records found!</b></td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                         <div className="table_postiion">
-                            <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style">
+                        {totalPages > 1 && (
+                            <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style_reg">
                                 Previous
                             </button>
-                            {[...Array(totalPages)].map((_, index) => (
-                                <button
-                                key={index}
-                                onClick={() => goToPage(index + 1)}
-                                style={{
-                                    margin: "0 5px",
-                                    backgroundColor: currentPage === index + 1 ? "#00b4b6" : "#fff",
-                                    color: currentPage === index + 1 ? "#fff" : "#000",
-                                    border: "1px solid #00b4b6",
-                                    borderRadius: "5px"
-                                }}
-                                >
-                                {index + 1}
-                                </button>
-                            ))}
-                            <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style">
+                        )}
+                         {totalPages > 1 && (
+                            <div>
+                                  {generatePagination().map((page, index) =>
+                                page === "..." ? (
+                                    <span key={index} className="pagination-ellipsis">...</span>
+                                ) : (
+                                    <button
+                                    key={index}
+                                    onClick={(event) => goToPage(page, event)}
+                                    className={`pagination-button ${currentPage === page ? "active" : ""}`}
+                                    >
+                                    {page}
+                                    </button>
+                                )
+                                )}
+                            </div>
+                         )}
+                           {totalPages > 1 && (
+                            <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style_reg">
                                 Next
                             </button>
+                             )}
+                             <div className="total_style">
+                                    <div className="total_alignment">
+                                Total records : 
+                                    </div>
+                                    <div>
+                                    {totalRecord}
+                                    </div>
+                                </div>
                             </div>
                     </div>
                 )}

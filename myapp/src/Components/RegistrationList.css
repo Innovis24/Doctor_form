@@ -31,9 +31,9 @@
   .table td:nth-child(1) {
     text-align: center; 
   }
-  .table th:nth-child(6) {
+  /* .table th:nth-child(6) {
     text-align: left !important; 
-  }
+  } */
   
   .table th {
     background-color: #00b4b6;
@@ -645,12 +645,14 @@ input::placeholder {
   z-index: 998;
 }
 .pagination_style_reg {
-  padding: 5px 10px;
+  padding: 4px 10px;
   background-color: #00b4b6;
   color: white;
   border: 1px solid #00b4b6;
   border-radius: 5px;
   cursor: pointer;
+  height: 29px;
+  margin-top: 5px;
 }
 
 .pagination_style_reg:disabled {

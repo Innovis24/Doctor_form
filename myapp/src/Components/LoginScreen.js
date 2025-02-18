@@ -33,7 +33,8 @@ const LoginScreen = () => {
       })
       .catch((error) => console.error("Error fetching users:", error));
   }
-  const forgetPassword = () => {
+  const forgetPassword = (e) => {
+    e.preventDefault()
     navigate('/forget_password')
   }
 
@@ -56,40 +57,24 @@ const LoginScreen = () => {
 
     if (filtered && filtered.length > 0) {
 
+     
       const adminRole = filtered.filter((item) => item.Password === password && item.Status === "Active" && item.UserRole === "Admin");
-      if (adminRole.length > 0) {
-
-        const loginFilterVal = currentuser.filter((item) => item.UserName === username);
-        localStorage.setItem('currentUser', JSON.stringify(loginFilterVal));
-        navigate("/registration_list");
-        return
-      }
-
-    }
-
-
-
-
-    if (filtered && filtered.length > 0) {
-
-      const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
-      if (regerList && regerList.length === 0) {
-        toast.error("You don't have an account.");
-        return;
-      }
-
       const filteredVal = filtered.filter((item) => item.Password === password && item.Status === "Active");
-      if (filteredVal.length > 0) {
-        // onLogin();
+      if (adminRole.length > 0) {
+        const loginFilterVal = currentuser.filter((item) => item.UserName === username);
+            localStorage.setItem('currentUser', JSON.stringify(loginFilterVal));
+            navigate("/registration_list");
+            return
+      }
+      else if (filteredVal.length > 0) {
+        const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
+        if (regerList && regerList.length === 0) {
+          toast.error("You don't have an account.");
+          return;
+        }
         const loginFilter = currentuser.filter((item) => item.UserName === username);
-        const currentUserRole = loginFilter
         localStorage.setItem('currentUser', JSON.stringify(loginFilter));
-        if (currentUserRole[0].UserRole === "Admin") {
-          navigate("/registration_list");
-        }
-        else {
           navigate("/Profile");
-        }
 
       }
       else {
@@ -122,7 +107,7 @@ const LoginScreen = () => {
   return (
     <div className="login-container">
       <ToastContainer
-        autoClose={500} // Auto-close in 20 seconds
+        autoClose={500} 
         toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }}
       />

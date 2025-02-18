@@ -75,6 +75,25 @@ const Profile = () => {
     zIndex: 1000,
   };
 
+  useEffect(() => {
+    const newOne = localStorage.getItem('newUser');
+    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
+
+    if ((values === '' || values === null || values === undefined) && (!newOne)) {
+      navigate("/");
+      return;
+    }
+
+    if (!data) {
+      fetchData(values[0].RegNumber);
+
+    }
+    else {
+      fetchData(data);
+    }
+
+  }, [navigate, data]);
+
 
   const fetchData = useCallback(async (ID) => {
     setLoading(true)
@@ -87,7 +106,8 @@ const Profile = () => {
         );
         if (filterValNew.length > 0) {
           setUserData(filterValNew[0]);
-          setpgArray(JSON.parse(filterValNew[0].Postgraduation))
+          const graduatPG = filterValNew && filterValNew[0].Postgraduation === "" ? [] :JSON.parse(filterValNew[0].Postgraduation)
+          setpgArray(graduatPG)
           setActiveTab("personal")
         }
         else {
@@ -103,7 +123,8 @@ const Profile = () => {
         );
         if (filterValOld.length > 0) {
           setUserData(filterValOld[0]);
-          setpgArray(JSON.parse(filterValOld[0].Postgraduation))
+          const graduatPG = filterValOld && filterValOld[0].Postgraduation === "" ? [] :JSON.parse(filterValOld[0].Postgraduation)
+          setpgArray(graduatPG)
           setcurrentfilename(filterValOld[0].image_name);
           setActiveTab("personal")
         }
@@ -125,24 +146,7 @@ const Profile = () => {
     return `${day}-${month}-${year}`; // Convert to "dd-mm-yyyy"
   };
 
-  useEffect(() => {
-    const newOne = localStorage.getItem('newUser');
-    const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
-    if ((values === '' || values === null || values === undefined) && (!newOne)) {
-      navigate("/");
-      return;
-    }
-
-    if (!data) {
-      fetchData(values[0].RegNumber);
-
-    }
-    else {
-      fetchData(data);
-    }
-
-  }, [navigate, data, fetchData]);
   const handleTabChange = (tab) => {
     setActiveTab(tab); // Update activeTab state correctly
   };
@@ -549,7 +553,7 @@ const Profile = () => {
           <div className="profile-header">
             <img
               className="profile-image"
-              src={`${API_URL}/${userData.image_path}`}
+              src={userData.image_path ? `${API_URL}/${userData.image_path}` : 'default-image-path'}
               alt="Profile not loading"
             />
             <div className="edit_icon_pad">

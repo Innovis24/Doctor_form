@@ -584,6 +584,7 @@ const RegistrationList = () => {
           </table>
 
           <div className="table_position sticky_position">
+          {totalPages > 1 && (
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
@@ -591,17 +592,8 @@ const RegistrationList = () => {
             >
               Previous
             </button>
-            {/* <div className="pagination_buttons">
-                  {[...Array(totalPages)].map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => goToPage(index + 1)}
-                      className={`pagination_button ${currentPage === index + 1 ? 'active' : ''}`}
-                    >
-                      {index + 1}
-                    </button>
-                  ))}
-                </div> */}
+          )}
+          {totalPages > 1 && (
             <div className="pagination_buttons">
               {getPageNumbers().map((page, index) =>
                 page === "..." ? (
@@ -617,6 +609,8 @@ const RegistrationList = () => {
                 )
               )}
             </div>
+          )}
+          {totalPages > 1 && (
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}
@@ -624,6 +618,7 @@ const RegistrationList = () => {
             >
               Next
             </button>
+          )}
             <div className="total_record totalrecord_style ">
               {/* <span>TOTAL RECORD:</span>  */}
               {/* <span>Showing {startRecord}-{endRecord} of {totalRecord} pages</span> */}

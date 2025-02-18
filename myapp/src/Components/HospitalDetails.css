@@ -123,6 +123,7 @@
   height: 190px;
   overflow-y: scroll;
   scrollbar-width: thin; 
+  max-height: 150px;
 }
 .speciality_style::-webkit-scrollbar {
   width: 8px; /* Set the width of the scrollbar */
@@ -136,6 +137,50 @@
   margin-bottom: 12px;
 }
 .over_table{
-  overflow: scroll;
+  overflow-y: scroll;
   height: 428px;
+  scrollbar-width: thin;
+}
+.pagination-button {
+  padding: 2px 6px 2px 6px;
+  border: 1px solid #00b4b6;
+  background: white;
+  color: black;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   
+  margin: 5px;
+}
+
+.pagination-button.active {
+  background: #00b4b6;
+  color: white;
+  border-radius: 8px;
+}
+
+.pagination-button:hover {
+  background: #00b4b6;
+  color: white;
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-ellipsis {
+  margin: 0 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.total_style{
+  display: flex;
+  margin-top:8px;
+  margin-left: 11px;
+}
+.total_alignment{
+  margin-right: 8px;
+  font-weight: 600;
 }
