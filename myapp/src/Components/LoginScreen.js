@@ -30,7 +30,7 @@ const LoginScreen = () => {
       .then((response) => {
         if(response.data.code === 200){
           setArray(response.data.data);
-          console.log("dsfdsf")
+          // console.log("dsfdsf")
           setcurrentuser(response.data.data)
         }
         else{
@@ -50,7 +50,6 @@ const LoginScreen = () => {
       else {
         setregList(response.data);
       }
-
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -89,7 +88,7 @@ const LoginScreen = () => {
         return
       }
       else if (filteredVal.length > 0) {
-        const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
+        const regerList = regList  && regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
         if (regerList && regerList.length === 0) {
           toast.error("You don't have an account.");
           return;

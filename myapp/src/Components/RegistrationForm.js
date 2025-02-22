@@ -86,6 +86,10 @@ const RegistrationForm = () => {
   const [password, setpassword] = useState();
   const [UserID, setUserID] = useState([]);
 
+
+  //disbale button
+  const [isDisabled, setIsDisabled] = useState(false);
+
   //username popup-end
 
   useEffect(() => {
@@ -165,9 +169,9 @@ const RegistrationForm = () => {
   const SetCurrentval = async () => {
     try {
       const response = await axios.get(USER_API_URL);
-      if (response.data.length > 0) {
+      if (response.data.data.length > 0) {
         if(response.data.code === 200){
-          const newuserDetails = response.data.filter((val) => val.RegNumber === UserID)
+          const newuserDetails = response.data.data.filter((val) => val.RegNumber === UserID)
           localStorage.setItem('currentUser', JSON.stringify(newuserDetails));
           navigate('/profile', { state: UserID });
         }
@@ -323,9 +327,9 @@ const RegistrationForm = () => {
   //Submit
 
   const handleSubmit = async (e) => {
-
+    
     e.preventDefault();
-
+    
     if ([name, fatherName, dob, gender, phonenumber, email, address, qualification, specialization,
       regNumber, regYear, employmentType, uprn, university, stateOfMedicine, yearOfQualification, image, city, state].some(field => !field)) {
       toast.error("Please fill all required fields!");
@@ -414,6 +418,7 @@ const RegistrationForm = () => {
 
         if (response.data.code === 200) {
           toast.success(response.data.message, { position: "top-center" });
+          setIsDisabled(true);
           setcurrentDoctorName(capitalizeFirstLetter(name));
           setUserID(regNumber)
           setname('');
@@ -527,6 +532,7 @@ const RegistrationForm = () => {
         if (response.data.code === 200) {
           toast.success(response.data.message, { position: "top-center" });
           localStorage.setItem('editItem', false);
+          setIsDisabled(true);
           setname('');
           setfatherName('');
           setphonenumber('');
@@ -612,7 +618,7 @@ const RegistrationForm = () => {
       setcurrentDoctorName('');
       setusername('');
       setpassword('');
-      setIsPopupOpen(true)
+      setIsPopupOpen(false)
       SetCurrentval()
 
     }
@@ -759,9 +765,10 @@ const RegistrationForm = () => {
                     <span className="asterisk">*</span>
                     <span className="material-icons"></span>
                     <input type="number" placeholder="Phone Number"
+                    maxLength={10}
                       onChange={(e) => setphonenumber(e.target.value)}
                       onBlur={() => checkPhonenumber(phonenumber)}
-                      value={phonenumber} maxLength={15} />
+                      value={phonenumber}  />
                   </div>
                   {/* {errors.name && <span className="error">{errors.name}</span>} */}
                   <div className="input-group">
@@ -1109,7 +1116,11 @@ const RegistrationForm = () => {
                 <button type="submit" className="submit-button " onClick={back}>
                   Back
                 </button>
-                <button type="submit" className="submit_clr " onClick={handleSubmit}>
+                <button type="submit" 
+                
+                 className={isDisabled ? "submit_siable_clr" : "submit_clr"}
+                 disabled={isDisabled}
+                   onClick={handleSubmit}>
                   Submit
                 </button>
                 <button className="cancel_btn_form " onClick={handlecancel}>

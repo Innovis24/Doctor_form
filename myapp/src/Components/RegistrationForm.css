@@ -6,12 +6,13 @@ body {
     background-color: #f8fafc;
   }
   .bg_container {
-    background-image: url('../assets/image/img_5.webp'); /* Adjust path */
-    background-size: cover;  /* Ensures full coverage */
+    background-image: url('../assets/image/img_5.webp'); 
+    background-size: cover;  
     background-position: center;
     background-repeat: no-repeat;
     width: 100%;
-    height: 100vh; /* Full viewport height */
+    height: 100vh; 
+    content-visibility: auto;
   }
   
   /* Form Container */
@@ -390,7 +391,23 @@ textarea::placeholder {
   border: 2px solid #00b4b6;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 20px; /* Added margin to ensure separation */
+  margin-top: 20px; 
+}
+.submit_siable_clr{
+  display: block;
+  width: auto; 
+  background-color: gray;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  text-align: center;
+  padding: 12px 30px 12px 30px;
+  border-radius: 8px;
+  border: none;
+  cursor: not-allowed;
+  transition: all 0.3s ease;
+  margin-top: 20px; 
+  opacity: 0.6; 
 }
 .clear_btn_form{
   display: block;

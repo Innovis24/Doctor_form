@@ -13,7 +13,7 @@ import { REG_API_URL, API_URL } from "../utlis/common";
 
 
 const Profile = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState([]);
   const [activeTab, setActiveTab] = useState("");
   const [fatherName, setfatherName] = useState();
