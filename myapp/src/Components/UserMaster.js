@@ -27,7 +27,7 @@ const UserMaster = () => {
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const currentRows = Arrayval.slice(startIndex, endIndex);
-  const totalRecord = Arrayval.length ;
+  const totalRecord = Arrayval.length;
   const navigate = useNavigate();
   //popup
   const [usernameOption, setusernameOption] = useState([]);
@@ -59,8 +59,15 @@ const UserMaster = () => {
   const fetchUserList = async () => {
     try {
       const response = await axios.get(USER_API_URL);
-      setwholeArray(response.data)
-      setArray(response.data);
+      if(response.data.code === 200){
+        setwholeArray(response.data.data)
+        setArray(response.data.data);
+      }
+      else{
+        setwholeArray([]);
+        setArray([]);
+      }
+     
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
@@ -333,7 +340,7 @@ const UserMaster = () => {
             className="search-bar"
             placeholder="Search"
             value={searchQuery} onChange={(e) => sethandleSearch(e)}
-            
+
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleSearch(searchQuery); // Trigger search on Enter key press
@@ -397,41 +404,41 @@ const UserMaster = () => {
           </tbody>
         </table>
         <div className="table_postiion">
-        {totalPages > 1 && (
-          <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style_reg">
-            Previous
-          </button>
-        )}
-         {totalPages > 1 && (
-          <div>
-          {generatePagination().map((page, index) =>
-                                page === "..." ? (
-                                    <span key={index} className="pagination-ellipsis">...</span>
-                                ) : (
-                                    <button
-                                    key={index}
-                                    onClick={(event) => goToPage(page, event)}
-                                    className={`pagination-button ${currentPage === page ? "active" : ""}`}
-                                    >
-                                    {page}
-                                    </button>
-                                )
-                                )}
-          </div>
-         )}
           {totalPages > 1 && (
-          <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style_reg">
-            Next
-          </button>
+            <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style_reg">
+              Previous
+            </button>
           )}
-           <div className="total_style">
-                                    <div className="total_alignment">
-                                Total records : 
-                                    </div>
-                                    <div>
-                                    {totalRecord}
-                                    </div>
-                                </div>
+          {totalPages > 1 && (
+            <div>
+              {generatePagination().map((page, index) =>
+                page === "..." ? (
+                  <span key={index} className="pagination-ellipsis">...</span>
+                ) : (
+                  <button
+                    key={index}
+                    onClick={(event) => goToPage(page, event)}
+                    className={`pagination-button ${currentPage === page ? "active" : ""}`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+            </div>
+          )}
+          {totalPages > 1 && (
+            <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style_reg">
+              Next
+            </button>
+          )}
+          <div className="total_style">
+            <div className="total_alignment">
+              Total records :
+            </div>
+            <div>
+              {totalRecord}
+            </div>
+          </div>
         </div>
       </div>
       {editPopup &&

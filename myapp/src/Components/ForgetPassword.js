@@ -14,17 +14,22 @@ const ForgetPassword = () => {
   useEffect(() => {
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
-        // if (values === '' || values === null || values === undefined) {
-        //     navigate("/");
-        //     return;
-        // }
+    // if (values === '' || values === null || values === undefined) {
+    //     navigate("/");
+    //     return;
+    // }
     fetchuserNameList();
   }, [navigate]);
 
   const fetchuserNameList = async () => {
     try {
       const response = await axios.get(USER_API_URL);
-      setArrayVal(response.data);
+      if(response.data.code === 200){
+        setArrayVal(response.data.data);
+      }
+      else{
+        setArrayVal([]);
+      }
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }

@@ -50,8 +50,8 @@ const Profile = () => {
   const [Qualification, setQualification] = useState();
   const [Specializationname, setSpecializationname] = useState([]);
   const [Universityname, setUniversityname] = useState([]);
-  const [Year, setYear] = useState([]);
-
+  const [Year, setYear] = useState([]); 
+ 
 
   const [pgQualification, setpgQualification] = useState();
   const [pgSpecializationname, setpgSpecializationname] = useState();
@@ -106,7 +106,7 @@ const Profile = () => {
         );
         if (filterValNew.length > 0) {
           setUserData(filterValNew[0]);
-          const graduatPG = filterValNew && filterValNew[0].Postgraduation === "" ? [] :JSON.parse(filterValNew[0].Postgraduation)
+          const graduatPG = filterValNew && filterValNew[0].Postgraduation === "" ? [] : JSON.parse(filterValNew[0].Postgraduation)
           setpgArray(graduatPG)
           setActiveTab("personal")
         }
@@ -117,7 +117,7 @@ const Profile = () => {
       }
 
       else {
-       
+
         const filterValOld = response.data.filter((record) =>
           record.RegistrationNumber === ID
         );
@@ -190,10 +190,10 @@ const Profile = () => {
     setLoading(true)
     if (![pgQualification, pgSpecializationname, pgUniversityname, pgYear].every(value => value !== null && value !== undefined && value !== "")) {
       setLoading(false)
-        toast.error("Please fill all fields!", { position: "top-center" });
+      toast.error("Please fill all fields!", { position: "top-center" });
       return;
     }
-    
+
     if ((pgQualification.trim() !== "" && pgSpecializationname.trim() !== "" && pgUniversityname.trim() !== "" && pgYear.trim() !== "")) {
       if (currentpgID === "" || currentpgID === undefined || currentpgID === null) {
 
@@ -201,7 +201,7 @@ const Profile = () => {
           setpgArray((prevQualifications) => [
             ...prevQualifications,
             {
-              id: prevQualifications.length +1 , Qualification: pgQualification,
+              id: prevQualifications.length + 1, Qualification: pgQualification,
               Universityname: pgUniversityname,
               specializationname: pgSpecializationname,
               year: pgYear
@@ -209,7 +209,7 @@ const Profile = () => {
           ]);
         }, 300);
         console.log(pgArray)
-        
+
         setLoading(false)
 
       }
@@ -492,6 +492,8 @@ const Profile = () => {
           record.Sno === CurrentSno
         );
         if (filterValNew.length > 0) {
+          setLoading(true)
+
           setUserData(filterValNew[0]);
           setActiveTab("gallery")
         }
@@ -553,6 +555,8 @@ const Profile = () => {
           <div className="profile-header">
             <img
               className="profile-image"
+              onLoad={() => setLoading(false)}
+              onError={() => setLoading(false)}
               src={userData.image_path ? `${API_URL}/${userData.image_path}` : 'default-image-path'}
               alt="Profile not loading"
             />
@@ -1012,8 +1016,8 @@ const Profile = () => {
                         <th className="table_colum_wrap">Specialization</th>
                         <th className="table_colum_wrap">Year</th>
                         {editItem === true &&
-                        <th className="table_colum_wrap" >Action</th>
-                          }
+                          <th className="table_colum_wrap" >Action</th>
+                        }
                       </tr>
                     </thead>
                     <tbody>
@@ -1025,15 +1029,15 @@ const Profile = () => {
                             <td className="table_colum_wrap">{item.specializationname}</td>
                             <td className="table_colum_wrap">{item.year}</td>
                             {editItem === true &&
-                            <th className="table_colum_wrap" style={{ color: '#00b4b6', backgroundColor: 'white' }}>
-                             
+                              <th className="table_colum_wrap" style={{ color: '#00b4b6', backgroundColor: 'white' }}>
+
                                 <div>
                                   <FontAwesomeIcon icon={faPencil} className="cursor" style={{ marginRight: "16px" }}
                                     onClick={() => editPGDeatils(item)} />
                                   <FontAwesomeIcon icon={faTrash} className="cursor" onClick={() => deletePGdetails(item)} />
                                 </div>
-                            </th>
-                              }
+                              </th>
+                            }
                           </tr>
                         ))
                       ) : (
@@ -1107,6 +1111,8 @@ const Profile = () => {
                         width="150"
                         height="150"
                         className="img_mrg_btm"
+                        onLoad={() => setLoading(false)}
+                        onError={() => setLoading(false)}
                         style={{ borderRadius: "8px", objectFit: "cover" }}
                       />
                       {editItem === true &&
@@ -1124,6 +1130,8 @@ const Profile = () => {
                         alt="New gallery item"
                         width="150"
                         height="150"
+                        onLoad={() => setLoading(false)}
+                        onError={() => setLoading(false)}
                         style={{ borderRadius: "8px", objectFit: "cover" }}
                       />
                       <FontAwesomeIcon className="view-button img_padding newImg_btom" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => newhandleImgDelete(index, imgUrl)} />

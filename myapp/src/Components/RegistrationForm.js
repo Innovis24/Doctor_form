@@ -150,7 +150,12 @@ const RegistrationForm = () => {
   const getUserDetails = async () => {
     try {
       const response = await axios.get(USER_API_URL);
-      setArrayVal(response.data);
+      if(response.data.code === 200){
+        setArrayVal(response.data.data);
+      }
+      else{
+        setArrayVal([]);
+      }
 
     } catch (error) {
       toast.error("Failed to fetch registrations!");
@@ -161,10 +166,15 @@ const RegistrationForm = () => {
     try {
       const response = await axios.get(USER_API_URL);
       if (response.data.length > 0) {
-
-        const newuserDetails = response.data.filter((val) => val.RegNumber === UserID)
-        localStorage.setItem('currentUser', JSON.stringify(newuserDetails));
-        navigate('/profile', { state: UserID });
+        if(response.data.code === 200){
+          const newuserDetails = response.data.filter((val) => val.RegNumber === UserID)
+          localStorage.setItem('currentUser', JSON.stringify(newuserDetails));
+          navigate('/profile', { state: UserID });
+        }
+        else{
+          
+        }
+      
       }
 
     } catch (error) {
@@ -317,7 +327,7 @@ const RegistrationForm = () => {
     e.preventDefault();
 
     if ([name, fatherName, dob, gender, phonenumber, email, address, qualification, specialization,
-      regNumber, regYear, employmentType, uprn, university, stateOfMedicine, yearOfQualification, image, city, state].some(field => !field) ) {
+      regNumber, regYear, employmentType, uprn, university, stateOfMedicine, yearOfQualification, image, city, state].some(field => !field)) {
       toast.error("Please fill all required fields!");
       return;
     }
@@ -679,7 +689,7 @@ const RegistrationForm = () => {
             </button>
 
           </div>
-       
+
           <form >
             {shownextStep ? (
               <div>
@@ -981,14 +991,14 @@ const RegistrationForm = () => {
                 <div className="input-group">
                   <FontAwesomeIcon icon={faCalendarCheck} />
                   <span className="asterisk">*</span>
-                <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification}  />
+                  <input type="text" placeholder="Year of Qualification" maxlength={4} onChange={(e) => setyearOfQualification(e.target.value)} value={yearOfQualification} />
                 </div>
               </div>
               {/*POST GRA */}
               <div className="max-w-lg mx-auto p-4 bg-white shadow rounded-lg">
                 <p>Post Graduation</p>
                 <div className="flex items-center1 space-x-2 mb-4">
-            <div className="input-group flex items-center1 space-x-2 mb-4 width_40">
+                  <div className="input-group flex items-center1 space-x-2 mb-4 width_40">
                     <FontAwesomeIcon icon={faGraduationCap} />
                     <input
                       type="text"
@@ -999,7 +1009,7 @@ const RegistrationForm = () => {
                     />
                   </div>
 
-       <div className="input-group flex items-center1 space-x-2 mb-4">
+                  <div className="input-group flex items-center1 space-x-2 mb-4">
                     <FontAwesomeIcon icon={faUniversity} />
                     <input
                       type="text"
@@ -1012,7 +1022,7 @@ const RegistrationForm = () => {
 
                 </div>
                 <div className="flex items-center1 space-x-2 mb-4">
-      <div className="input-group flex items-center1 space-x-2 mb-4">
+                  <div className="input-group flex items-center1 space-x-2 mb-4">
                     <FontAwesomeIcon icon={faStethoscope} />
                     <input
                       type="text"
@@ -1022,71 +1032,71 @@ const RegistrationForm = () => {
                       onChange={(e) => setSpecializationname(e.target.value)}
                     />
                   </div>
-        <div className="input-group flex items-center1 space-x-2 mb-4">
+                  <div className="input-group flex items-center1 space-x-2 mb-4">
                     <FontAwesomeIcon icon={faCalendarCheck} />
                     <input
                       type="text"
                       placeholder="Year of Qualification"
                       className="border p-2 rounded w-full outline-none"
-                      value={year}  maxlength={4}
+                      value={year} maxlength={4}
                       onChange={(e) => setYear(e.target.value)}
                     />
                   </div>
                   <div >
-                  <button
-                    onClick={addQualification}
-                    type="button"
-                    className="plusbtn plusbtn_style"
-                  >
-                    <FontAwesomeIcon icon={faPlus} />
-                  </button>
+                    <button
+                      onClick={addQualification}
+                      type="button"
+                      className="plusbtn plusbtn_style"
+                    >
+                      <FontAwesomeIcon icon={faPlus} />
+                    </button>
                   </div>
-                 
+
                 </div>
 
 
                 {/* Table */}
                 {qualifications.length > 0 && (
                   <div className="pgTable_style">
-                      <table className="w-full border-collapse border border-gray-300">
-                    <thead>
-                      <tr className="bg-gray-200">
-                        <th className="border p-2">Postgraduate</th>
-                        <th className="border p-2">University</th>
-                        <th className="border p-2">Specialization</th>
-                        <th className="border p-2">Year</th>
-                        <th className="border p-2">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {qualifications.map((item, index) => (
-                        <tr key={index} className="border">
-                          <td className="border p-2">{item.Qualification}</td>
-                          <td className="border p-2">{item.Universityname}</td>
-                          <td className="border p-2">{item.specializationname}</td>
-                          <td className="border p-2">{item.year}</td>
-                          <td className="border p-2 text-center">
-                            <button
-                              onClick={(e) => removeQualification(e, index)}
-                              className="pgdeletebtn"
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
-                          </td>
+                    <table className="w-full border-collapse border border-gray-300">
+                      <thead>
+                        <tr className="bg-gray-200">
+                          <th className="border p-2">Postgraduate</th>
+                          <th className="border p-2">University</th>
+                          <th className="border p-2">Specialization</th>
+                          <th className="border p-2">Year</th>
+                          <th className="border p-2">Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {qualifications.map((item, index) => (
+                          <tr key={index} className="border">
+                            <td className="border p-2">{item.Qualification}</td>
+                            <td className="border p-2">{item.Universityname}</td>
+                            <td className="border p-2">{item.specializationname}</td>
+                            <td className="border p-2">{item.year}</td>
+                            <td className="border p-2 text-center">
+                              <button
+                                onClick={(e) => removeQualification(e, index)}
+                                className="pgdeletebtn"
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 )}
               </div>
 
-</div> }
+            </div>}
             {/* Submit Button */}
             {shownextStep ? (
-            <div className="submit-button-container grid-cols-3">
+              <div className="submit-button-container grid-cols-3">
 
-              <button type="button"  className="submit-button mrg_right_submit" onClick={nextPage}>
+                <button type="button" className="submit-button mrg_right_submit" onClick={nextPage}>
                   Next & Submit
                 </button>
                 <button className="clear_btn_form" onClick={handlecancel}>

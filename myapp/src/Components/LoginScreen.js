@@ -28,11 +28,33 @@ const LoginScreen = () => {
     axios
       .get(USER_API_URL)
       .then((response) => {
-        setArray(response.data);
-        setcurrentuser(response.data)
+        if(response.data.code === 200){
+          setArray(response.data.data);
+          console.log("dsfdsf")
+          setcurrentuser(response.data.data)
+        }
+        else{
+          setArray([]);
+          setcurrentuser([])
+        }
+ 
       })
       .catch((error) => console.error("Error fetching users:", error));
   }
+  const fetchRegistrations = async () => {
+    try {
+      const response = await axios.get(REG_API_URL);
+      if (response.data.code === 400) {
+        setregList([]);
+      }
+      else {
+        setregList(response.data);
+      }
+
+    } catch (error) {
+      toast.error("Failed to fetch registrations!");
+    }
+  };
   const forgetPassword = (e) => {
     e.preventDefault()
     navigate('/forget_password')
@@ -57,14 +79,14 @@ const LoginScreen = () => {
 
     if (filtered && filtered.length > 0) {
 
-     
+
       const adminRole = filtered.filter((item) => item.Password === password && item.Status === "Active" && item.UserRole === "Admin");
       const filteredVal = filtered.filter((item) => item.Password === password && item.Status === "Active");
       if (adminRole.length > 0) {
         const loginFilterVal = currentuser.filter((item) => item.UserName === username);
-            localStorage.setItem('currentUser', JSON.stringify(loginFilterVal));
-            navigate("/registration_list");
-            return
+        localStorage.setItem('currentUser', JSON.stringify(loginFilterVal));
+        navigate("/registration_list");
+        return
       }
       else if (filteredVal.length > 0) {
         const regerList = regList.filter((item) => item.RegistrationNumber === filtered[0].RegNumber);
@@ -74,7 +96,7 @@ const LoginScreen = () => {
         }
         const loginFilter = currentuser.filter((item) => item.UserName === username);
         localStorage.setItem('currentUser', JSON.stringify(loginFilter));
-          navigate("/Profile");
+        navigate("/Profile");
 
       }
       else {
@@ -86,20 +108,7 @@ const LoginScreen = () => {
     }
     // Navigate to the home page
   };
-  const fetchRegistrations = async () => {
-    try {
-      const response = await axios.get(REG_API_URL);
-      if (response.data.code === 400) {
-        setregList([]);
-      }
-      else {
-        setregList(response.data);
-      }
-
-    } catch (error) {
-      toast.error("Failed to fetch registrations!");
-    }
-  };
+ 
   const handleRegisterClick = () => {
     localStorage.setItem('newUser', true);
     navigate("/registration_form");
@@ -107,7 +116,7 @@ const LoginScreen = () => {
   return (
     <div className="login-container">
       <ToastContainer
-        autoClose={500} 
+        autoClose={500}
         toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
         progressStyle={{ background: 'white' }}
       />
@@ -184,13 +193,13 @@ const LoginScreen = () => {
                 <div
                   className="forget_pwd"
                 >
-                  <button  type="button" className="button_login_color fp_focus" tabIndex={4} onClick={forgetPassword}>
+                  <button type="button" className="button_login_color fp_focus" tabIndex={4} onClick={forgetPassword}>
                     Forget password
                   </button>
                 </div>
               </div>
               <div className="logjustify">
-                <button  className="loginBtn login_btn_focus" tabIndex={3} >
+                <button className="loginBtn login_btn_focus" tabIndex={3} >
                   Login
                 </button>
               </div>

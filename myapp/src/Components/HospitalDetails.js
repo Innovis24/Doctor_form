@@ -35,9 +35,9 @@ function HospitalDetails() {
     const rowsPerPage = 5; // Adjust as needed
     const startIndex = (currentPage - 1) * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    const currentRows = Arrayval.length === 0 ? [] : Arrayval.slice(startIndex, endIndex) ;
+    const currentRows = Arrayval.length === 0 ? [] : Arrayval.slice(startIndex, endIndex);
     const totalPages = Arrayval.length === 0 ? [] : Math.ceil(Arrayval.length / rowsPerPage);
-    const totalRecord = Arrayval.length ;
+    const totalRecord = Arrayval.length;
     const overlayStyle = {
         position: 'fixed',
         top: 0,
@@ -49,7 +49,7 @@ function HospitalDetails() {
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 9999,
-      };
+    };
     useEffect(() => {
         const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
 
@@ -60,11 +60,11 @@ function HospitalDetails() {
         const roleVal = values[0].UserRole;
         setcurrentRole(roleVal)
         setcurrentRegNumber(values[0].RegNumber)
-        fetchUserList(values[0].RegNumber,roleVal);
+        fetchUserList(values[0].RegNumber, roleVal);
     }, [navigate]);
 
-    
-      
+
+
     const addNewDetails = () => {
         setpopupTitle([{ title: 'Add Work Details', btnNmae: 'Submit' }])
         sethospitalname("");
@@ -95,126 +95,126 @@ function HospitalDetails() {
         setviewhospitalDetails(items);
     }
     const sethandleSearch = (e) => {
-      
+
         setLoading(true);
         let value = e.target.value.trim()
         setSearchQuery(value)
         if (e.target.value === "") {
-          setLoading(false);
-          if(currentRole === 'Admin'){
-            setArray(wholearray)
-          }else{
-            setArray(tempArray)
-          }
-         
-          return
-        }
-    
-        handleSearch(value);
-    
-      }
-      const handleSearch = (selectedValue) => {
-        setLoading(true);
-        let filteredRegistrations=[];
-        
-     
-        if(!selectedValue){
-            fetchUserList(currentRegNumber,currentRole)
+            setLoading(false);
+            if (currentRole === 'Admin') {
+                setArray(wholearray)
+            } else {
+                setArray(tempArray)
+            }
+
             return
         }
-        if(currentRole === 'Admin'){
+
+        handleSearch(value);
+
+    }
+    const handleSearch = (selectedValue) => {
+        setLoading(true);
+        let filteredRegistrations = [];
+
+
+        if (!selectedValue) {
+            fetchUserList(currentRegNumber, currentRole)
+            return
+        }
+        if (currentRole === 'Admin') {
             filteredRegistrations = wholearray.filter((record) =>
                 record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
                 record.RegNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
                 record.HospitalName.toLowerCase().includes(selectedValue.toLowerCase()) ||
                 record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
-                record.Address.toLowerCase().includes(selectedValue.toLowerCase()) 
-          
-              );
-        }
-        else{
+                record.Address.toLowerCase().includes(selectedValue.toLowerCase())
 
-            const regval =  wholearray.filter((item)=> item.RegNumber === currentRegNumber )
+            );
+        }
+        else {
+
+            const regval = wholearray.filter((item) => item.RegNumber === currentRegNumber)
             settempArray(regval)
             filteredRegistrations = Arrayval.filter((record) =>
                 record.Name.toLowerCase().includes(selectedValue.toLowerCase()) ||
                 record.RegNumber.toLowerCase().includes(selectedValue.toLowerCase()) ||
                 record.HospitalName.toLowerCase().includes(selectedValue.toLowerCase()) ||
                 record.City.toLowerCase().includes(selectedValue.toLowerCase()) ||
-                record.Address.toLowerCase().includes(selectedValue.toLowerCase()) 
-          
-              );
+                record.Address.toLowerCase().includes(selectedValue.toLowerCase())
+
+            );
 
         }
 
 
-        
+
         setLoading(false);
         setArray(filteredRegistrations)
         setCurrentPage(1);
 
-    
-      };
-      const searchIcon = ()=>{
+
+    };
+    const searchIcon = () => {
         setLoading(true);
-        let filterReg=[];
-        if(!searchQuery){
-            fetchUserList(currentRegNumber,currentRole)
+        let filterReg = [];
+        if (!searchQuery) {
+            fetchUserList(currentRegNumber, currentRole)
             return
         }
-        if(currentRole === 'Admin'){
-        filterReg = wholearray.filter((record) =>
-          record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          record.HospitalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          record.Address.toLowerCase().includes(searchQuery.toLowerCase()) 
-        );
+        if (currentRole === 'Admin') {
+            filterReg = wholearray.filter((record) =>
+                record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.HospitalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                record.Address.toLowerCase().includes(searchQuery.toLowerCase())
+            );
         }
-        else{
+        else {
             filterReg = Arrayval.filter((record) =>
                 record.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 record.RegNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 record.HospitalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 record.City.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                record.Address.toLowerCase().includes(searchQuery.toLowerCase()) 
-              );
+                record.Address.toLowerCase().includes(searchQuery.toLowerCase())
+            );
         }
         setLoading(false);
         setArray(filterReg)
         setCurrentPage(1);
-      }
-    const fetchUserList = async (regNo,Role) => {
+    }
+    const fetchUserList = async (regNo, Role) => {
         setLoading(true)
         try {
             const response = await axios.get(HOS_API_URL);
-            if(response.data.code !== 400){
+            if (response.data.code !== 400) {
                 setLoading(false)
                 setwholearray(response.data)
-                if(Role !== 'Admin'){
-                   const filvalue = response.data.filter((item)=> item.RegNumber === regNo )
+                if (Role !== 'Admin') {
+                    const filvalue = response.data.filter((item) => item.RegNumber === regNo)
                     setArray(filvalue);
                 }
-                else{
+                else {
                     setArray(response.data);
                 }
-                
+
             }
-            else{
+            else {
                 setLoading(false)
                 setArray([]);
             }
-           
+
         } catch (error) {
             toast.error("Failed to fetch registrations!");
         }
     };
     const goToPage = (page) => {
         if (page > 0 && page <= totalPages) {
-          setCurrentPage(page);
+            setCurrentPage(page);
         }
-      };
-    
+    };
+
     const clearfn = (event) => {
         event.preventDefault();
         sethospitalname("");
@@ -222,18 +222,7 @@ function HospitalDetails() {
         setaddress("");
         sethospitalDetails("");
     }
-    const applyFilters = (filters) => {
 
-        const filteredData = Arrayval.filter((record) =>
-          Object.keys(filters).every((key) =>
-            filters[key] === "" ||
-            (record[key] && record[key].toString().toLowerCase().includes(filters[key].toLowerCase()))
-          )
-        );
-    
-        setArray(filteredData);
-      };
-    
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (!hospitalname || !city || !address || !hospitalDetails) {
@@ -246,7 +235,7 @@ function HospitalDetails() {
                 city: city,
                 address: address,
                 hosDetails: hospitalDetails,
-                regnumber:currentRegNumber
+                regnumber: currentRegNumber
             };
             const response = await axios.post(HOS_API_URL, FormData, {
                 headers: { "Content-Type": "application/json" },
@@ -286,7 +275,7 @@ function HospitalDetails() {
                 toast.error("Failed to submit the form!", { position: "top-center" });
             }
         }
-        fetchUserList(currentRegNumber,currentRole);
+        fetchUserList(currentRegNumber, currentRole);
     }
     const handleDelete = async (Value) => {
 
@@ -297,7 +286,7 @@ function HospitalDetails() {
 
             if (response.status === 200) {
                 toast.success("Record deleted successfully!");
-                fetchUserList(currentRegNumber,currentRole)
+                fetchUserList(currentRegNumber, currentRole)
             } else {
                 toast.error(response.data.error || "Failed to delete record.");
             }
@@ -308,52 +297,52 @@ function HospitalDetails() {
     }
     const clear = () => {
         setSearchQuery('')
-        fetchUserList(currentRegNumber,currentRole)
-      }
-    
+        fetchUserList(currentRegNumber, currentRole)
+    }
+
     const closeEditPopup = () => {
         setviewPopup(false)
     }
-    
+
     const generatePagination = () => {
         const pages = [];
         const maxPagesToShow = 5; // Adjust how many pages are visible at once
-    
+
         if (totalPages <= maxPagesToShow) {
-          // Show all pages if totalPages is small
-          for (let i = 1; i <= totalPages; i++) {
-            pages.push(i);
-          }
+            // Show all pages if totalPages is small
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
         } else {
-          pages.push(1); // Always show first page
-    
-          if (currentPage > 3) {
-            pages.push("..."); // Ellipsis before the middle pages
-          }
-    
-          let start = Math.max(2, currentPage - 1);
-          let end = Math.min(totalPages - 1, currentPage + 1);
-    
-          for (let i = start; i <= end; i++) {
-            pages.push(i);
-          }
-    
-          if (currentPage < totalPages - 2) {
-            pages.push("..."); // Ellipsis after the middle pages
-          }
-    
-          pages.push(totalPages); // Always show last page
+            pages.push(1); // Always show first page
+
+            if (currentPage > 3) {
+                pages.push("..."); // Ellipsis before the middle pages
+            }
+
+            let start = Math.max(2, currentPage - 1);
+            let end = Math.min(totalPages - 1, currentPage + 1);
+
+            for (let i = start; i <= end; i++) {
+                pages.push(i);
+            }
+
+            if (currentPage < totalPages - 2) {
+                pages.push("..."); // Ellipsis after the middle pages
+            }
+
+            pages.push(totalPages); // Always show last page
         }
-    
+
         return pages;
-      };
+    };
     return (
         <div>
             {loading && (
-                    <div style={overlayStyle}>
-                      <ClipLoader size={50} color="#fff" />
-                    </div>
-                  )}
+                <div style={overlayStyle}>
+                    <ClipLoader size={50} color="#fff" />
+                </div>
+            )}
             <ToastContainer
                 autoClose={500} // Auto-close in 20 seconds
                 toastStyle={{ backgroundColor: "white", color: 'black', fontFamily: "'Roboto', sans-serif" }}
@@ -361,248 +350,248 @@ function HospitalDetails() {
             />
             <Header title="Work Details" />
             <div className="list-container1">
-            <div className="controls">
-            <div className="display_item">
-            <input
-              type="text"
-              className="search-bar"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={(e) => sethandleSearch(e)}
-              onKeyDown={(e) => handleSearch}
-         
-            />
-            <div className="search_icon_style">
-              <SearchIcon className="search-icon" onClick={searchIcon} />
+                <div className="controls">
+                    <div className="display_item">
+                        <input
+                            type="text"
+                            className="search-bar"
+                            placeholder="Search"
+                            value={searchQuery}
+                            onChange={(e) => sethandleSearch(e)}
+                            onKeyDown={(e) => handleSearch}
 
-              <CloseIcon className="clear-icon" onClick={() => clear()} />
-            </div>
+                        />
+                        <div className="search_icon_style">
+                            <SearchIcon className="search-icon" onClick={searchIcon} />
 
-            </div>
-            <div className="btn_align_hos">
-            {currentRole !== 'Admin' && (
-                <button className="register-button" onClick={addNewDetails}>
-                    Add Hospital
-                </button>
-            )}
-
-            </div>  
-            </div>
-
-            <div >
-                {newHostpital && (
-                    <form className="divCar">
-                        <div className="box_clr">
-                            <div>
-                                <div className="close_icon_style">
-                                    <FontAwesomeIcon icon={faCircleXmark} onClick={closepopup} />
-                                </div>
-                                <div className="title_details">{popupTitle[0].title}</div>
-                            </div>
-
-                            <div className="input-group">
-                                <FontAwesomeIcon icon={faHospital} />
-                                <span className="asterisk">*</span>
-                                <input
-                                    type="text" className="txt_transform"
-                                    placeholder="Name"
-                                    onChange={(e) => sethospitalname(e.target.value)} value={hospitalname}
-                                    maxLength={100}
-                                />
-                            </div>
-                            <div className="input-group">
-                                <FontAwesomeIcon icon={faCity} />
-                                <span className="asterisk">*</span>
-                                <input
-                                    type="text" className="txt_transform"
-                                    placeholder="City"
-                                    onChange={(e) => setcity(e.target.value)} value={city}
-                                    maxLength={100}
-                                />
-                            </div>
-                            <div className="input-group">
-                                <FontAwesomeIcon icon={faAddressCard} />
-                                <span className="asterisk">*</span>
-                                <span className="material-icons"></span>
-                                <textarea
-                                    type="text" className="txt_transform"
-                                    placeholder="Address"
-                                    onChange={(e) => setaddress(e.target.value)} value={address}
-                                    maxLength={200}
-                                />
-                            </div>
-                            <div className="input-group">
-                                <FontAwesomeIcon icon={faStethoscope} />
-                                <span className="asterisk">*</span>
-                                <span className="material-icons"></span>
-                                <textarea
-                                    type="text" className="txt_transform"
-                                    placeholder="Hospital details"
-                                    onChange={(e) => sethospitalDetails(e.target.value)} value={hospitalDetails}
-                                    maxLength={500}
-                                />
-                            </div>
-                            <div className="submit-button-container grid-cols-3">
-                                <button type="submit" className="submit_clr mrg_right_submit" onClick={handleSubmit}>
-                                    {popupTitle[0].btnNmae}
-                                </button>
-                                <button className="cancel_btn_form" onClick={clearfn}>
-                                    Clear
-                                </button>
-
-                            </div>
+                            <CloseIcon className="clear-icon" onClick={() => clear()} />
                         </div>
-                    </form>
-                )}
-                {!newHostpital && (
-                    <div className="table_pad_style over_table">
 
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Doctor Name</th>
-                                    <th>Hospital Name</th>
-                                    <th>City</th>
-                                    <th>Address</th>
-                                    <th style={{textAlign: 'center'}}>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {currentRows && currentRows.length > 0 ? (
-                                    currentRows.map((record, index) => (
-                                        <tr key={index}>
-                                            <td className="text-wrap">{startIndex + index + 1}</td>
-                                            <td className="text-wrap txt_trans">
-                                            <div className="font_wt">
-                                                {record.Name}
-                                                <div className="regNumFont">
-                                                #{record.RegNumber}
-                                                </div>
-                                            </div>
-                                            </td>
-                                            <td className="text-wrap txt_trans">
-                                                <div>
-                                                    {record.HospitalName}
-                                                </div>
-                                            </td>
-                                            <td className="text-wrap txt_trans">{record.City}</td>
-                                            <td className="text-wrap txt_trans">{record.Address}</td>
-                                            <td>
-
-                                                <div className="alignmentbtn">
-
-                                                    <FontAwesomeIcon className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)} />
-                                                    {currentRole !== 'Admin' && (
-                                                        <div>
-                                                              <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => openEdit(record)} />
-                                                              <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} />
-                                                        </div>
-                                                    )}
-                                                  
-
-                                                </div>
-
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="6" className="txt_align"><b>No records found!</b></td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                        <div className="table_postiion">
-                        {totalPages > 1 && (
-                            <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style_reg">
-                                Previous
+                    </div>
+                    <div className="btn_align_hos">
+                        {currentRole !== 'Admin' && (
+                            <button className="register-button" onClick={addNewDetails}>
+                                Add Hospital
                             </button>
                         )}
-                         {totalPages > 1 && (
-                            <div>
-                                  {generatePagination().map((page, index) =>
-                                page === "..." ? (
-                                    <span key={index} className="pagination-ellipsis">...</span>
-                                ) : (
-                                    <button
-                                    key={index}
-                                    onClick={(event) => goToPage(page, event)}
-                                    className={`pagination-button ${currentPage === page ? "active" : ""}`}
-                                    >
-                                    {page}
+
+                    </div>
+                </div>
+
+                <div >
+                    {newHostpital && (
+                        <form className="divCar">
+                            <div className="box_clr">
+                                <div>
+                                    <div className="close_icon_style">
+                                        <FontAwesomeIcon icon={faCircleXmark} onClick={closepopup} />
+                                    </div>
+                                    <div className="title_details">{popupTitle[0].title}</div>
+                                </div>
+
+                                <div className="input-group">
+                                    <FontAwesomeIcon icon={faHospital} />
+                                    <span className="asterisk">*</span>
+                                    <input
+                                        type="text" className="txt_transform"
+                                        placeholder="Name"
+                                        onChange={(e) => sethospitalname(e.target.value)} value={hospitalname}
+                                        maxLength={100}
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <FontAwesomeIcon icon={faCity} />
+                                    <span className="asterisk">*</span>
+                                    <input
+                                        type="text" className="txt_transform"
+                                        placeholder="City"
+                                        onChange={(e) => setcity(e.target.value)} value={city}
+                                        maxLength={100}
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <FontAwesomeIcon icon={faAddressCard} />
+                                    <span className="asterisk">*</span>
+                                    <span className="material-icons"></span>
+                                    <textarea
+                                        type="text" className="txt_transform"
+                                        placeholder="Address"
+                                        onChange={(e) => setaddress(e.target.value)} value={address}
+                                        maxLength={200}
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <FontAwesomeIcon icon={faStethoscope} />
+                                    <span className="asterisk">*</span>
+                                    <span className="material-icons"></span>
+                                    <textarea
+                                        type="text" className="txt_transform"
+                                        placeholder="Hospital details"
+                                        onChange={(e) => sethospitalDetails(e.target.value)} value={hospitalDetails}
+                                        maxLength={500}
+                                    />
+                                </div>
+                                <div className="submit-button-container grid-cols-3">
+                                    <button type="submit" className="submit_clr mrg_right_submit" onClick={handleSubmit}>
+                                        {popupTitle[0].btnNmae}
                                     </button>
-                                )
-                                )}
+                                    <button className="cancel_btn_form" onClick={clearfn}>
+                                        Clear
+                                    </button>
+
+                                </div>
                             </div>
-                         )}
-                           {totalPages > 1 && (
-                            <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style_reg">
-                                Next
-                            </button>
-                             )}
-                             <div className="total_style">
+                        </form>
+                    )}
+                    {!newHostpital && (
+                        <div className="table_pad_style over_table">
+
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Doctor Name</th>
+                                        <th>Hospital Name</th>
+                                        <th>City</th>
+                                        <th>Address</th>
+                                        <th style={{ textAlign: 'center' }}>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentRows && currentRows.length > 0 ? (
+                                        currentRows.map((record, index) => (
+                                            <tr key={index}>
+                                                <td className="text-wrap">{startIndex + index + 1}</td>
+                                                <td className="text-wrap txt_trans">
+                                                    <div className="font_wt">
+                                                        {record.Name}
+                                                        <div className="regNumFont">
+                                                            #{record.RegNumber}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="text-wrap txt_trans">
+                                                    <div>
+                                                        {record.HospitalName}
+                                                    </div>
+                                                </td>
+                                                <td className="text-wrap txt_trans">{record.City}</td>
+                                                <td className="text-wrap txt_trans">{record.Address}</td>
+                                                <td>
+
+                                                    <div className="alignmentbtn">
+
+                                                        <FontAwesomeIcon className="view-button" icon={faEye} style={{ marginRight: "8px" }} onClick={() => OpenPopup(record)} />
+                                                        {currentRole !== 'Admin' && (
+                                                            <div>
+                                                                <FontAwesomeIcon className="view-button" icon={faPencil} style={{ marginRight: "8px" }} onClick={() => openEdit(record)} />
+                                                                <FontAwesomeIcon className="view-button" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleDelete(record)} />
+                                                            </div>
+                                                        )}
+
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="6" className="txt_align"><b>No records found!</b></td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                            <div className="table_postiion">
+                                {totalPages > 1 && (
+                                    <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="pagination_style_reg">
+                                        Previous
+                                    </button>
+                                )}
+                                {totalPages > 1 && (
+                                    <div>
+                                        {generatePagination().map((page, index) =>
+                                            page === "..." ? (
+                                                <span key={index} className="pagination-ellipsis">...</span>
+                                            ) : (
+                                                <button
+                                                    key={index}
+                                                    onClick={(event) => goToPage(page, event)}
+                                                    className={`pagination-button ${currentPage === page ? "active" : ""}`}
+                                                >
+                                                    {page}
+                                                </button>
+                                            )
+                                        )}
+                                    </div>
+                                )}
+                                {totalPages > 1 && (
+                                    <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="pagination_style_reg">
+                                        Next
+                                    </button>
+                                )}
+                                <div className="total_style">
                                     <div className="total_alignment">
-                                Total records : 
+                                        Total records :
                                     </div>
                                     <div>
-                                    {totalRecord}
+                                        {totalRecord}
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                )}
-                {viewPopup && (
-                    <div className="modal1">
-                        <div className="modal1-content">
-                            {/* heading */}
-                            <div className="pop_up_cancelicon1">
-                                <div className="profile_style">Work Details</div>
-                                <div>
-                                    <FontAwesomeIcon icon={faCircleXmark} className="model_icon_clr" onClick={closeEditPopup} />
-                                </div>
-                            </div>
-
-                            <div>
-                                <div className="grid-cols-1">
-                                    <div className="input-group">
-                                        <FontAwesomeIcon className='icon_mrg' icon={faHospital} />
-                                        <input type="text"
-                                            readOnly className="txt_transform"
-                                            value={hospitalname} />
-                                    </div>
-                                    <div className="input-group">
-                                        <FontAwesomeIcon className='icon_mrg' icon={faCity} />
-                                        <input type="text" readOnly className="txt_transform" value={city} />
-                                    </div>
-                                </div>
-                                <div className="grid-cols-1">
-                                    <div className="input-group">
-                                        <FontAwesomeIcon icon={faAddressCard} className='icon_mrg' />
-                                        <textarea type="text" readOnly className="txt_transform"
-                                            value={address} />
-                                    </div>
-                                    <div className="speicality_style">
-                                        <div>
-                                            <FontAwesomeIcon icon={faStethoscope} className="icon_mrg" />
-                                            <b >Specialties:</b>
-                                        </div>
-                                        <div className="speciality_style">
-                                            <ul className="tooltip-list txt_transform">
-                                                {viewhospitalDetails.map((item, index) => (
-                                                    <li key={index}>{item}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                    {viewPopup && (
+                        <div className="modal1">
+                            <div className="modal1-content">
+                                {/* heading */}
+                                <div className="pop_up_cancelicon1">
+                                    <div className="profile_style">Work Details</div>
+                                    <div>
+                                        <FontAwesomeIcon icon={faCircleXmark} className="model_icon_clr" onClick={closeEditPopup} />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="grid-cols-1">
+                                        <div className="input-group">
+                                            <FontAwesomeIcon className='icon_mrg' icon={faHospital} />
+                                            <input type="text"
+                                                readOnly className="txt_transform"
+                                                value={hospitalname} />
+                                        </div>
+                                        <div className="input-group">
+                                            <FontAwesomeIcon className='icon_mrg' icon={faCity} />
+                                            <input type="text" readOnly className="txt_transform" value={city} />
+                                        </div>
+                                    </div>
+                                    <div className="grid-cols-1">
+                                        <div className="input-group">
+                                            <FontAwesomeIcon icon={faAddressCard} className='icon_mrg' />
+                                            <textarea type="text" readOnly className="txt_transform"
+                                                value={address} />
+                                        </div>
+                                        <div className="speicality_style">
+                                            <div>
+                                                <FontAwesomeIcon icon={faStethoscope} className="icon_mrg" />
+                                                <b >Specialties:</b>
+                                            </div>
+                                            <div className="speciality_style">
+                                                <ul className="tooltip-list txt_transform">
+                                                    {viewhospitalDetails.map((item, index) => (
+                                                        <li key={index}>{item}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

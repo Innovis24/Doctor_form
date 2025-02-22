@@ -37,7 +37,7 @@ const Header = ({ title }) => {
         setcurrentUser(nameParts);
       }
     }
- 
+
 
   }, []);
   const OpenPopupcard = () => {

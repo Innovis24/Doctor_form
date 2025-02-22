@@ -127,7 +127,9 @@ const RegistrationList = () => {
   };
 
   const handleView = (record) => {
+    setLoading(true);
     setSelectedRecord(record);
+   
     const PGarray = !record.Postgraduation ? [] : JSON.parse(record.Postgraduation)
     setgetPGarray(PGarray)
     setShowDetails(true);
@@ -178,8 +180,9 @@ const RegistrationList = () => {
     // }
 
   };
-  const clearSearch = ()=>{
-    setSearchFilters({Name: "",
+  const clearSearch = () => {
+    setSearchFilters({
+      Name: "",
       Gender: "",
       Fathername: "",
       Phonenumber: "",
@@ -187,8 +190,9 @@ const RegistrationList = () => {
       Uprnnumber: "",
       Yearofregistration: "",
       Stateofmedicine: "",
-      City: ""})
-      setRegistrations(wholearray)
+      City: ""
+    })
+    setRegistrations(wholearray)
   }
   const getPageNumbers = () => {
     let pages = [];
@@ -254,14 +258,14 @@ const RegistrationList = () => {
       Object.keys(filters).every((key) => {
         const recordValue = record[key] ? String(record[key]).toLowerCase().trim() : "";
         const filterValue = filters[key] ? filters[key].toLowerCase().trim() : "";
-  
+
         return filterValue === "" || recordValue.startsWith(filterValue);
       })
     );
-  
+
     setRegistrations(filteredData);
   };
-  
+
 
 
 
@@ -584,41 +588,41 @@ const RegistrationList = () => {
           </table>
 
           <div className="table_position sticky_position">
-          {totalPages > 1 && (
-            <button
-              onClick={() => goToPage(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="pagination_style_reg"
-            >
-              Previous
-            </button>
-          )}
-          {totalPages > 1 && (
-            <div className="pagination_buttons">
-              {getPageNumbers().map((page, index) =>
-                page === "..." ? (
-                  <span key={index} className="ellipsis">...</span>
-                ) : (
-                  <button
-                    key={index}
-                    onClick={() => goToPage(page)}
-                    className={`pagination_button ${currentPage === page ? "active" : ""}`}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
-            </div>
-          )}
-          {totalPages > 1 && (
-            <button
-              onClick={() => goToPage(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="pagination_style_reg"
-            >
-              Next
-            </button>
-          )}
+            {totalPages > 1 && (
+              <button
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="pagination_style_reg"
+              >
+                Previous
+              </button>
+            )}
+            {totalPages > 1 && (
+              <div className="pagination_buttons">
+                {getPageNumbers().map((page, index) =>
+                  page === "..." ? (
+                    <span key={index} className="ellipsis">...</span>
+                  ) : (
+                    <button
+                      key={index}
+                      onClick={() => goToPage(page)}
+                      className={`pagination_button ${currentPage === page ? "active" : ""}`}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+              </div>
+            )}
+            {totalPages > 1 && (
+              <button
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="pagination_style_reg"
+              >
+                Next
+              </button>
+            )}
             <div className="total_record totalrecord_style ">
               {/* <span>TOTAL RECORD:</span>  */}
               {/* <span>Showing {startRecord}-{endRecord} of {totalRecord} pages</span> */}
@@ -681,6 +685,8 @@ const RegistrationList = () => {
                     <img
                       style={{ height: '50%', width: '50%%', objectFit: 'cover' }}
                       className="profile-image"
+                      onLoad={() => setLoading(false)}
+                      onError={() => setLoading(false)}
                       src={`${API_URL}/${selectedRecord.image_path}`}
                       alt={selectedRecord.Name}
                     />

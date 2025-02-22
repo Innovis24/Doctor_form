@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route ,Router} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import RegistrationList from "./Components/RegistrationList";
 import RegistrationForm from "./Components/RegistrationForm"; // Assuming you have this
 import LoginScreen from "./Components/LoginScreen";
