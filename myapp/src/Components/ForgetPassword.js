@@ -6,7 +6,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { USER_API_URL } from "../utlis/common";
 const ForgetPassword = () => {
-  const [username, setusername] = useState();
+  // const [username, setusername] = useState();
+  const [name, setname] = useState();
   const [password, setpassword] = useState();
   const [Arrayval, setArrayVal] = useState([]);
   const navigate = useNavigate();
@@ -36,30 +37,34 @@ const ForgetPassword = () => {
   };
   const handleSave = async () => {
 
-    if (!username || !password) {
+    if (!name || !password) {
       toast.error("Please fill all fields!", { position: "top-center" })
       return
     }
+    if(password.length < 6){
+      toast.error(" Password must be at leat 6 characters long.");
+      return ;
+    }
 
-    const checkrecord = Arrayval.filter((record) => record && record.UserName);
+    const checkrecord = Arrayval.filter((record) => record && record.Name);
 
     const isTaken = checkrecord.some((record) =>
-      record.UserName.toLowerCase() === username.toLowerCase()
+      record.Name.toLowerCase() === name.toLowerCase()
     );
 
     if (!isTaken) {
-      toast.error('Username does not exists');
+      toast.error('Name does not exists');
       return
     }
 
 
-    const validRecords = Arrayval.filter((record) => record && record.UserName === username);
+    const validRecords = Arrayval.filter((record) => record && record.Name === name);
     const cuurentvalue = validRecords && validRecords[0];
 
     const FormData = {
       sno: cuurentvalue.Sno,
       name: cuurentvalue.Name,
-      userName: username,
+      userName: cuurentvalue.UserName,
       password: password,
       userRole: cuurentvalue.UserRole,
       status: 'Active'
@@ -69,7 +74,7 @@ const ForgetPassword = () => {
     });
     if (response.data.code === 200) {
       toast.success(response.data.message);
-      setusername('');
+      setname('');
       setpassword('');
       setTimeout(() => {
         navigate('/')
@@ -81,7 +86,7 @@ const ForgetPassword = () => {
     }
   }
   const closePopup = async () => {
-    setusername('');
+    setname('');
     setpassword('');
   }
   const backPopup = async () => {
@@ -89,7 +94,7 @@ const ForgetPassword = () => {
   }
   const handleInputChange = (event) => {
     const newUsername = event.target.value;
-    setusername(newUsername);
+    setname(newUsername);
 
   };
 
@@ -104,19 +109,31 @@ const ForgetPassword = () => {
       return;
     }
 
-    const validRecords = Arrayval.filter((record) => record && record.UserName);
+    const validRecords = Arrayval.filter((record) => record && record.Name);
 
     const isTaken = validRecords.some((record) =>
-      record.UserName.toLowerCase() === newUsername.toLowerCase()
+      record.Name === newUsername
     );
 
     if (!isTaken) {
-      toast.error('Username does not exists');
+      toast.error('Name does not exists');
     } else {
       // setIsUsernameTaken(false);
     }
   }
+  const check_password = (value) => {
+    if(value.length < 6){
+          toast.error(" Password must be at leat 6 characters long.");
+          return ;
+        }
+    const regex = /^[a-zA-Z0-9,&""./;:()+%^*=><}{''@#$!_-]*$/;
 
+    if (!regex.test(value)) {
+      toast.error("Enter a valid password!");
+      return false;
+    }
+    return true;
+  }
   return (
 
     <div className="popup-overlay_for">
@@ -127,7 +144,16 @@ const ForgetPassword = () => {
       <div className="popup-content">
         <h2>Change Password</h2>
         <div className="mrg_bottom1">
-          <div className="ft_wt_mrg_btm">User name<span className="asterisk">*</span></div>
+        <div className="ft_wt_mrg_btm">Name of the User<span className="asterisk">*</span></div>
+          <input
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            maxLength={50}
+            onChange={(e) => handleInputChange(e)}
+            onBlur={() => checkUsernameAvailability(name)}
+          />
+          {/* <div className="ft_wt_mrg_btm">User name<span className="asterisk">*</span></div>
           <input
             type="text"
             placeholder="Enter username"
@@ -135,7 +161,7 @@ const ForgetPassword = () => {
             maxLength={50}
             onChange={(e) => handleInputChange(e)}
             onBlur={() => checkUsernameAvailability(username)}
-          />
+          /> */}
 
           <div className="ft_wt_mrg_btm">New password<span className="asterisk">*</span></div>
           <input
@@ -143,7 +169,8 @@ const ForgetPassword = () => {
             placeholder="Enter password"
             value={password}
             maxLength={50}
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(e) => setpassword(e.target.value.replace(/\s+/g, ""))}
+            onBlur={() => check_password(password)}
           />
         </div>
         <div>

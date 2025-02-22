@@ -165,7 +165,19 @@ const RegistrationForm = () => {
       toast.error("Failed to fetch registrations!");
     }
   };
+ const check_password = (val) => {
+    if(val.length < 6){
+      toast.error(" Password must be at leat 6 characters long.");
+      return ;
+    }
+    const regex = /^[a-zA-Z0-9,&""./;:()+%^*=><}{''@#$!_-]*$/;
 
+    if (!regex.test(val)) {
+      toast.error("Enter a valid password!");
+      return false;
+    }
+    return true;
+  }
   const SetCurrentval = async () => {
     try {
       const response = await axios.get(USER_API_URL);
@@ -1151,8 +1163,10 @@ const RegistrationForm = () => {
                 type="text"
                 placeholder="Enter password"
                 value={password}
+                
                 maxLength={50}
-                onChange={(e) => setpassword(e.target.value)}
+                onChange={(e) => setpassword(e.target.value.replace(/\s+/g, ""))}
+                onBlur={(e) => check_password(e.target.value.replace(/\s+/g, ""))}
               />
             </div>
 

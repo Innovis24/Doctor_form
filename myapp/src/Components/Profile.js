@@ -60,6 +60,10 @@ const Profile = () => {
   const [pgArray, setpgArray] = useState([]);
   const [currentpgID, setcurrentpgID] = useState();
 
+    //image loader
+  const [profileloading, setprofileloading] = useState({});
+  const [loadingImages, setLoadingImages] = useState({});
+
   const location = useLocation();
   const data = location.state;
   const overlayStyle = {
@@ -74,7 +78,17 @@ const Profile = () => {
     alignItems: 'center',
     zIndex: 1000,
   };
-
+  const loaderStyle = {
+    width: "150px",
+    height: "150px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "8px",
+    background: "#f0f0f0",
+    fontSize: "14px",
+    color: "#555",
+  };
   useEffect(() => {
     const newOne = localStorage.getItem('newUser');
     const values = localStorage.getItem('currentUser') === 'undefined' ? 'null' : JSON.parse(localStorage.getItem('currentUser'));
@@ -532,6 +546,26 @@ const Profile = () => {
     });
 
   }
+  
+  const handleImageLoad = (index) => {
+    setLoadingImages((prevState) => ({ ...prevState, [index]: false }));
+  };
+
+  const handleImageError = (index) => {
+    setLoadingImages((prevState) => ({ ...prevState, [index]: false }));
+  };
+
+  const handleProfileImg = () => {
+    setprofileloading(false);
+  };
+
+  const handleProfileError = () => {
+    setprofileloading(false);
+  };
+
+
+
+
   const handleDelete = () => {
     setcurrentfilename('')
     setImage('')
@@ -553,10 +587,15 @@ const Profile = () => {
         {/* Profile Header */}
         <div>
           <div className="profile-header">
+              {profileloading !== false && (
+                        <div className="image-loader" style={loaderStyle}>
+                          Loading...
+                        </div>
+                      )}
             <img
               className="profile-image"
-              onLoad={() => setLoading(false)}
-              onError={() => setLoading(false)}
+              onLoad={() => handleProfileImg()}
+              onError={() => handleProfileError()}
               src={userData.image_path ? `${API_URL}/${userData.image_path}` : 'default-image-path'}
               alt="Profile not loading"
             />
@@ -1015,9 +1054,9 @@ const Profile = () => {
                         <th className="table_colum_wrap">University Name</th>
                         <th className="table_colum_wrap">Specialization</th>
                         <th className="table_colum_wrap">Year</th>
-                        {editItem === true &&
+                        {/* {editItem === true && */}
                           <th className="table_colum_wrap" >Action</th>
-                        }
+                        {/* } */}
                       </tr>
                     </thead>
                     <tbody>
@@ -1028,16 +1067,22 @@ const Profile = () => {
                             <td className="table_colum_wrap">{item.Universityname}</td>
                             <td className="table_colum_wrap">{item.specializationname}</td>
                             <td className="table_colum_wrap">{item.year}</td>
-                            {editItem === true &&
+                            {/* {editItem === true && */}
                               <th className="table_colum_wrap" style={{ color: '#00b4b6', backgroundColor: 'white' }}>
-
+                              {editItem === true ? 
                                 <div>
                                   <FontAwesomeIcon icon={faPencil} className="cursor" style={{ marginRight: "16px" }}
                                     onClick={() => editPGDeatils(item)} />
                                   <FontAwesomeIcon icon={faTrash} className="cursor" onClick={() => deletePGdetails(item)} />
+                                </div> : 
+                                <div>
+                                   <FontAwesomeIcon icon={faPencil} className="cursor_notallowed" style={{ marginRight: "16px" }}  />
+                                  <FontAwesomeIcon icon={faTrash} className="cursor_notallowed"  />
                                 </div>
+                                }
+
                               </th>
-                            }
+                            {/* } */}
                           </tr>
                         ))
                       ) : (
@@ -1103,7 +1148,12 @@ const Profile = () => {
               <div className="img_wrap img_gap_scroll" >
                 {userData.gallery_image_paths &&
                   userData.gallery_image_paths.replace(/^,/, "").split(",").map((imgPath, index) => (
-                    <div>
+                    <div  style={{ display:'flex'}}>
+                      {loadingImages[index] !== false && (
+                        <div className="image-loader" style={loaderStyle}>
+                          Loading...
+                        </div>
+                      )}
                       <img
                         key={index}
                         src={`${API_URL}/${imgPath}`}
@@ -1111,9 +1161,13 @@ const Profile = () => {
                         width="150"
                         height="150"
                         className="img_mrg_btm"
-                        onLoad={() => setLoading(false)}
-                        onError={() => setLoading(false)}
-                        style={{ borderRadius: "8px", objectFit: "cover" }}
+                        onLoad={() => handleImageLoad(index)}
+                        onError={() => handleImageError(index)}
+                        style={{
+                          borderRadius: "8px",
+                          objectFit: "cover",
+                          display: loadingImages[index] === false ? "block" : "none", // Hide until loaded
+                        }}
                       />
                       {editItem === true &&
                         <FontAwesomeIcon className="view-button img_padding" icon={faTrash} style={{ marginRight: "8px" }} onClick={() => handleImgDelete(imgPath)} />
