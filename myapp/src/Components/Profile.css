@@ -77,7 +77,18 @@ padding: 17px;
   font-weight: 500;
   font-family: 'Roboto', sans-serif;
 }
-
+.submit_disble_clr {
+  background: grey;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor:not-allowed;
+  margin-right: 10%;
+  padding: 9px 18px 11px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+}
 
 
 /* Tabs */

@@ -100,7 +100,7 @@ function HospitalDetails() {
         let value = e.target.value.trim()
         setSearchQuery(value)
         if (e.target.value === "") {
-            setLoading(false);
+            
             if (currentRole === 'Admin') {
                 setArray(wholearray)
             } else {
@@ -109,7 +109,7 @@ function HospitalDetails() {
 
             return
         }
-
+        setLoading(false);
         handleSearch(value);
 
     }
@@ -206,6 +206,7 @@ function HospitalDetails() {
             }
 
         } catch (error) {
+            setLoading(false);
             toast.error("Failed to fetch registrations!");
         }
     };

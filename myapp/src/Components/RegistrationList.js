@@ -121,6 +121,7 @@ const RegistrationList = () => {
     } catch (error) {
       toast.error("Failed to fetch registrations!");
     }
+    setLoading(false);
     // finally {
     //   setLoading(false);  // Stop loader after data is fetched
     // }
@@ -133,6 +134,7 @@ const RegistrationList = () => {
     const PGarray = !record.Postgraduation ? [] : JSON.parse(record.Postgraduation)
     setgetPGarray(PGarray)
     setShowDetails(true);
+    setLoading(false);
   };
 
   const sethandleSearch = (e) => {
@@ -146,7 +148,7 @@ const RegistrationList = () => {
     }
 
     handleSearch(value);
-
+    setLoading(false);
   }
 
   const handleSearch = (selectedValue) => {
@@ -281,6 +283,7 @@ const RegistrationList = () => {
 
 
   const closeDetails = () => {
+   setActiveTab('personal')
     setShowDetails(false);
   };
 

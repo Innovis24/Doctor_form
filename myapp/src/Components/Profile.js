@@ -51,7 +51,9 @@ const Profile = () => {
   const [Specializationname, setSpecializationname] = useState([]);
   const [Universityname, setUniversityname] = useState([]);
   const [Year, setYear] = useState([]); 
- 
+
+  //button disable 
+  const [isDisabled, setIsDisabled] = useState(true); 
 
   const [pgQualification, setpgQualification] = useState();
   const [pgSpecializationname, setpgSpecializationname] = useState();
@@ -147,7 +149,7 @@ const Profile = () => {
         }
         setLoading(false)
       }
-
+      setLoading(false);
     } catch (error) {
       setLoading(false)
       toast.error("Failed to fetch registrations!");
@@ -253,6 +255,7 @@ const Profile = () => {
 
       }
     }
+    setLoading(false);
     setpgQualification("");
     setpgSpecializationname("");
     setpgUniversityname("");
@@ -279,6 +282,7 @@ const Profile = () => {
     return string.replace(/^\w/, c => c.toUpperCase());
   }
   const EditDetails = (data) => {
+    setIsDisabled(true)
     seteditItem(true)
     setSno(data.Sno)
     setname(data.Name);
@@ -307,7 +311,8 @@ const Profile = () => {
     setUniversityname(data.Universityname);
     setSpecializationname(data.specializationname);
     setYear(data.year);
-    setpgArray(JSON.parse(data.Postgraduation))
+    const granval = data.Postgraduation === "" ? [] :JSON.parse(data.Postgraduation)
+    setpgArray(granval)
   }
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -318,7 +323,7 @@ const Profile = () => {
   };
 
   const SubmitFn = async () => {
-
+    setLoading(true);
     if (!name ||
       !fatherName ||
       !dob ||
@@ -422,8 +427,11 @@ const Profile = () => {
       headers: { "Content-Type": "multipart/form-data" },
     });
     if (response.data.code === 200) {
+      setLoading(false);
       toast.success(response.data.message, { position: "top-center" });
       localStorage.setItem('editItem', false);
+      setIsDisabled(false)
+
       fetchData(regNumber)
       seteditItem(false)
       setgalleryArray([])
@@ -431,8 +439,10 @@ const Profile = () => {
 
 
     } else {
+      setLoading(false);
       toast.error("Failed to update the form!", { position: "top-center" });
     }
+    setLoading(false);
   }
   const close = () => {
     seteditItem(false)
@@ -440,7 +450,7 @@ const Profile = () => {
     setpgQualification("")
     setpgUniversityname("")
     setpgYear("")
-
+    setIsDisabled(false)
   }
   const checkPhonenumber = (phonenum) => {
     const phoneRegex = /^[0-9]{10}$/;
@@ -489,14 +499,14 @@ const Profile = () => {
 
   }
   const handleImgDelete = async (imgDet) => {
-
+    setLoading(true);
     try {
       const response = await axios.delete((REG_API_URL + '?action=deleteImage'), {
         data: { Sno: Number(CurrentSno), imageName: imgDet }, // Send the Sno for deletion
       });
 
       if (response.status === 200) {
-        setLoading(false);
+        
         toast.success("Record deleted successfully!");
 
         const response = await axios.get(REG_API_URL);
@@ -506,7 +516,6 @@ const Profile = () => {
           record.Sno === CurrentSno
         );
         if (filterValNew.length > 0) {
-          setLoading(true)
 
           setUserData(filterValNew[0]);
           setActiveTab("gallery")
@@ -516,6 +525,7 @@ const Profile = () => {
         }
 
         setActiveTab('gallery')
+        setLoading(false);
       } else {
         setLoading(false);
         toast.error(response.data.error || "Failed to delete record.");
@@ -1201,7 +1211,10 @@ const Profile = () => {
         {/* Close Button */}
         <div className="cls_btn_style">
           {editItem === true &&
-            <button className="submit-button-Profile" onClick={SubmitFn}>Submit</button>
+            <button type="submit"
+            className={!isDisabled ? "submit_disble_clr" : "submit-button-Profile"}
+            disabled={!isDisabled}
+            onClick={SubmitFn}>Submit</button>
           }
           {editItem === true &&
             <button className="close-button-Profile" onClick={close}>Close</button>
